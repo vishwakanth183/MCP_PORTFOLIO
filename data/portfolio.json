@@ -104,6 +104,7 @@
   "projects": [
     {
       "name": "Merchant Portal",
+      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
       "description": "Web-based portal for merchants at Maghilhub (Alice Brisque Pvt Ltd), part of a merchant/customer commerce platform.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
@@ -116,6 +117,7 @@
     },
     {
       "name": "Merchant App",
+      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
       "description": "Mobile application for merchants at Maghilhub (Alice Brisque Pvt Ltd).",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
@@ -128,6 +130,7 @@
     },
     {
       "name": "Customer App",
+      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
       "description": "Mobile application for end customers at Maghilhub (Alice Brisque Pvt Ltd).",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
@@ -140,6 +143,7 @@
     },
     {
       "name": "Toyota Smart Path (Dealer Portal)",
+      "company": "Tata Consultancy Services (Client: Toyota)",
       "description": "Dealer-specific enterprise applications for Toyota Financial Services, built while at TCS on the Toyota Smart Path project.",
       "role": "Systems Engineer (Frontend Developer)",
       "start_date": "2024-08-14",
@@ -155,6 +159,7 @@
     },
     {
       "name": "ZenyoPayroll",
+      "company": "Centizen Inc",
       "description": "HR management platform module covering payroll and HR operations.",
       "role": "Software Developer / Lead",
       "start_date": "2024-02",
@@ -169,6 +174,7 @@
     },
     {
       "name": "ZenyoWorkforce",
+      "company": "Centizen Inc",
       "description": "HR management platform module covering workforce operations.",
       "role": "Software Developer / Lead",
       "start_date": "2023-09",
@@ -183,6 +189,7 @@
     },
     {
       "name": "Zenbasket",
+      "company": "Centizen Inc",
       "description": "E-commerce platform built and scaled over 2.5 years, progressing from intern to senior developer contributions.",
       "role": "Software Developer / Lead",
       "start_date": "2021-01-18",
@@ -197,6 +204,7 @@
     },
     {
       "name": "Lootify",
+      "company": "Personal Project",
       "description": "Personal e-commerce app project.",
       "role": "Personal Project",
       "start_date": "",
@@ -209,6 +217,7 @@
     },
     {
       "name": "Portfolio Website",
+      "company": "Personal Project",
       "description": "Personal portfolio site.",
       "role": "Personal Project",
       "start_date": "",

@@ -19,6 +19,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from google.genai import errors as genai_errors
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from pydantic import BaseModel
@@ -40,8 +41,12 @@ SYSTEM_INSTRUCTION = (
     "skills, experience, and projects. Answer ONLY using information you "
     "retrieve via the available tools (get_skills, get_projects, "
     "get_experience, search_profile) — never invent employers, skills, "
-    "dates, or achievements that the tools don't return. If the tools don't "
-    "return information relevant to the question, say plainly that it isn't "
+    "dates, or achievements that the tools don't return. This includes "
+    "individual fields: if a tool result is missing a specific detail (e.g. "
+    "a project entry with no listed employer), do not fill the gap with a "
+    "plausible-sounding guess — say that detail isn't specified rather than "
+    "inventing one. If the tools don't return information relevant to the "
+    "question at all, say plainly that it isn't "
     "in the candidate's portfolio data rather than guessing. For role-fit "
     "questions (e.g. 'why is this candidate good for a React role?'), call "
     "the relevant tools first and base your answer only on what they return."
@@ -154,7 +159,29 @@ async def chat(req: ChatRequest) -> ChatResponse:
     tool_log: list[ToolCallLog] = []
 
     for _ in range(MAX_TOOL_ROUNDS):
-        response = model_adapter.generate(history, mcp_bridge.tools, SYSTEM_INSTRUCTION)
+        try:
+            response = model_adapter.generate(history, mcp_bridge.tools, SYSTEM_INSTRUCTION)
+        except genai_errors.ClientError as exc:
+            if exc.code == 429:
+                logger.warning("Gemini rate limit hit: %s", exc)
+                return ChatResponse(
+                    reply=(
+                        "The chat model's free-tier rate limit was hit — please "
+                        "wait a few seconds and try again."
+                    ),
+                    tool_calls=tool_log,
+                )
+            logger.exception("Gemini client error")
+            return ChatResponse(
+                reply="Something went wrong talking to the chat model. Please try again.",
+                tool_calls=tool_log,
+            )
+        except genai_errors.ServerError:
+            logger.exception("Gemini server error")
+            return ChatResponse(
+                reply="The chat model is temporarily unavailable. Please try again shortly.",
+                tool_calls=tool_log,
+            )
 
         if not response.tool_calls:
             reply = (

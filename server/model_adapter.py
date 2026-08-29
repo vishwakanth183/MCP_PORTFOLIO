@@ -24,6 +24,10 @@ class ToolCall:
     id: str
     name: str
     arguments: dict[str, Any]
+    # Opaque provider-specific data that must be echoed back verbatim when
+    # this call is replayed into history (e.g. Gemini's thought_signature).
+    # Adapters that don't need it simply ignore it.
+    provider_data: Any = None
 
 
 @dataclass

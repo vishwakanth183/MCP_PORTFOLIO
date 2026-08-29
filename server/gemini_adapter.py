@@ -6,7 +6,7 @@ from google.genai import types
 
 from model_adapter import Message, ModelAdapter, ModelResponse, ToolCall, ToolSpec
 
-DEFAULT_MODEL = "gemini-2.5-flash"
+DEFAULT_MODEL = "gemini-3.6-flash"
 
 
 class GeminiAdapter(ModelAdapter):
@@ -53,6 +53,10 @@ class GeminiAdapter(ModelAdapter):
                         id=fc.id or f"{fc.name}-{uuid.uuid4().hex[:8]}",
                         name=fc.name,
                         arguments=dict(fc.args or {}),
+                        # Gemini requires this exact part (thought_signature
+                        # included) to be echoed back verbatim on the next
+                        # turn, or it rejects the request.
+                        provider_data=part.thought_signature,
                     )
                 )
             elif part.text:
@@ -142,7 +146,8 @@ def _history_to_contents(history: list[Message]) -> list[types.Content]:
                     types.Part(
                         function_call=types.FunctionCall(
                             id=call.id, name=call.name, args=call.arguments
-                        )
+                        ),
+                        thought_signature=call.provider_data,
                     )
                 )
             contents.append(types.Content(role="model", parts=parts))
