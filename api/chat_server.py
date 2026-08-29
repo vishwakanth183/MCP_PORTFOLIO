@@ -12,8 +12,10 @@ a final grounded answer or the tool-call budget runs out.
 import json
 import logging
 import os
+import re
 import sys
 from contextlib import asynccontextmanager
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -104,6 +106,33 @@ class McpBridge:
         return json.loads(text)
 
 
+def _retry_delay_seconds(exc: genai_errors.ClientError) -> float | None:
+    """Pull the RetryInfo.retryDelay Gemini sends with a 429 (e.g. '16s')."""
+    try:
+        for detail in exc.details.get("error", {}).get("details", []):
+            if detail.get("@type", "").endswith("RetryInfo"):
+                match = re.match(r"([\d.]+)s?$", detail.get("retryDelay", ""))
+                if match:
+                    return float(match.group(1))
+    except (AttributeError, TypeError, ValueError):
+        pass
+    return None
+
+
+def _rate_limit_message(exc: genai_errors.ClientError) -> str:
+    delay = _retry_delay_seconds(exc)
+    if delay is None:
+        return (
+            "The chat model's free-tier rate limit was hit — please wait a "
+            "few seconds and try again."
+        )
+    retry_at = (datetime.now() + timedelta(seconds=delay)).strftime("%H:%M:%S")
+    return (
+        f"The chat model's free-tier rate limit was hit — please try again "
+        f"in about {round(delay)}s (around {retry_at})."
+    )
+
+
 mcp_bridge = McpBridge()
 model_adapter: GeminiAdapter | None = None
 
@@ -164,13 +193,7 @@ async def chat(req: ChatRequest) -> ChatResponse:
         except genai_errors.ClientError as exc:
             if exc.code == 429:
                 logger.warning("Gemini rate limit hit: %s", exc)
-                return ChatResponse(
-                    reply=(
-                        "The chat model's free-tier rate limit was hit — please "
-                        "wait a few seconds and try again."
-                    ),
-                    tool_calls=tool_log,
-                )
+                return ChatResponse(reply=_rate_limit_message(exc), tool_calls=tool_log)
             logger.exception("Gemini client error")
             return ChatResponse(
                 reply="Something went wrong talking to the chat model. Please try again.",
