@@ -9,6 +9,7 @@ live MCP session, feed the results back, and repeat until the model gives
 a final grounded answer or the tool-call budget runs out.
 """
 
+import json
 import logging
 import os
 import sys
@@ -90,6 +91,12 @@ class McpBridge:
         assert self._session is not None
         result = await self._session.call_tool(name, arguments)
         return "\n".join(getattr(block, "text", str(block)) for block in result.content)
+
+    async def read_resource(self, uri: str) -> dict:
+        assert self._session is not None
+        result = await self._session.read_resource(uri)
+        text = "\n".join(getattr(c, "text", "") for c in result.contents)
+        return json.loads(text)
 
 
 mcp_bridge = McpBridge()
@@ -183,6 +190,19 @@ async def chat(req: ChatRequest) -> ChatResponse:
         reply="I looked into this but couldn't reach a confident answer within the tool-call budget.",
         tool_calls=tool_log,
     )
+
+
+@app.get("/api/portfolio")
+async def portfolio() -> dict:
+    """Renders the static portfolio page from the same MCP resources the
+    demo client exercises — profile/skills/experience/projects are read via
+    portfolio:// resources, not a duplicated copy of the JSON file."""
+    return {
+        "profile": await mcp_bridge.read_resource("portfolio://profile"),
+        "skills": await mcp_bridge.read_resource("portfolio://skills"),
+        "experience": await mcp_bridge.read_resource("portfolio://experience"),
+        "projects": await mcp_bridge.read_resource("portfolio://projects"),
+    }
 
 
 @app.get("/api/health")
