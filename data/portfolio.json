@@ -1,0 +1,79 @@
+{
+  "profile": {
+    "name": "",
+    "headline": "",
+    "summary": "",
+    "location": "",
+    "total_experience_years": 0,
+    "availability": "",
+    "website": "",
+    "linkedin": "",
+    "github": ""
+  },
+  "skills": {
+    "frontend": [],
+    "backend": [],
+    "mobile": [],
+    "databases": [],
+    "cloud": [],
+    "devops": [],
+    "testing": [],
+    "tools": [],
+    "ai": []
+  },
+  "experience": [
+    {
+      "company": "",
+      "role": "",
+      "start_date": "",
+      "end_date": "",
+      "location": "",
+      "summary": "",
+      "responsibilities": [],
+      "technologies": [],
+      "achievements": []
+    }
+  ],
+  "projects": [
+    {
+      "name": "",
+      "description": "",
+      "role": "",
+      "start_date": "",
+      "end_date": "",
+      "technologies": [],
+      "responsibilities": [],
+      "features": [],
+      "achievements": [],
+      "links": {
+        "live": "",
+        "github": ""
+      }
+    }
+  ],
+  "education": [
+    {
+      "degree": "",
+      "field": "",
+      "institution": "",
+      "start_date": "",
+      "end_date": "",
+      "location": "",
+      "details": ""
+    }
+  ],
+  "certifications": [
+    {
+      "name": "",
+      "issuer": "",
+      "date": "",
+      "credential_url": ""
+    }
+  ],
+  "target_roles": [],
+  "professional_preferences": {
+    "preferred_work_mode": "",
+    "preferred_shift": "",
+    "other": ""
+  }
+}
