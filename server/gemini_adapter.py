@@ -6,7 +6,7 @@ from google.genai import types
 
 from model_adapter import Message, ModelAdapter, ModelResponse, ToolCall, ToolSpec
 
-DEFAULT_MODEL = "gemini-3.6-flash"
+DEFAULT_MODEL = "gemini-flash-lite-latest"
 
 
 class GeminiAdapter(ModelAdapter):

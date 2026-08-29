@@ -119,7 +119,35 @@ def _retry_delay_seconds(exc: genai_errors.ClientError) -> float | None:
     return None
 
 
+def _exhausted_quota_id(exc: genai_errors.ClientError) -> str | None:
+    """Which quota bucket was hit, e.g. '...PerDay...' vs '...PerMinute...'.
+
+    Gemini always includes a short RetryInfo.retryDelay even when the real
+    constraint is the daily cap — that delay is misleading once the quotaId
+    says PerDay, since the bucket won't actually clear for hours, not
+    seconds. Check quotaId before trusting retryDelay."""
+    try:
+        for detail in exc.details.get("error", {}).get("details", []):
+            for violation in detail.get("violations", []):
+                if violation.get("quotaId"):
+                    return violation["quotaId"]
+    except (AttributeError, TypeError):
+        pass
+    return None
+
+
 def _rate_limit_message(exc: genai_errors.ClientError) -> str:
+    quota_id = _exhausted_quota_id(exc) or ""
+
+    if "PerDay" in quota_id:
+        return (
+            "The chat model's free-tier **daily** request limit has been "
+            "reached — this isn't a short wait, it resets on Google's daily "
+            "quota rollover (typically midnight Pacific Time). Check "
+            "https://ai.dev/rate-limit for your exact quota, or switch "
+            "GEMINI_MODEL in .env to a model with separate/higher quota."
+        )
+
     delay = _retry_delay_seconds(exc)
     if delay is None:
         return (
