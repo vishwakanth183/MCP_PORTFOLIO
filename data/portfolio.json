@@ -1,76 +1,263 @@
 {
   "profile": {
-    "name": "",
-    "headline": "",
-    "summary": "",
-    "location": "",
-    "total_experience_years": 0,
+    "name": "Vishwakanth S",
+    "headline": "Full-Stack Developer | React, Next.js, Node.js & AI-Powered Systems",
+    "summary": "Full-stack developer with 5.6+ years of experience building web and mobile products across React, React Native, Next.js, Nest.js and Node.js, with strong SQL/NoSQL data modeling, cloud deployment on GCP and AWS, and applied AI fluency including Model Context Protocol (MCP) systems.",
+    "location": "Chennai, India",
+    "total_experience_years": 5.6,
     "availability": "",
-    "website": "",
-    "linkedin": "",
-    "github": ""
+    "website": "https://vkportfolio-nine.vercel.app",
+    "linkedin": "https://linkedin.com/in/vishwakanth-s-7a17342b0",
+    "github": "https://github.com/vishwakanth183"
   },
   "skills": {
-    "frontend": [],
-    "backend": [],
-    "mobile": [],
-    "databases": [],
-    "cloud": [],
-    "devops": [],
-    "testing": [],
-    "tools": [],
-    "ai": []
+    "frontend": ["React", "Next.js", "TypeScript", "Redux", "Higher-Order Components (HOCs)", "Tailwind CSS", "Bootstrap", "Material UI", "Framer Motion", "HTML/CSS"],
+    "backend": ["Node.js", "Nest.js", "Spring Boot", "Python", "Microservices", "REST APIs"],
+    "mobile": ["React Native"],
+    "databases": ["SQL", "NoSQL"],
+    "cloud": ["AWS", "GCP (Google Cloud Platform)"],
+    "devops": ["Docker", "Jenkins", "GitHub Actions", "CI/CD Pipelines", "Kubernetes"],
+    "testing": ["Unit Testing"],
+    "tools": ["Git", "GitHub", "Agile/Scrum", "Skillrack"],
+    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "Google Cloud Generative AI"]
   },
   "experience": [
     {
-      "company": "",
-      "role": "",
-      "start_date": "",
-      "end_date": "",
-      "location": "",
-      "summary": "",
+      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
+      "role": "Full Stack Developer",
+      "start_date": "2026-03-09",
+      "end_date": "Present",
+      "location": "Chennai, India",
+      "summary": "Full-stack development across a merchant-facing web portal and companion mobile apps for merchants and customers.",
       "responsibilities": [],
-      "technologies": [],
+      "technologies": ["React", "Next.js", "React Native", "Node.js", "Nest.js"],
       "achievements": []
+    },
+    {
+      "company": "Tata Consultancy Services (Client: Toyota)",
+      "role": "Systems Engineer (Frontend Developer)",
+      "start_date": "2024-08-14",
+      "end_date": "2026-03-06",
+      "location": "Chennai, India",
+      "summary": "Frontend developer on the Toyota Smart Path project, building dealer-specific enterprise applications for Toyota Financial Services.",
+      "responsibilities": [
+        "Developed dealer-specific enterprise applications for Toyota Financial Services using React and Next.js, delivering responsive, pixel-perfect UIs.",
+        "Collaborated with design, backend, and product teams to align business logic and improve overall user experience.",
+        "Implemented and maintained CI/CD pipelines (Jenkins, Docker, GitHub Actions) for automated integration and deployment to AWS environments.",
+        "Optimized front-end performance, conducted code reviews, and contributed in Agile ceremonies for efficient feature delivery."
+      ],
+      "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
+      "achievements": []
+    },
+    {
+      "company": "Centizen Inc",
+      "role": "Software Developer / Lead",
+      "start_date": "2024-02",
+      "end_date": "2024-08-08",
+      "location": "Tirunelveli, India",
+      "summary": "Led development of payroll and HR modules for ZenyoPayroll, an HR management platform.",
+      "responsibilities": [
+        "Developed payroll and HR modules including dashboard, employee info, payslip handling, IT declarations, and loan management.",
+        "Deployed mobile apps to Play Store and App Store, ensuring smooth cross-platform functionality.",
+        "Conducted unit testing and wrote module documentation to maintain code quality and clarity.",
+        "Collaborated with team members to implement features efficiently, ensuring timely delivery."
+      ],
+      "technologies": ["React", "React Native", "Node.js"],
+      "achievements": ["Mr. Beyond Expectation – Centizen Inc, 2023"]
+    },
+    {
+      "company": "Centizen Inc",
+      "role": "Software Developer / Lead",
+      "start_date": "2023-09",
+      "end_date": "2024-01",
+      "location": "Tirunelveli, India",
+      "summary": "Built core HR management modules for ZenyoWorkforce.",
+      "responsibilities": [
+        "Built key modules including dashboard, employee management, timesheet & expense tracking, and onboarding/offboarding.",
+        "Implemented push notifications to improve user engagement across platforms.",
+        "Assisted in app deployment to Play Store and App Store, handling release builds and configuration.",
+        "Worked closely with the team to develop and integrate features, maintaining smooth project progress."
+      ],
+      "technologies": ["React", "React Native", "Node.js"],
+      "achievements": []
+    },
+    {
+      "company": "Centizen Inc",
+      "role": "Software Developer / Lead",
+      "start_date": "2021-01-18",
+      "end_date": "2023-09",
+      "location": "Tirunelveli, India",
+      "summary": "Progressed from Intern to Senior Developer on Zenbasket, an e-commerce platform, over 2.5 years.",
+      "responsibilities": [
+        "Delivered core modules: product, cart, options, customer, discounts, and order management.",
+        "Enhanced platform functionality with Redux state management and dynamic animations.",
+        "Scaled platform using TypeScript and Higher-Order Components (HOCs), improving maintainability and adaptability.",
+        "Collaborated in Agile teams to implement features efficiently and support platform growth."
+      ],
+      "technologies": ["React", "Redux", "TypeScript"],
+      "achievements": [
+        "Outstanding Contributor of the Year – Centizen Inc, 2022",
+        "Out of Box Thinker – Centizen Inc, 2021"
+      ]
     }
   ],
   "projects": [
     {
-      "name": "",
-      "description": "",
-      "role": "",
-      "start_date": "",
-      "end_date": "",
-      "technologies": [],
+      "name": "Merchant Portal",
+      "description": "Web-based portal for merchants at Maghilhub (Alice Brisque Pvt Ltd), part of a merchant/customer commerce platform.",
+      "role": "Full Stack Developer",
+      "start_date": "2026-03-09",
+      "end_date": "Present",
+      "technologies": ["React", "Next.js", "Node.js", "Nest.js"],
       "responsibilities": [],
       "features": [],
       "achievements": [],
-      "links": {
-        "live": "",
-        "github": ""
-      }
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "Merchant App",
+      "description": "Mobile application for merchants at Maghilhub (Alice Brisque Pvt Ltd).",
+      "role": "Full Stack Developer",
+      "start_date": "2026-03-09",
+      "end_date": "Present",
+      "technologies": ["React Native", "Node.js"],
+      "responsibilities": [],
+      "features": [],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "Customer App",
+      "description": "Mobile application for end customers at Maghilhub (Alice Brisque Pvt Ltd).",
+      "role": "Full Stack Developer",
+      "start_date": "2026-03-09",
+      "end_date": "Present",
+      "technologies": ["React Native", "Node.js"],
+      "responsibilities": [],
+      "features": [],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "Toyota Smart Path (Dealer Portal)",
+      "description": "Dealer-specific enterprise applications for Toyota Financial Services, built while at TCS on the Toyota Smart Path project.",
+      "role": "Systems Engineer (Frontend Developer)",
+      "start_date": "2024-08-14",
+      "end_date": "2026-03-06",
+      "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
+      "responsibilities": [
+        "Built responsive, pixel-perfect dealer-facing UIs.",
+        "Implemented CI/CD pipelines for automated integration and deployment to AWS."
+      ],
+      "features": [],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "ZenyoPayroll",
+      "description": "HR management platform module covering payroll and HR operations.",
+      "role": "Software Developer / Lead",
+      "start_date": "2024-02",
+      "end_date": "2024-08-08",
+      "technologies": ["React", "React Native", "Node.js"],
+      "responsibilities": [
+        "Dashboard, employee info, payslip handling, IT declarations, loan management."
+      ],
+      "features": ["Payslip handling", "IT declarations", "Loan management"],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "ZenyoWorkforce",
+      "description": "HR management platform module covering workforce operations.",
+      "role": "Software Developer / Lead",
+      "start_date": "2023-09",
+      "end_date": "2024-01",
+      "technologies": ["React", "React Native", "Node.js"],
+      "responsibilities": [
+        "Dashboard, employee management, timesheet & expense tracking, onboarding/offboarding."
+      ],
+      "features": ["Push notifications", "Timesheet & expense tracking"],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "Zenbasket",
+      "description": "E-commerce platform built and scaled over 2.5 years, progressing from intern to senior developer contributions.",
+      "role": "Software Developer / Lead",
+      "start_date": "2021-01-18",
+      "end_date": "2023-09",
+      "technologies": ["React", "Redux", "TypeScript"],
+      "responsibilities": [
+        "Product, cart, options, customer, discounts, and order management modules."
+      ],
+      "features": ["Dynamic animations", "Redux-driven state management"],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "Lootify",
+      "description": "Personal e-commerce app project.",
+      "role": "Personal Project",
+      "start_date": "",
+      "end_date": "",
+      "technologies": ["Next.js", "Redux", "Tailwind CSS"],
+      "responsibilities": [],
+      "features": [],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "Portfolio Website",
+      "description": "Personal portfolio site.",
+      "role": "Personal Project",
+      "start_date": "",
+      "end_date": "",
+      "technologies": ["Next.js", "Material UI", "Framer Motion"],
+      "responsibilities": [],
+      "features": [],
+      "achievements": [],
+      "links": { "live": "https://vkportfolio-nine.vercel.app", "github": "" }
     }
   ],
   "education": [
     {
-      "degree": "",
+      "degree": "B.Tech",
+      "field": "Information Technology",
+      "institution": "Francis Xavier Engineering College",
+      "start_date": "2017",
+      "end_date": "2021",
+      "location": "Tirunelveli, India",
+      "details": "GPA: 8.7/10, no arrears. Academic Topper (2018 & 2019). Multiple mini-project and hackathon awards. 800+ medals on Skillrack coding platform."
+    },
+    {
+      "degree": "12th Standard (HSC)",
       "field": "",
       "institution": "",
       "start_date": "",
       "end_date": "",
       "location": "",
-      "details": ""
+      "details": "87%"
+    },
+    {
+      "degree": "10th Standard (SSLC)",
+      "field": "",
+      "institution": "",
+      "start_date": "",
+      "end_date": "",
+      "location": "",
+      "details": "93%"
     }
   ],
   "certifications": [
-    {
-      "name": "",
-      "issuer": "",
-      "date": "",
-      "credential_url": ""
-    }
+    { "name": "Google Cloud Gen AI Leader", "issuer": "Google Cloud", "date": "", "credential_url": "" },
+    { "name": "Google Cloud Digital Leader", "issuer": "Google Cloud", "date": "", "credential_url": "" },
+    { "name": "Microsoft Certified Python Programmer", "issuer": "Microsoft", "date": "", "credential_url": "" },
+    { "name": "Next.js, React, React Native, Bootstrap & Tailwind", "issuer": "Udemy", "date": "", "credential_url": "" },
+    { "name": "GitHub Actions, AWS Cloud, Docker, Kubernetes & Microservices", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+    { "name": "Spring Boot", "issuer": "Coursera", "date": "", "credential_url": "" }
   ],
-  "target_roles": [],
+  "target_roles": ["Full Stack Developer", "Frontend Developer (React/Next.js)", "Software Engineer – AI/MCP Systems"],
   "professional_preferences": {
     "preferred_work_mode": "",
     "preferred_shift": "",
