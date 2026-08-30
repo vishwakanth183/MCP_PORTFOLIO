@@ -307,10 +307,18 @@ def _send_contact_email(req: ContactRequest) -> None:
     msg["To"] = to_email
     msg["Reply-To"] = req.email
 
-    with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
-        server.starttls()
-        server.login(smtp_user, smtp_password)
-        server.send_message(msg)
+    # Port 465 is implicit-TLS (connect already encrypted); anything else
+    # (587, 25) is plaintext-then-STARTTLS. Some hosts block one but not
+    # the other outbound, so which port actually works can vary by host.
+    if smtp_port == 465:
+        with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15) as server:
+            server.login(smtp_user, smtp_password)
+            server.send_message(msg)
+    else:
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
+            server.starttls()
+            server.login(smtp_user, smtp_password)
+            server.send_message(msg)
 
 
 @app.post("/api/contact", response_model=ContactResponse)
