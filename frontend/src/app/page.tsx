@@ -1,10 +1,10 @@
+import CertificationsScroller from "@/components/CertificationsScroller";
 import Chat from "@/components/Chat";
 import CodingAvatar from "@/components/CodingAvatar";
 import Nav from "@/components/Nav";
 import RoleRotator from "@/components/RoleRotator";
 import {
   getPortfolio,
-  type Certification,
   type Experience,
   type Project,
   type PortfolioData,
@@ -57,68 +57,6 @@ function GradientPill({ children }: { children: React.ReactNode }) {
   );
 }
 
-const HIGHLIGHTED_ISSUERS = ["Anthropic", "Google Cloud"];
-
-function isHighlightedIssuer(issuer: string) {
-  return HIGHLIGHTED_ISSUERS.includes(issuer) || issuer.startsWith("Microsoft");
-}
-
-// Highlighted issuers first (stable order preserved within each bucket) so
-// the most relevant certifications are what a visitor scrolls past first.
-function orderCertifications(certs: Certification[]) {
-  const highlighted = certs.filter((c) => isHighlightedIssuer(c.issuer));
-  const rest = certs.filter((c) => !isHighlightedIssuer(c.issuer));
-  return [...highlighted, ...rest];
-}
-
-function CertCard({
-  cert,
-  highlighted,
-}: {
-  cert: Certification;
-  highlighted: boolean;
-}) {
-  const className = highlighted
-    ? "flex w-56 shrink-0 snap-start flex-col gap-1 rounded-2xl bg-gradient-to-br from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] p-4 shadow-lg shadow-[var(--accent-via)]/30 transition-transform hover:scale-[1.03]"
-    : "flex w-44 shrink-0 snap-start flex-col gap-1 rounded-2xl border border-[var(--border)] bg-white/5 p-4 transition-colors hover:border-[var(--accent-via)]";
-
-  const content = (
-    <>
-      <p
-        className={
-          highlighted
-            ? "text-[10px] font-semibold uppercase tracking-wide text-white/80"
-            : "text-[10px] font-semibold uppercase tracking-wide text-[var(--accent-via)]"
-        }
-      >
-        {cert.issuer}
-      </p>
-      <p
-        className={
-          highlighted
-            ? "text-sm font-semibold leading-snug text-white"
-            : "text-sm leading-snug text-[var(--foreground)]"
-        }
-      >
-        {cert.name}
-      </p>
-    </>
-  );
-
-  if (cert.credential_url) {
-    return (
-      <a
-        href={cert.credential_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={className}
-      >
-        {content}
-      </a>
-    );
-  }
-  return <div className={className}>{content}</div>;
-}
 
 function ExperienceCard({ exp }: { exp: Experience }) {
   const positions = exp.positions ?? [];
@@ -408,11 +346,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
             Anthropic, Google Cloud and Microsoft credentials highlighted —
             tap any card to open its verification link.
           </p>
-          <div className="flex snap-x gap-3 overflow-x-auto pb-3">
-            {orderCertifications(certifications).map((c, i) => (
-              <CertCard key={i} cert={c} highlighted={isHighlightedIssuer(c.issuer)} />
-            ))}
-          </div>
+          <CertificationsScroller certifications={certifications} />
         </section>
       )}
 
