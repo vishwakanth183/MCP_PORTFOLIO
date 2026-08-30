@@ -326,18 +326,19 @@
     }
   ],
   "certifications": [
-    { "name": "AI Fluency: Framework & Foundations", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/wqymqygbbhbp" },
-    { "name": "Building with the Claude API", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/w4bznu7yfpa7" },
-    { "name": "Introduction to Model Context Protocol", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/pnds3qj4w2hh" },
-    { "name": "Model Context Protocol: Advanced Topics", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/8k4yisazkeuo" },
-    { "name": "Introduction to Agent Skills", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/w4uzu4g69jk6" },
-
     { "name": "Google Cloud Digital Leader Certification", "issuer": "Google Cloud", "date": "", "credential_url": "https://www.credly.com/badges/b4cab695-1a2c-4284-810d-3c6a2ebcac45/public_url" },
     { "name": "Google Generative AI Leader Certification", "issuer": "Google Cloud", "date": "", "credential_url": "https://www.credly.com/badges/51bc611d-cf73-4035-b707-e00afd9ddf91/linked_in_profile" },
 
-    { "name": "Full Stack Web Development", "issuer": "Coursera", "date": "", "credential_url": "https://www.coursera.org/account/accomplishments/verify/C5ICI83H0HMB" },
+    { "name": "AI Fluency: Framework & Foundations", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/wqymqygbbhbp" },
+    { "name": "Building with the Claude API", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/w4bznu7yfpa7" },
+    { "name": "Model Context Protocol", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/pnds3qj4w2hh" },
+    { "name": "Model Context Protocol: Advanced Topics", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/8k4yisazkeuo" },
 
-    { "name": "Microsoft Programming Using Python", "issuer": "Microsoft (Certiport)", "date": "", "credential_url": "https://www.certiport.com/portal/Pages/PrintTranscriptInfo.aspx?action=Cert&id=395&cvid=ps3g9f4ujl9MOfZObeWxFg==" },
+    { "name": "Microsoft Programming Using Python", "issuer": "Microsoft", "date": "", "credential_url": "https://www.certiport.com/portal/Pages/PrintTranscriptInfo.aspx?action=Cert&id=395&cvid=ps3g9f4ujl9MOfZObeWxFg==" },
+
+    { "name": "Agent Skills", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/w4uzu4g69jk6" },
+
+    { "name": "Full Stack Web Development", "issuer": "Coursera", "date": "", "credential_url": "https://www.coursera.org/account/accomplishments/verify/C5ICI83H0HMB" },
 
     { "name": "Kubernetes Microservices", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
     { "name": "AWS EKS", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
