@@ -289,7 +289,7 @@
     {
       "name": "Lootify",
       "company": "Personal Project",
-      "description": "Personal e-commerce app project.",
+      "description": "A full-stack e-commerce app built solo end to end — Figma wireframes through a Next.js/Redux storefront, a Node.js API, MongoDB for catalog and cart data, and MySQL for structured order records.",
       "role": "Personal Project",
       "start_date": "",
       "end_date": "",
