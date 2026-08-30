@@ -7,8 +7,9 @@ type DisplayMessage = ChatTurn & { toolCalls?: ToolCallLog[] };
 
 const SAMPLE_QUESTIONS = [
   "What AI and MCP-related skills does this candidate have?",
-  "What's this candidate's experience with system design and architecture?",
   "How many years of experience does this candidate have?",
+  "What frameworks do they know?",
+  "Tell me about a recent project.",
 ];
 
 export default function Chat() {

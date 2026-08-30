@@ -142,9 +142,23 @@ function ExperienceCard({ exp }: { exp: Experience }) {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  variant = "professional",
+}: {
+  project: Project;
+  variant?: "professional" | "personal";
+}) {
+  const isPersonal = variant === "personal";
+
   return (
-    <div className="card flex flex-col gap-2 rounded-2xl p-6">
+    <div
+      className={
+        isPersonal
+          ? "flex flex-col gap-2 rounded-2xl border border-cyan-400/25 bg-[#0b1f22] p-6"
+          : "card flex flex-col gap-2 rounded-2xl p-6"
+      }
+    >
       <p className="font-semibold text-[var(--foreground)]">{project.name}</p>
       {project.company && project.company !== "Personal Project" && (
         <p className="text-xs text-[var(--accent-via)]">{project.company}</p>
@@ -152,9 +166,18 @@ function ProjectCard({ project }: { project: Project }) {
       <p className="text-sm text-[var(--muted)]">{project.description}</p>
       {project.technologies.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1.5">
-          {project.technologies.map((t) => (
-            <Pill key={t}>{t}</Pill>
-          ))}
+          {project.technologies.map((t) =>
+            isPersonal ? (
+              <span
+                key={t}
+                className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-300"
+              >
+                {t}
+              </span>
+            ) : (
+              <Pill key={t}>{t}</Pill>
+            )
+          )}
         </div>
       )}
     </div>
@@ -338,7 +361,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
       {/* Projects */}
       {professionalProjects.length > 0 && (
         <section id="projects" className="flex flex-col gap-8 py-16">
-          <SectionHeading eyebrow="Portfolio" title="Projects" />
+          <SectionHeading eyebrow="Professional Work" title="Projects" />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {professionalProjects.map((p, i) => (
               <ProjectCard key={i} project={p} />
@@ -353,7 +376,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           <SectionHeading eyebrow="Side builds" title="Personal Projects" />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {personalProjects.map((p, i) => (
-              <ProjectCard key={i} project={p} />
+              <ProjectCard key={i} project={p} variant="personal" />
             ))}
           </div>
         </section>
