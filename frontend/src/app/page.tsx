@@ -15,15 +15,6 @@ function formatRange(start: string, end: string) {
   return `${start || "?"} – ${end || "Present"}`;
 }
 
-function initialsOf(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("");
-}
-
 function SectionHeading({
   eyebrow,
   title,
@@ -189,7 +180,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
 
   return (
     <>
-      <Nav initials={initialsOf(profile.name)} />
+      <Nav initials="VK" />
 
       {/* Hero */}
       <section
@@ -263,12 +254,11 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
         </div>
       </section>
 
+      <div className="mx-auto grid max-w-6xl gap-x-10 px-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      <div className="flex min-w-0 flex-col">
       {/* Experience */}
       {experience.length > 0 && (
-        <section
-          id="experience"
-          className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
-        >
+        <section id="experience" className="flex flex-col gap-8 py-16">
           <SectionHeading eyebrow="Career" title="Work Experience" />
           <div className="flex flex-col gap-5">
             {experience.map((exp, i) => (
@@ -280,10 +270,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
 
       {/* Skills */}
       {skillCategories.length > 0 && (
-        <section
-          id="skills"
-          className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
-        >
+        <section id="skills" className="flex flex-col gap-8 py-16">
           <SectionHeading eyebrow="Toolbox" title="Skills" />
 
           {(keySkills.length > 0 || recentSkills.length > 0) && (
@@ -337,10 +324,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
 
       {/* Certifications */}
       {certifications.length > 0 && (
-        <section
-          id="certifications"
-          className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
-        >
+        <section id="certifications" className="flex flex-col gap-8 py-16">
           <SectionHeading eyebrow="Credentials" title="Certifications" />
           <p className="-mt-4 text-xs text-[var(--muted)]">
             Anthropic, Google Cloud and Microsoft credentials highlighted —
@@ -352,10 +336,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
 
       {/* Projects */}
       {professionalProjects.length > 0 && (
-        <section
-          id="projects"
-          className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
-        >
+        <section id="projects" className="flex flex-col gap-8 py-16">
           <SectionHeading eyebrow="Portfolio" title="Projects" />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {professionalProjects.map((p, i) => (
@@ -367,10 +348,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
 
       {/* Personal Projects */}
       {personalProjects.length > 0 && (
-        <section
-          id="personal-projects"
-          className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-12"
-        >
+        <section id="personal-projects" className="flex flex-col gap-8 py-16">
           <SectionHeading eyebrow="Side builds" title="Personal Projects" />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {personalProjects.map((p, i) => (
@@ -379,15 +357,24 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           </div>
         </section>
       )}
+      </div>
 
-      {/* Chat */}
-      <section
+      {/* Chat — sticky alongside the content on large screens. Capped to
+          the viewport height and internally scrollable so the send button
+          stays reachable even when the card's own content is tall. */}
+      <aside
         id="chat"
-        className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-20"
+        className="min-w-0 py-16 lg:sticky lg:top-24 lg:h-fit lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:py-16"
       >
-        <SectionHeading eyebrow="MCP-powered" title="Ask about this candidate" />
-        <Chat />
-      </section>
+        <div className="flex flex-col gap-4">
+          <SectionHeading
+            eyebrow="MCP-powered"
+            title="Ask about this candidate"
+          />
+          <Chat />
+        </div>
+      </aside>
+      </div>
 
       {/* Contact / Footer */}
       <footer

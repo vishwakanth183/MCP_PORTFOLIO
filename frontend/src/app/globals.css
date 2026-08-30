@@ -78,3 +78,34 @@ body {
   width: 0;
   height: 0;
 }
+
+/* Main page scrollbar: thin, rounded, gradient thumb, no stepper arrows */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-via) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(
+    180deg,
+    var(--accent-from),
+    var(--accent-via),
+    var(--accent-to)
+  );
+  border-radius: 9999px;
+  border: 2px solid var(--background);
+}
+
+html::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}

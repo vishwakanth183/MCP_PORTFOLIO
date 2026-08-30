@@ -53,17 +53,14 @@ export default function Chat() {
 
   return (
     <div className="card flex flex-col rounded-2xl">
-      <div className="border-b border-[var(--border)] px-5 py-4">
-        <h3 className="text-sm font-semibold text-[var(--foreground)]">
-          Ask about this candidate
-        </h3>
-        <p className="mt-1 text-xs text-[var(--muted)]">
+      <div className="border-b border-[var(--border)] px-5 py-3">
+        <p className="text-xs text-[var(--muted)]">
           Answers are grounded in the candidate&apos;s portfolio data via MCP
           tools — not invented.
         </p>
       </div>
 
-      <div className="flex min-h-[280px] max-h-[420px] flex-col gap-4 overflow-y-auto px-5 py-4">
+      <div className="flex min-h-[200px] max-h-[320px] flex-col gap-4 overflow-y-auto px-5 py-4">
         {messages.length === 0 && (
           <div className="flex flex-col gap-2">
             <p className="text-xs text-[var(--muted)]">Try asking:</p>
