@@ -101,3 +101,22 @@ export async function postChat(
   }
   return res.json();
 }
+
+export type ContactPayload = {
+  name?: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+export async function postContact(payload: ContactPayload): Promise<void> {
+  const res = await fetch(`${API_BASE_URL}/api/contact`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.detail ?? `Contact request failed (${res.status})`);
+  }
+}

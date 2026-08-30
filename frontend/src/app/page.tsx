@@ -1,6 +1,7 @@
 import CertificationsScroller from "@/components/CertificationsScroller";
 import Chat from "@/components/Chat";
 import CodingAvatar from "@/components/CodingAvatar";
+import ContactForm from "@/components/ContactForm";
 import Nav from "@/components/Nav";
 import RoleRotator from "@/components/RoleRotator";
 import {
@@ -360,11 +361,16 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
       </div>
 
       {/* Chat — sticky alongside the content on large screens. Capped to
-          the viewport height and internally scrollable so the send button
-          stays reachable even when the card's own content is tall. */}
+          the viewport height as a safety net for short viewports; the
+          scrollbar is hidden here (wheel/trackpad still work) rather than
+          styled, since this sticky container doesn't respect
+          ::-webkit-scrollbar-button the way the main page scrollbar does.
+          The visible, arrow-free scroll affordance is the chat message
+          list itself (Chat.tsx), which is what actually grows over time —
+          this outer cap should rarely engage at all with tighter padding. */}
       <aside
         id="chat"
-        className="min-w-0 py-16 lg:sticky lg:top-24 lg:h-fit lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:py-16"
+        className="thin-scrollbar min-w-0 overscroll-contain py-8 lg:sticky lg:top-24 lg:h-fit lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:py-8"
       >
         <div className="flex flex-col gap-4">
           <SectionHeading
@@ -420,6 +426,9 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
               </a>
             )}
           </div>
+
+          <ContactForm />
+
           <p className="mt-6 text-xs text-[var(--muted)]">
             © {year} {profile.name}. Built with Next.js, FastAPI and MCP.
           </p>

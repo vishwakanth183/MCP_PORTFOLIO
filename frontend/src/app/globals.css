@@ -79,21 +79,27 @@ body {
   height: 0;
 }
 
-/* Main page scrollbar: thin, rounded, gradient thumb, no stepper arrows */
-html {
+/* Thin, rounded, gradient vertical scrollbar with no stepper arrows —
+   used for the main page and any internal vertical scroll container
+   (chat messages, the sticky sidebar). */
+html,
+.thin-scrollbar-y {
   scrollbar-width: thin;
   scrollbar-color: var(--accent-via) transparent;
 }
 
-html::-webkit-scrollbar {
-  width: 8px;
+html::-webkit-scrollbar,
+.thin-scrollbar-y::-webkit-scrollbar {
+  width: 6px;
 }
 
-html::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track,
+.thin-scrollbar-y::-webkit-scrollbar-track {
   background: transparent;
 }
 
-html::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb,
+.thin-scrollbar-y::-webkit-scrollbar-thumb {
   background-image: linear-gradient(
     180deg,
     var(--accent-from),
@@ -101,10 +107,10 @@ html::-webkit-scrollbar-thumb {
     var(--accent-to)
   );
   border-radius: 9999px;
-  border: 2px solid var(--background);
 }
 
-html::-webkit-scrollbar-button {
+html::-webkit-scrollbar-button,
+.thin-scrollbar-y::-webkit-scrollbar-button {
   display: none;
   width: 0;
   height: 0;

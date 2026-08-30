@@ -9,23 +9,26 @@ live MCP session, feed the results back, and repeat until the model gives
 a final grounded answer or the tool-call budget runs out.
 """
 
+import asyncio
 import json
 import logging
 import os
 import re
+import smtplib
 import sys
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
+from email.mime.text import MIMEText
 from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from google.genai import errors as genai_errors
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "server"))
@@ -269,6 +272,68 @@ async def chat(req: ChatRequest) -> ChatResponse:
         reply="I looked into this but couldn't reach a confident answer within the tool-call budget.",
         tool_calls=tool_log,
     )
+
+
+class ContactRequest(BaseModel):
+    name: str = ""
+    email: EmailStr
+    subject: str = Field(min_length=1, max_length=200)
+    message: str = Field(min_length=1, max_length=5000)
+
+
+class ContactResponse(BaseModel):
+    status: str
+
+
+def _send_contact_email(req: ContactRequest) -> None:
+    """Relay a contact-form submission to the candidate's inbox over SMTP.
+
+    Uses plain smtplib against whatever SMTP host is configured (Gmail,
+    Outlook, any provider that issues an app password) rather than a
+    specific paid transactional-email service, so this works on a free
+    account. Raises on failure — the caller turns that into a 502."""
+    smtp_host = os.environ["SMTP_HOST"]
+    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+    smtp_user = os.environ["SMTP_USER"]
+    smtp_password = os.environ["SMTP_PASSWORD"]
+    to_email = os.environ["CONTACT_EMAIL"]
+
+    sender_label = f"{req.name} <{req.email}>" if req.name else req.email
+    body = f"From: {sender_label}\n\n{req.message}"
+
+    msg = MIMEText(body)
+    msg["Subject"] = f"[Portfolio contact] {req.subject}"
+    msg["From"] = smtp_user
+    msg["To"] = to_email
+    msg["Reply-To"] = req.email
+
+    with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
+        server.starttls()
+        server.login(smtp_user, smtp_password)
+        server.send_message(msg)
+
+
+@app.post("/api/contact", response_model=ContactResponse)
+async def contact(req: ContactRequest) -> ContactResponse:
+    required_env = ["SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD", "CONTACT_EMAIL"]
+    missing = [key for key in required_env if not os.environ.get(key)]
+    if missing:
+        logger.error("Contact form not configured, missing env vars: %s", missing)
+        raise HTTPException(
+            status_code=503,
+            detail="The contact form isn't configured yet — missing SMTP settings.",
+        )
+
+    try:
+        await asyncio.to_thread(_send_contact_email, req)
+    except Exception:
+        logger.exception("Failed to send contact email")
+        raise HTTPException(
+            status_code=502,
+            detail="Couldn't send your message right now — please try again shortly.",
+        )
+
+    return ContactResponse(status="sent")
 
 
 @app.get("/api/portfolio")

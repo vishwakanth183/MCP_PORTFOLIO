@@ -6,10 +6,9 @@ import { postChat, type ChatTurn, type ToolCallLog } from "@/lib/api";
 type DisplayMessage = ChatTurn & { toolCalls?: ToolCallLog[] };
 
 const SAMPLE_QUESTIONS = [
-  "What frontend frameworks does this candidate know?",
-  "Tell me about the Merchant Portal project.",
-  "Why would this candidate be a good fit for a React role?",
-  "Has this candidate worked with Kubernetes in production?",
+  "What AI and MCP-related skills does this candidate have?",
+  "What's this candidate's experience with system design and architecture?",
+  "How many years of experience does this candidate have?",
 ];
 
 export default function Chat() {
@@ -60,7 +59,7 @@ export default function Chat() {
         </p>
       </div>
 
-      <div className="flex min-h-[200px] max-h-[320px] flex-col gap-4 overflow-y-auto px-5 py-4">
+      <div className="thin-scrollbar-y flex max-h-[320px] flex-col gap-4 overflow-y-auto overscroll-contain px-5 py-4">
         {messages.length === 0 && (
           <div className="flex flex-col gap-2">
             <p className="text-xs text-[var(--muted)]">Try asking:</p>
