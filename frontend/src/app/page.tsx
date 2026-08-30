@@ -57,40 +57,108 @@ function GradientPill({ children }: { children: React.ReactNode }) {
   );
 }
 
-function groupByIssuer(certs: Certification[]): [string, Certification[]][] {
-  const groups = new Map<string, Certification[]>();
-  for (const cert of certs) {
-    if (!groups.has(cert.issuer)) groups.set(cert.issuer, []);
-    groups.get(cert.issuer)!.push(cert);
+const HIGHLIGHTED_ISSUERS = ["Anthropic", "Google Cloud"];
+
+function isHighlightedIssuer(issuer: string) {
+  return HIGHLIGHTED_ISSUERS.includes(issuer) || issuer.startsWith("Microsoft");
+}
+
+// Highlighted issuers first (stable order preserved within each bucket) so
+// the most relevant certifications are what a visitor scrolls past first.
+function orderCertifications(certs: Certification[]) {
+  const highlighted = certs.filter((c) => isHighlightedIssuer(c.issuer));
+  const rest = certs.filter((c) => !isHighlightedIssuer(c.issuer));
+  return [...highlighted, ...rest];
+}
+
+function CertCard({
+  cert,
+  highlighted,
+}: {
+  cert: Certification;
+  highlighted: boolean;
+}) {
+  const className = highlighted
+    ? "flex w-56 shrink-0 snap-start flex-col gap-1 rounded-2xl bg-gradient-to-br from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] p-4 shadow-lg shadow-[var(--accent-via)]/30 transition-transform hover:scale-[1.03]"
+    : "flex w-44 shrink-0 snap-start flex-col gap-1 rounded-2xl border border-[var(--border)] bg-white/5 p-4 transition-colors hover:border-[var(--accent-via)]";
+
+  const content = (
+    <>
+      <p
+        className={
+          highlighted
+            ? "text-[10px] font-semibold uppercase tracking-wide text-white/80"
+            : "text-[10px] font-semibold uppercase tracking-wide text-[var(--accent-via)]"
+        }
+      >
+        {cert.issuer}
+      </p>
+      <p
+        className={
+          highlighted
+            ? "text-sm font-semibold leading-snug text-white"
+            : "text-sm leading-snug text-[var(--foreground)]"
+        }
+      >
+        {cert.name}
+      </p>
+    </>
+  );
+
+  if (cert.credential_url) {
+    return (
+      <a
+        href={cert.credential_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
+        {content}
+      </a>
+    );
   }
-  return Array.from(groups.entries());
+  return <div className={className}>{content}</div>;
 }
 
 function ExperienceCard({ exp }: { exp: Experience }) {
+  const positions = exp.positions ?? [];
+  // A single position just re-states the company-level tenure with one
+  // project — showing the aggregate summary/tech above AND the position's
+  // own copy below is pure duplication. Only show the outer aggregate block
+  // when there's more than one project to aggregate.
+  const showAggregate = positions.length !== 1;
+
   return (
     <div className="card flex flex-col gap-3 rounded-2xl p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="font-semibold text-[var(--foreground)]">
-          {exp.positions ? exp.company : `${exp.role} · ${exp.company}`}
+          {positions.length > 0 ? exp.company : `${exp.role} · ${exp.company}`}
         </p>
         <p className="text-xs text-[var(--muted)]">
           {formatRange(exp.start_date, exp.end_date)}
         </p>
       </div>
-      {exp.summary && <p className="text-sm text-[var(--muted)]">{exp.summary}</p>}
-      {exp.responsibilities.length > 0 && (
-        <ul className="list-disc pl-5 text-sm text-[var(--muted)]">
-          {exp.responsibilities.map((r, j) => (
-            <li key={j}>{r}</li>
-          ))}
-        </ul>
-      )}
-      {exp.technologies.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {exp.technologies.map((t) => (
-            <Pill key={t}>{t}</Pill>
-          ))}
-        </div>
+
+      {showAggregate && (
+        <>
+          {exp.summary && (
+            <p className="text-sm text-[var(--muted)]">{exp.summary}</p>
+          )}
+          {exp.responsibilities.length > 0 && (
+            <ul className="list-disc pl-5 text-sm text-[var(--muted)]">
+              {exp.responsibilities.map((r, j) => (
+                <li key={j}>{r}</li>
+              ))}
+            </ul>
+          )}
+          {exp.technologies.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {exp.technologies.map((t) => (
+                <Pill key={t}>{t}</Pill>
+              ))}
+            </div>
+          )}
+        </>
       )}
       {exp.achievements.length > 0 && (
         <ul className="list-disc pl-5 text-sm text-[var(--accent-via)]">
@@ -100,14 +168,20 @@ function ExperienceCard({ exp }: { exp: Experience }) {
         </ul>
       )}
 
-      {exp.positions && exp.positions.length > 0 && (
-        <div className="mt-2 flex flex-col gap-4 border-l-2 border-[var(--border)] pl-5">
-          {exp.positions.map((pos, i) => (
+      {positions.length > 0 && (
+        <div
+          className={
+            showAggregate
+              ? "mt-2 flex flex-col gap-4 border-l-2 border-[var(--border)] pl-5"
+              : "flex flex-col gap-4"
+          }
+        >
+          {positions.map((pos, i) => (
             <div key={i} className="flex flex-col gap-2">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="font-medium text-[var(--foreground)]">
-                  {pos.project}{" "}
-                  <span className="text-[var(--muted)]">({pos.role})</span>
+                  {pos.project}
+                  <span className="text-[var(--muted)]"> · {pos.role}</span>
                 </p>
                 <p className="text-xs text-[var(--muted)]">
                   {formatRange(pos.start_date, pos.end_date)}
@@ -277,8 +351,8 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           {(keySkills.length > 0 || recentSkills.length > 0) && (
             <div className="card flex flex-col gap-4 rounded-2xl p-6">
               {keySkills.length > 0 && (
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                <div className="grid grid-cols-[5rem_1fr] gap-3 sm:grid-cols-[6rem_1fr]">
+                  <span className="pt-1 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
                     Key
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -289,8 +363,8 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
                 </div>
               )}
               {recentSkills.length > 0 && (
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                <div className="grid grid-cols-[5rem_1fr] gap-3 sm:grid-cols-[6rem_1fr]">
+                  <span className="pt-1 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
                     Recent
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -307,9 +381,9 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
             {skillCategories.map(([category, values]) => (
               <div
                 key={category}
-                className="flex flex-wrap items-center gap-3"
+                className="grid grid-cols-[5rem_1fr] gap-3 sm:grid-cols-[6rem_1fr]"
               >
-                <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wide text-[var(--accent-via)]">
+                <span className="pt-1 text-xs font-semibold uppercase tracking-wide text-[var(--accent-via)]">
                   {category}
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -330,35 +404,13 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
         >
           <SectionHeading eyebrow="Credentials" title="Certifications" />
-          <div className="flex flex-col gap-5">
-            {groupByIssuer(certifications).map(([issuer, certs]) => (
-              <div key={issuer} className="card rounded-2xl p-6">
-                <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--accent-via)]">
-                  {issuer}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {certs.map((c, i) =>
-                    c.credential_url ? (
-                      <a
-                        key={i}
-                        href={c.credential_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-full border border-[var(--border)] bg-white/5 px-3 py-1.5 text-xs text-[var(--foreground)] transition-colors hover:border-[var(--accent-via)] hover:text-[var(--accent-via)]"
-                      >
-                        {c.name}
-                      </a>
-                    ) : (
-                      <span
-                        key={i}
-                        className="rounded-full border border-[var(--border)] bg-white/5 px-3 py-1.5 text-xs text-[var(--muted)]"
-                      >
-                        {c.name}
-                      </span>
-                    )
-                  )}
-                </div>
-              </div>
+          <p className="-mt-4 text-xs text-[var(--muted)]">
+            Anthropic, Google Cloud and Microsoft credentials highlighted —
+            tap any card to open its verification link.
+          </p>
+          <div className="flex snap-x gap-3 overflow-x-auto pb-3">
+            {orderCertifications(certifications).map((c, i) => (
+              <CertCard key={i} cert={c} highlighted={isHighlightedIssuer(c.issuer)} />
             ))}
           </div>
         </section>
