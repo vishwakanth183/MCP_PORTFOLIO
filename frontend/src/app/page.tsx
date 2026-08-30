@@ -424,7 +424,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
         <div className="flex flex-col gap-4">
           <SectionHeading
             eyebrow="MCP-powered"
-            title="Ask about this candidate"
+            title={`Ask about ${profile.name}`}
           />
           <Chat />
         </div>
