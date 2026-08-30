@@ -298,19 +298,6 @@
       "features": [],
       "achievements": [],
       "links": { "live": "", "github": "" }
-    },
-    {
-      "name": "Portfolio Website",
-      "company": "Personal Project",
-      "description": "Personal portfolio site.",
-      "role": "Personal Project",
-      "start_date": "",
-      "end_date": "",
-      "technologies": ["Next.js", "Material UI", "Framer Motion"],
-      "responsibilities": [],
-      "features": [],
-      "achievements": [],
-      "links": { "live": "https://vkportfolio-nine.vercel.app", "github": "" }
     }
   ],
   "education": [
