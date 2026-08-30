@@ -33,7 +33,49 @@
       "summary": "Full-stack development across a merchant-facing web portal and companion mobile apps for merchants and customers.",
       "responsibilities": [],
       "technologies": ["React", "Next.js", "React Native", "Node.js", "Nest.js"],
-      "achievements": []
+      "achievements": [],
+      "positions": [
+        {
+          "project": "Merchant Portal",
+          "role": "Full Stack Developer",
+          "start_date": "2026-03-09",
+          "end_date": "Present",
+          "summary": "Web portal used by merchants to manage their storefront on the platform.",
+          "responsibilities": [
+            "Building the merchant-facing web portal end to end using React and Next.js, covering onboarding, catalog, and order management flows.",
+            "Designing REST APIs and data models in Node.js/Nest.js to support merchant operations.",
+            "Collaborating with product and design to translate merchant workflows into a responsive web UI."
+          ],
+          "technologies": ["React", "Next.js", "Node.js", "Nest.js"],
+          "achievements": []
+        },
+        {
+          "project": "Merchant App",
+          "role": "Full Stack Developer",
+          "start_date": "2026-03-09",
+          "end_date": "Present",
+          "summary": "Mobile app giving merchants on-the-go access to orders and store management.",
+          "responsibilities": [
+            "Developing the merchant mobile app in React Native, sharing business logic with the web portal where possible.",
+            "Implementing merchant-side order management and notifications on mobile."
+          ],
+          "technologies": ["React Native", "Node.js"],
+          "achievements": []
+        },
+        {
+          "project": "Customer App",
+          "role": "Full Stack Developer",
+          "start_date": "2026-03-09",
+          "end_date": "Present",
+          "summary": "Customer-facing mobile app for browsing and ordering from merchants on the platform.",
+          "responsibilities": [
+            "Building customer-facing mobile app features in React Native backed by the shared Node.js/Nest.js APIs.",
+            "Working across the stack to keep the customer and merchant apps consistent with the same backend services."
+          ],
+          "technologies": ["React Native", "Node.js"],
+          "achievements": []
+        }
+      ]
     },
     {
       "company": "Tata Consultancy Services (Client: Toyota)",
@@ -42,14 +84,26 @@
       "end_date": "2026-03-06",
       "location": "Chennai, India",
       "summary": "Frontend developer on the Toyota Smart Path project, building dealer-specific enterprise applications for Toyota Financial Services.",
-      "responsibilities": [
-        "Developed dealer-specific enterprise applications for Toyota Financial Services using React and Next.js, delivering responsive, pixel-perfect UIs.",
-        "Collaborated with design, backend, and product teams to align business logic and improve overall user experience.",
-        "Implemented and maintained CI/CD pipelines (Jenkins, Docker, GitHub Actions) for automated integration and deployment to AWS environments.",
-        "Optimized front-end performance, conducted code reviews, and contributed in Agile ceremonies for efficient feature delivery."
-      ],
+      "responsibilities": [],
       "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
-      "achievements": []
+      "achievements": [],
+      "positions": [
+        {
+          "project": "Toyota Smart Path (Dealer Portal)",
+          "role": "Systems Engineer (Frontend Developer)",
+          "start_date": "2024-08-14",
+          "end_date": "2026-03-06",
+          "summary": "Dealer-specific enterprise applications for Toyota Financial Services.",
+          "responsibilities": [
+            "Developed dealer-specific enterprise applications for Toyota Financial Services using React and Next.js, delivering responsive, pixel-perfect UIs.",
+            "Collaborated with design, backend, and product teams to align business logic and improve overall user experience.",
+            "Implemented and maintained CI/CD pipelines (Jenkins, Docker, GitHub Actions) for automated integration and deployment to AWS environments.",
+            "Optimized front-end performance, conducted code reviews, and contributed in Agile ceremonies for efficient feature delivery."
+          ],
+          "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
+          "achievements": []
+        }
+      ]
     },
     {
       "company": "Centizen Inc",
