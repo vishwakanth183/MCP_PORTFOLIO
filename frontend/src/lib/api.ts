@@ -1,5 +1,9 @@
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// Strip any trailing slash(es) so `${API_BASE_URL}/api/...` never produces
+// a double slash (e.g. NEXT_PUBLIC_API_URL set to ".../onrender.com/" would
+// otherwise build ".../onrender.com//api/portfolio", which FastAPI 404s on).
+export const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"
+).replace(/\/+$/, "");
 
 export type Profile = {
   name: string;
