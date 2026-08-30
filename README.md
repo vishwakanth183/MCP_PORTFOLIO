@@ -5,6 +5,17 @@ with a candidate's portfolio and get grounded, factual answers about skills,
 projects, experience and role fit — backed by a real Model Context Protocol
 (MCP) server, not a hardcoded FAQ.
 
+## Documentation
+
+This README covers setup and a high-level overview. For depth:
+
+- **[docs/MCP.md](docs/MCP.md)** — the MCP tools/resources/prompts this
+  project exposes, why each exists, the exact request flow from a chat
+  question to a grounded answer, and how to extend it.
+- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** — how to deploy the frontend
+  and backend on free hosting tiers, and why they need different kinds of
+  hosts.
+
 ## Status
 
 Weekend build, in progress.
@@ -13,10 +24,11 @@ Weekend build, in progress.
 - [x] Portfolio JSON (`data/portfolio.json`) filled with real candidate data
 - [x] MCP server with tools, resources and prompts (`server/portfolio_server.py`)
 - [x] MCP client that discovers and exercises the server (`client/portfolio_client.py`)
-- [x] Gemini-backed chat loop over the MCP tools (`api/chat_server.py`) — **needs a real `GEMINI_API_KEY`**
+- [x] Gemini-backed chat loop over the MCP tools (`api/chat_server.py`), verified against a real key
 - [x] Next.js portfolio + chat UI (`frontend/`)
-- [ ] Failure-case testing (unknown skills, ambiguous questions, empty search)
-- [ ] Public deployment
+- [x] Initial failure-case testing (unknown project, hallucination fix — see [docs/MCP.md](docs/MCP.md))
+- [ ] More failure-case coverage (ambiguous questions, empty search)
+- [ ] Public deployment (see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the plan)
 
 ## Architecture
 
@@ -32,7 +44,8 @@ The MCP server (`server/portfolio_server.py`) exposes:
 - **Resources** (stable read-only context): `portfolio://profile`, `portfolio://skills`,
   `portfolio://experience`, `portfolio://projects`
 - **Prompts** (reusable interaction patterns): `recruiter_summary`, `technical_profile`,
-  `project_summary`
+  `project_summary` — discoverable and demonstrated by the standalone client;
+  see [docs/MCP.md](docs/MCP.md) for their current status relative to the live chat
 
 `api/chat_server.py` is a FastAPI service that keeps one persistent MCP client
 session open and:
