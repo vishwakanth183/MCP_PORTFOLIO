@@ -16,8 +16,23 @@ export default function RoleRotator({ roles }: { roles: string[] }) {
   if (roles.length === 0) return null;
 
   return (
-    <span key={index} className="gradient-text role-rotator-enter inline-block">
-      {roles[index]}
+    // All role sentences are stacked in the same grid cell (rather than only
+    // rendering the active one) so the grid row auto-sizes to the tallest
+    // wrapped variant. That reserves stable space up front — swapping the
+    // active role never changes this element's height, which previously
+    // caused everything below the hero to reflow on every rotation.
+    <span className="grid w-full">
+      {roles.map((role, i) => (
+        <span
+          key={role}
+          aria-hidden={i !== index}
+          className={`col-start-1 row-start-1 ${
+            i === index ? "role-rotator-enter" : "invisible"
+          }`}
+        >
+          A <span className="gradient-text">{role}</span> by trade
+        </span>
+      ))}
     </span>
   );
 }

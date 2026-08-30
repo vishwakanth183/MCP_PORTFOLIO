@@ -247,8 +247,8 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           <span className="gradient-text">{profile.name}</span>
         </h1>
 
-        <p className="min-h-8 text-lg text-[var(--muted)] sm:text-xl">
-          A <RoleRotator roles={target_roles} /> by trade
+        <p className="text-lg text-[var(--muted)] sm:text-xl">
+          <RoleRotator roles={target_roles} />
         </p>
 
         <p className="max-w-xl text-sm leading-6 text-[var(--muted)] sm:text-base">

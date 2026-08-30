@@ -136,7 +136,7 @@ export default function Chat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask about skills, projects, experience…"
-          className="flex-1 rounded-full border border-[var(--border)] bg-transparent px-4 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent-via)]"
+          className="min-w-0 flex-1 rounded-full border border-[var(--border)] bg-transparent px-4 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent-via)]"
         />
         <button
           type="submit"
