@@ -53,7 +53,7 @@ differs: a resource is something a client reads because it wants the whole,
 stable picture (e.g. rendering a portfolio page), while a tool is something a
 model calls with a specific question in mind (e.g. "just the frontend
 skills"). `api/chat_server.py`'s `GET /api/portfolio` endpoint is a concrete
-example — the Next.js landing page renders entirely from these four
+example — the Next.js landing page renders entirely from these six
 resources, not from a separate copy of the JSON file, so the visible site
 (not just the demo client) exercises the resource layer.
 
@@ -143,6 +143,11 @@ new class satisfying `ModelAdapter`, not touching the loop.
   `PerDay` vs a real short-lived per-minute block, because Gemini's
   `retryDelay` field is misleading once the daily bucket is empty (it still
   reports a short delay even though waiting won't help).
+- **Model names churn.** `gemini-2.5-flash` was retired mid-project and
+  replaced with `gemini-flash-lite-latest` as the default in
+  `GeminiAdapter.DEFAULT_MODEL` — Gemini's own 404 error named the
+  replacement when it happened. If `GEMINI_MODEL` ever 404s, read the error
+  message before guessing a new name; it usually tells you the current one.
 
 ## Extending this
 
