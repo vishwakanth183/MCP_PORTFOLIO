@@ -1,7 +1,8 @@
 import Chat from "@/components/Chat";
+import CodingAvatar from "@/components/CodingAvatar";
 import Nav from "@/components/Nav";
 import RoleRotator from "@/components/RoleRotator";
-import { getPortfolio, type PortfolioData } from "@/lib/api";
+import { getPortfolio, type Experience, type Project, type PortfolioData } from "@/lib/api";
 
 function formatRange(start: string, end: string) {
   if (!start && !end) return "";
@@ -42,10 +43,108 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
+function ExperienceCard({ exp }: { exp: Experience }) {
+  return (
+    <div className="card flex flex-col gap-3 rounded-2xl p-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <p className="font-semibold text-[var(--foreground)]">
+          {exp.positions ? exp.company : `${exp.role} · ${exp.company}`}
+        </p>
+        <p className="text-xs text-[var(--muted)]">
+          {formatRange(exp.start_date, exp.end_date)}
+        </p>
+      </div>
+      {exp.summary && <p className="text-sm text-[var(--muted)]">{exp.summary}</p>}
+      {exp.responsibilities.length > 0 && (
+        <ul className="list-disc pl-5 text-sm text-[var(--muted)]">
+          {exp.responsibilities.map((r, j) => (
+            <li key={j}>{r}</li>
+          ))}
+        </ul>
+      )}
+      {exp.technologies.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {exp.technologies.map((t) => (
+            <Pill key={t}>{t}</Pill>
+          ))}
+        </div>
+      )}
+      {exp.achievements.length > 0 && (
+        <ul className="list-disc pl-5 text-sm text-[var(--accent-via)]">
+          {exp.achievements.map((a, j) => (
+            <li key={j}>{a}</li>
+          ))}
+        </ul>
+      )}
+
+      {exp.positions && exp.positions.length > 0 && (
+        <div className="mt-2 flex flex-col gap-4 border-l-2 border-[var(--border)] pl-5">
+          {exp.positions.map((pos, i) => (
+            <div key={i} className="flex flex-col gap-2">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <p className="font-medium text-[var(--foreground)]">
+                  {pos.project}{" "}
+                  <span className="text-[var(--muted)]">({pos.role})</span>
+                </p>
+                <p className="text-xs text-[var(--muted)]">
+                  {formatRange(pos.start_date, pos.end_date)}
+                </p>
+              </div>
+              {pos.summary && (
+                <p className="text-sm text-[var(--muted)]">{pos.summary}</p>
+              )}
+              {pos.responsibilities.length > 0 && (
+                <ul className="list-disc pl-5 text-sm text-[var(--muted)]">
+                  {pos.responsibilities.map((r, j) => (
+                    <li key={j}>{r}</li>
+                  ))}
+                </ul>
+              )}
+              {pos.technologies.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {pos.technologies.map((t) => (
+                    <Pill key={t}>{t}</Pill>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <div className="card flex flex-col gap-2 rounded-2xl p-6">
+      <p className="font-semibold text-[var(--foreground)]">{project.name}</p>
+      {project.company && project.company !== "Personal Project" && (
+        <p className="text-xs text-[var(--accent-via)]">{project.company}</p>
+      )}
+      <p className="text-sm text-[var(--muted)]">{project.description}</p>
+      {project.technologies.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {project.technologies.map((t) => (
+            <Pill key={t}>{t}</Pill>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function PortfolioContent({ data }: { data: PortfolioData }) {
-  const { profile, skills, experience, projects, target_roles } = data;
+  const { profile, skills, experience, projects, target_roles, certifications } =
+    data;
   const skillCategories = Object.entries(skills).filter(
     ([, values]) => values.length > 0
+  );
+  const professionalProjects = projects.filter(
+    (p) => p.company !== "Personal Project"
+  );
+  const personalProjects = projects.filter(
+    (p) => p.company === "Personal Project"
   );
   const latestRole = experience[0];
   const year = new Date().getFullYear();
@@ -62,9 +161,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
         <div className="glow-orb -left-20 top-10 h-72 w-72 bg-[var(--accent-from)]" />
         <div className="glow-orb -right-16 top-40 h-72 w-72 bg-[var(--accent-to)]" />
 
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] text-2xl font-bold text-white shadow-lg shadow-[var(--accent-via)]/30">
-          {initialsOf(profile.name)}
-        </div>
+        <CodingAvatar className="h-36 w-36 drop-shadow-lg sm:h-40 sm:w-40" />
 
         <p className="text-sm text-[var(--muted)]">Hello! I&apos;m</p>
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
@@ -137,34 +234,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           <SectionHeading eyebrow="Career" title="Work Experience" />
           <div className="flex flex-col gap-5">
             {experience.map((exp, i) => (
-              <div key={i} className="card flex flex-col gap-2 rounded-2xl p-6">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="font-semibold text-[var(--foreground)]">
-                    {exp.role} <span className="text-[var(--muted)]">·</span>{" "}
-                    {exp.company}
-                  </p>
-                  <p className="text-xs text-[var(--muted)]">
-                    {formatRange(exp.start_date, exp.end_date)}
-                  </p>
-                </div>
-                {exp.summary && (
-                  <p className="text-sm text-[var(--muted)]">{exp.summary}</p>
-                )}
-                {exp.responsibilities.length > 0 && (
-                  <ul className="list-disc pl-5 text-sm text-[var(--muted)]">
-                    {exp.responsibilities.map((r, j) => (
-                      <li key={j}>{r}</li>
-                    ))}
-                  </ul>
-                )}
-                {exp.technologies.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {exp.technologies.map((t) => (
-                      <Pill key={t}>{t}</Pill>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <ExperienceCard key={i} exp={exp} />
             ))}
           </div>
         </section>
@@ -197,36 +267,57 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
         </section>
       )}
 
+      {/* Certifications */}
+      {certifications.length > 0 && (
+        <section
+          id="certifications"
+          className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
+        >
+          <SectionHeading eyebrow="Credentials" title="Certifications" />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {certifications.map((c, i) => (
+              <div
+                key={i}
+                className="card flex items-center justify-between gap-3 rounded-2xl p-5"
+              >
+                <div>
+                  <p className="text-sm font-medium text-[var(--foreground)]">
+                    {c.name}
+                  </p>
+                  <p className="text-xs text-[var(--muted)]">{c.issuer}</p>
+                </div>
+                {c.date && <span className="text-xs text-[var(--muted)]">{c.date}</span>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Projects */}
-      {projects.length > 0 && (
+      {professionalProjects.length > 0 && (
         <section
           id="projects"
           className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
         >
           <SectionHeading eyebrow="Portfolio" title="Projects" />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {projects.map((p, i) => (
-              <div
-                key={i}
-                className="card flex flex-col gap-2 rounded-2xl p-6"
-              >
-                <p className="font-semibold text-[var(--foreground)]">
-                  {p.name}
-                </p>
-                {p.company && (
-                  <p className="text-xs text-[var(--accent-via)]">
-                    {p.company}
-                  </p>
-                )}
-                <p className="text-sm text-[var(--muted)]">{p.description}</p>
-                {p.technologies.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {p.technologies.map((t) => (
-                      <Pill key={t}>{t}</Pill>
-                    ))}
-                  </div>
-                )}
-              </div>
+            {professionalProjects.map((p, i) => (
+              <ProjectCard key={i} project={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Personal Projects */}
+      {personalProjects.length > 0 && (
+        <section
+          id="personal-projects"
+          className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-12"
+        >
+          <SectionHeading eyebrow="Side builds" title="Personal Projects" />
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {personalProjects.map((p, i) => (
+              <ProjectCard key={i} project={p} />
             ))}
           </div>
         </section>

@@ -118,6 +118,12 @@ def target_roles_resource() -> str:
     return json.dumps(load_data().get("target_roles", []), indent=2)
 
 
+@mcp.resource("portfolio://certifications")
+def certifications_resource() -> str:
+    """The candidate's certifications."""
+    return json.dumps(load_data().get("certifications", []), indent=2)
+
+
 # ---------------------------------------------------------------------------
 # Prompts — reusable interaction patterns for the LLM
 # ---------------------------------------------------------------------------

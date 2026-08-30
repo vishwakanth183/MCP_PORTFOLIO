@@ -282,6 +282,7 @@ async def portfolio() -> dict:
         "experience": await mcp_bridge.read_resource("portfolio://experience"),
         "projects": await mcp_bridge.read_resource("portfolio://projects"),
         "target_roles": await mcp_bridge.read_resource("portfolio://target_roles"),
+        "certifications": await mcp_bridge.read_resource("portfolio://certifications"),
     }
 
 

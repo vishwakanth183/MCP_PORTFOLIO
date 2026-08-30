@@ -15,6 +15,17 @@ export type Profile = {
 
 export type Skills = Record<string, string[]>;
 
+export type Position = {
+  project: string;
+  role: string;
+  start_date: string;
+  end_date: string;
+  summary: string;
+  responsibilities: string[];
+  technologies: string[];
+  achievements: string[];
+};
+
 export type Experience = {
   company: string;
   role: string;
@@ -25,6 +36,16 @@ export type Experience = {
   responsibilities: string[];
   technologies: string[];
   achievements: string[];
+  // Present when one employer spans multiple distinct projects (e.g. an
+  // agency tenure) — render as a grouped sub-list instead of a flat card.
+  positions?: Position[];
+};
+
+export type Certification = {
+  name: string;
+  issuer: string;
+  date: string;
+  credential_url: string;
 };
 
 export type Project = {
@@ -47,6 +68,7 @@ export type PortfolioData = {
   experience: Experience[];
   projects: Project[];
   target_roles: string[];
+  certifications: Certification[];
 };
 
 export async function getPortfolio(): Promise<PortfolioData> {

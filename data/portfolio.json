@@ -12,18 +12,18 @@
   },
   "skills": {
     "frontend": ["React", "Next.js", "TypeScript", "Redux", "Higher-Order Components (HOCs)", "Tailwind CSS", "Bootstrap", "Material UI", "Framer Motion", "HTML/CSS"],
-    "backend": ["Node.js", "Nest.js", "Spring Boot", "Python", "Microservices", "REST APIs"],
+    "backend": ["Node.js", "Nest.js", "Python", "Microservices", "REST APIs"],
     "mobile": ["React Native"],
     "databases": ["SQL", "NoSQL"],
     "cloud": ["AWS", "GCP (Google Cloud Platform)"],
     "devops": ["Docker", "Jenkins", "GitHub Actions", "CI/CD Pipelines", "Kubernetes"],
-    "testing": ["Unit Testing"],
+    "testing": ["Jest"],
     "tools": ["Git", "GitHub", "Agile/Scrum", "Skillrack"],
-    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "Google Cloud Generative AI"]
+    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "FastMCP", "Claude API", "Google Cloud Generative AI"]
   },
   "experience": [
     {
-      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
+      "company": "Maghilhub Pvt Ltd",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -52,60 +52,71 @@
     {
       "company": "Centizen Inc",
       "role": "Software Developer / Lead",
-      "start_date": "2024-02",
+      "start_date": "2021-01-18",
       "end_date": "2024-08-08",
       "location": "Tirunelveli, India",
-      "summary": "Led development of payroll and HR modules for ZenyoPayroll, an HR management platform.",
-      "responsibilities": [
-        "Developed payroll and HR modules including dashboard, employee info, payslip handling, IT declarations, and loan management.",
-        "Deployed mobile apps to Play Store and App Store, ensuring smooth cross-platform functionality.",
-        "Conducted unit testing and wrote module documentation to maintain code quality and clarity.",
-        "Collaborated with team members to implement features efficiently, ensuring timely delivery."
-      ],
-      "technologies": ["React", "React Native", "Node.js"],
-      "achievements": ["Mr. Beyond Expectation – Centizen Inc, 2023"]
-    },
-    {
-      "company": "Centizen Inc",
-      "role": "Software Developer / Lead",
-      "start_date": "2023-09",
-      "end_date": "2024-01",
-      "location": "Tirunelveli, India",
-      "summary": "Built core HR management modules for ZenyoWorkforce.",
-      "responsibilities": [
-        "Built key modules including dashboard, employee management, timesheet & expense tracking, and onboarding/offboarding.",
-        "Implemented push notifications to improve user engagement across platforms.",
-        "Assisted in app deployment to Play Store and App Store, handling release builds and configuration.",
-        "Worked closely with the team to develop and integrate features, maintaining smooth project progress."
-      ],
-      "technologies": ["React", "React Native", "Node.js"],
-      "achievements": []
-    },
-    {
-      "company": "Centizen Inc",
-      "role": "Software Developer / Lead",
-      "start_date": "2021-01-18",
-      "end_date": "2023-09",
-      "location": "Tirunelveli, India",
-      "summary": "Progressed from Intern to Senior Developer on Zenbasket, an e-commerce platform, over 2.5 years.",
-      "responsibilities": [
-        "Delivered core modules: product, cart, options, customer, discounts, and order management.",
-        "Enhanced platform functionality with Redux state management and dynamic animations.",
-        "Scaled platform using TypeScript and Higher-Order Components (HOCs), improving maintainability and adaptability.",
-        "Collaborated in Agile teams to implement features efficiently and support platform growth."
-      ],
-      "technologies": ["React", "Redux", "TypeScript"],
+      "summary": "3.5+ years across three products, progressing from intern to senior developer contributions.",
+      "responsibilities": [],
+      "technologies": ["React", "React Native", "Redux", "TypeScript", "Node.js"],
       "achievements": [
+        "Mr. Beyond Expectation – Centizen Inc, 2023",
         "Outstanding Contributor of the Year – Centizen Inc, 2022",
         "Out of Box Thinker – Centizen Inc, 2021"
+      ],
+      "positions": [
+        {
+          "project": "ZenyoPayroll",
+          "role": "Software Developer / Lead",
+          "start_date": "2024-02",
+          "end_date": "2024-08-08",
+          "summary": "Led development of payroll and HR modules for ZenyoPayroll, an HR management platform.",
+          "responsibilities": [
+            "Developed payroll and HR modules including dashboard, employee info, payslip handling, IT declarations, and loan management.",
+            "Deployed mobile apps to Play Store and App Store, ensuring smooth cross-platform functionality.",
+            "Conducted unit testing and wrote module documentation to maintain code quality and clarity.",
+            "Collaborated with team members to implement features efficiently, ensuring timely delivery."
+          ],
+          "technologies": ["React", "React Native", "Node.js"],
+          "achievements": []
+        },
+        {
+          "project": "ZenyoWorkforce",
+          "role": "Software Developer / Lead",
+          "start_date": "2023-09",
+          "end_date": "2024-01",
+          "summary": "Built core HR management modules for ZenyoWorkforce.",
+          "responsibilities": [
+            "Built key modules including dashboard, employee management, timesheet & expense tracking, and onboarding/offboarding.",
+            "Implemented push notifications to improve user engagement across platforms.",
+            "Assisted in app deployment to Play Store and App Store, handling release builds and configuration.",
+            "Worked closely with the team to develop and integrate features, maintaining smooth project progress."
+          ],
+          "technologies": ["React", "React Native", "Node.js"],
+          "achievements": []
+        },
+        {
+          "project": "Zenbasket",
+          "role": "Software Developer / Lead",
+          "start_date": "2021-01-18",
+          "end_date": "2023-09",
+          "summary": "Progressed from Intern to Senior Developer on Zenbasket, an e-commerce platform, over 2.5 years.",
+          "responsibilities": [
+            "Delivered core modules: product, cart, options, customer, discounts, and order management.",
+            "Enhanced platform functionality with Redux state management and dynamic animations.",
+            "Scaled platform using TypeScript and Higher-Order Components (HOCs), improving maintainability and adaptability.",
+            "Collaborated in Agile teams to implement features efficiently and support platform growth."
+          ],
+          "technologies": ["React", "Redux", "TypeScript"],
+          "achievements": []
+        }
       ]
     }
   ],
   "projects": [
     {
       "name": "Merchant Portal",
-      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
-      "description": "Web-based portal for merchants at Maghilhub (Alice Brisque Pvt Ltd), part of a merchant/customer commerce platform.",
+      "company": "Maghilhub Pvt Ltd",
+      "description": "Web-based portal for merchants at Maghilhub, part of a merchant/customer commerce platform.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -117,8 +128,8 @@
     },
     {
       "name": "Merchant App",
-      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
-      "description": "Mobile application for merchants at Maghilhub (Alice Brisque Pvt Ltd).",
+      "company": "Maghilhub Pvt Ltd",
+      "description": "Mobile application for merchants at Maghilhub.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -130,8 +141,8 @@
     },
     {
       "name": "Customer App",
-      "company": "Maghilhub Pvt Ltd (Alice Brisque Pvt Ltd)",
-      "description": "Mobile application for end customers at Maghilhub (Alice Brisque Pvt Ltd).",
+      "company": "Maghilhub Pvt Ltd",
+      "description": "Mobile application for end customers at Maghilhub.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
