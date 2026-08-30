@@ -11,6 +11,8 @@
     "github": "https://github.com/vishwakanth183"
   },
   "skills": {
+    "key_skills": ["React", "Next.js", "Node.js", "TypeScript", "React Native", "AWS", "GCP", "Model Context Protocol (MCP)"],
+    "recent_skills": ["AI Fluency", "Claude API", "Model Context Protocol (MCP)", "FastMCP", "Agent Skills"],
     "frontend": ["React", "Next.js", "TypeScript", "Redux", "Higher-Order Components (HOCs)", "Tailwind CSS", "Bootstrap", "Material UI", "Framer Motion", "HTML/CSS"],
     "backend": ["Node.js", "Nest.js", "Python", "Microservices", "REST APIs"],
     "mobile": ["React Native"],
@@ -19,7 +21,7 @@
     "devops": ["Docker", "Jenkins", "GitHub Actions", "CI/CD Pipelines", "Kubernetes"],
     "testing": ["Jest"],
     "tools": ["Git", "GitHub", "Agile/Scrum", "Skillrack"],
-    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "FastMCP", "Claude API", "Google Cloud Generative AI"]
+    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "FastMCP", "Claude API", "Agent Skills", "Google Cloud Generative AI"]
   },
   "experience": [
     {
@@ -270,12 +272,48 @@
     }
   ],
   "certifications": [
-    { "name": "Google Cloud Gen AI Leader", "issuer": "Google Cloud", "date": "", "credential_url": "" },
-    { "name": "Google Cloud Digital Leader", "issuer": "Google Cloud", "date": "", "credential_url": "" },
-    { "name": "Microsoft Certified Python Programmer", "issuer": "Microsoft", "date": "", "credential_url": "" },
-    { "name": "Next.js, React, React Native, Bootstrap & Tailwind", "issuer": "Udemy", "date": "", "credential_url": "" },
-    { "name": "GitHub Actions, AWS Cloud, Docker, Kubernetes & Microservices", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
-    { "name": "Spring Boot", "issuer": "Coursera", "date": "", "credential_url": "" }
+    { "name": "AI Fluency: Framework & Foundations", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/wqymqygbbhbp" },
+    { "name": "Building with the Claude API", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/w4bznu7yfpa7" },
+    { "name": "Introduction to Model Context Protocol", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/pnds3qj4w2hh" },
+    { "name": "Model Context Protocol: Advanced Topics", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/8k4yisazkeuo" },
+    { "name": "Introduction to Agent Skills", "issuer": "Anthropic", "date": "", "credential_url": "https://verify.skilljar.com/c/w4uzu4g69jk6" },
+
+    { "name": "Google Cloud Digital Leader Certification", "issuer": "Google Cloud", "date": "", "credential_url": "https://www.credly.com/badges/b4cab695-1a2c-4284-810d-3c6a2ebcac45/public_url" },
+    { "name": "Google Generative AI Leader Certification", "issuer": "Google Cloud", "date": "", "credential_url": "https://www.credly.com/badges/51bc611d-cf73-4035-b707-e00afd9ddf91/linked_in_profile" },
+
+    { "name": "Full Stack Web Development", "issuer": "Coursera", "date": "", "credential_url": "https://www.coursera.org/account/accomplishments/verify/C5ICI83H0HMB" },
+
+    { "name": "Microsoft Programming Using Python", "issuer": "Microsoft (Certiport)", "date": "", "credential_url": "https://www.certiport.com/portal/Pages/PrintTranscriptInfo.aspx?action=Cert&id=395&cvid=ps3g9f4ujl9MOfZObeWxFg==" },
+
+    { "name": "Kubernetes Microservices", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+    { "name": "AWS EKS", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+    { "name": "GitHub Actions", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+    { "name": "AWS Essentials", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+    { "name": "Docker for Developers", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+    { "name": "Angular Essentials", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+    { "name": "CI/CD DevOps", "issuer": "LinkedIn Learning", "date": "", "credential_url": "" },
+
+    { "name": "Prompt Engineering", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-477ba945-5f75-4df0-a5bd-bce395dcdf5c/" },
+    { "name": "Bootstrap 5", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-8a4ad087-620d-4078-976c-4225a39c0773/" },
+    { "name": "Tailwind CSS", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-972944e0-bfae-4efd-9d66-71a3b341eb20/" },
+    { "name": "Flutter and Dart", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-68de5e90-1d81-4e40-8fd5-e525f8db8997/" },
+    { "name": "Next.js & React", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-588d4ec0-e4a7-43fa-8ad6-4add5ae60dbd/" },
+    { "name": "Figma", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-a1fcb06a-8195-45eb-83ad-48be98eeaa21/" },
+    { "name": "Adobe Illustrator", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-519f3270-6765-4004-afa8-dd20ce096b19/" },
+    { "name": "Adobe Photoshop", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-3ac1c57b-b0fd-44b2-8994-7df5f9aafd7f/" },
+    { "name": "Adobe After Effects", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-f86d800c-2740-47ea-884b-623d3c5434af/" },
+    { "name": "Adobe Premiere Pro", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-b5eda974-f12a-453a-845f-0c4b493defc4/" },
+    { "name": "React Native", "issuer": "Udemy", "date": "", "credential_url": "https://www.udemy.com/certificate/UC-35928c7d-d37f-4795-9b0f-6ed1c5d84bda/" },
+
+    { "name": "Call Taxi Booking – Mini Project", "issuer": "Skillrack", "date": "", "credential_url": "https://www.skillrack.com/faces/free/certificate.xhtml?t=cert&id=136954&key=DVG" },
+    { "name": "Programming Challenge Medals", "issuer": "Skillrack", "date": "", "credential_url": "https://www.skillrack.com/faces/free/certificate.xhtml?t=cert&id=142999&key=BIH" },
+    { "name": "SQL", "issuer": "Skillrack", "date": "", "credential_url": "https://www.skillrack.com/faces/free/certificate.xhtml?t=cert&id=97232&key=QXC" },
+    { "name": "Daily Challenge Medals", "issuer": "Skillrack", "date": "", "credential_url": "https://www.skillrack.com/faces/free/certificate.xhtml?t=cert&id=117708&key=DDQ" },
+    { "name": "C Programming", "issuer": "Skillrack", "date": "", "credential_url": "https://www.skillrack.com/faces/free/certificate.xhtml?t=cert&id=96609&key=XYJ" },
+
+    { "name": "HTML", "issuer": "SoloLearn", "date": "", "credential_url": "https://www.sololearn.com/en/certificates/CT-GUZ7ZFQG" },
+    { "name": "JavaScript", "issuer": "SoloLearn", "date": "", "credential_url": "https://www.sololearn.com/en/certificates/CT-RCWLDYQN" },
+    { "name": "C++ Programming", "issuer": "SoloLearn", "date": "", "credential_url": "https://www.sololearn.com/en/certificates/CC-ZFGSLMLJ" }
   ],
   "target_roles": ["Full Stack Developer", "Frontend Developer (React/Next.js)", "Software Engineer – AI/MCP Systems"],
   "professional_preferences": {

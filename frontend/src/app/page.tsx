@@ -2,7 +2,13 @@ import Chat from "@/components/Chat";
 import CodingAvatar from "@/components/CodingAvatar";
 import Nav from "@/components/Nav";
 import RoleRotator from "@/components/RoleRotator";
-import { getPortfolio, type Experience, type Project, type PortfolioData } from "@/lib/api";
+import {
+  getPortfolio,
+  type Certification,
+  type Experience,
+  type Project,
+  type PortfolioData,
+} from "@/lib/api";
 
 function formatRange(start: string, end: string) {
   if (!start && !end) return "";
@@ -41,6 +47,23 @@ function Pill({ children }: { children: React.ReactNode }) {
       {children}
     </span>
   );
+}
+
+function GradientPill({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="rounded-full bg-gradient-to-r from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] px-3 py-1 text-xs font-medium text-white shadow shadow-[var(--accent-via)]/30">
+      {children}
+    </span>
+  );
+}
+
+function groupByIssuer(certs: Certification[]): [string, Certification[]][] {
+  const groups = new Map<string, Certification[]>();
+  for (const cert of certs) {
+    if (!groups.has(cert.issuer)) groups.set(cert.issuer, []);
+    groups.get(cert.issuer)!.push(cert);
+  }
+  return Array.from(groups.entries());
 }
 
 function ExperienceCard({ exp }: { exp: Experience }) {
@@ -137,8 +160,11 @@ function ProjectCard({ project }: { project: Project }) {
 function PortfolioContent({ data }: { data: PortfolioData }) {
   const { profile, skills, experience, projects, target_roles, certifications } =
     data;
+  const keySkills = skills.key_skills ?? [];
+  const recentSkills = skills.recent_skills ?? [];
   const skillCategories = Object.entries(skills).filter(
-    ([, values]) => values.length > 0
+    ([key, values]) =>
+      values.length > 0 && key !== "key_skills" && key !== "recent_skills"
   );
   const professionalProjects = projects.filter(
     (p) => p.company !== "Personal Project"
@@ -247,6 +273,36 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
         >
           <SectionHeading eyebrow="Toolbox" title="Skills" />
+
+          {(keySkills.length > 0 || recentSkills.length > 0) && (
+            <div className="card flex flex-col gap-4 rounded-2xl p-6">
+              {keySkills.length > 0 && (
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                    Key
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {keySkills.map((v) => (
+                      <Pill key={v}>{v}</Pill>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {recentSkills.length > 0 && (
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
+                    Recent
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {recentSkills.map((v) => (
+                      <GradientPill key={v}>{v}</GradientPill>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="card flex flex-col gap-4 rounded-2xl p-6">
             {skillCategories.map(([category, values]) => (
               <div
@@ -274,19 +330,34 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-20"
         >
           <SectionHeading eyebrow="Credentials" title="Certifications" />
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {certifications.map((c, i) => (
-              <div
-                key={i}
-                className="card flex items-center justify-between gap-3 rounded-2xl p-5"
-              >
-                <div>
-                  <p className="text-sm font-medium text-[var(--foreground)]">
-                    {c.name}
-                  </p>
-                  <p className="text-xs text-[var(--muted)]">{c.issuer}</p>
+          <div className="flex flex-col gap-5">
+            {groupByIssuer(certifications).map(([issuer, certs]) => (
+              <div key={issuer} className="card rounded-2xl p-6">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--accent-via)]">
+                  {issuer}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {certs.map((c, i) =>
+                    c.credential_url ? (
+                      <a
+                        key={i}
+                        href={c.credential_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full border border-[var(--border)] bg-white/5 px-3 py-1.5 text-xs text-[var(--foreground)] transition-colors hover:border-[var(--accent-via)] hover:text-[var(--accent-via)]"
+                      >
+                        {c.name}
+                      </a>
+                    ) : (
+                      <span
+                        key={i}
+                        className="rounded-full border border-[var(--border)] bg-white/5 px-3 py-1.5 text-xs text-[var(--muted)]"
+                      >
+                        {c.name}
+                      </span>
+                    )
+                  )}
                 </div>
-                {c.date && <span className="text-xs text-[var(--muted)]">{c.date}</span>}
               </div>
             ))}
           </div>
