@@ -293,7 +293,7 @@
       "role": "Personal Project",
       "start_date": "",
       "end_date": "",
-      "technologies": ["Next.js", "Redux", "Tailwind CSS"],
+      "technologies": ["Next.js", "Redux", "Tailwind CSS", "Node.js", "MongoDB", "MySQL", "Figma"],
       "responsibilities": [],
       "features": [],
       "achievements": [],
