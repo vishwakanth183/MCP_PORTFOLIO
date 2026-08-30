@@ -25,16 +25,34 @@ function CertCard({
   highlighted: boolean;
 }) {
   const className = highlighted
-    ? "flex w-56 shrink-0 snap-start flex-col gap-1 rounded-2xl bg-gradient-to-br from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] p-4 shadow-lg shadow-[var(--accent-via)]/30 transition-transform hover:scale-[1.03]"
-    : "flex w-44 shrink-0 snap-start flex-col gap-1 rounded-2xl border border-[var(--border)] bg-white/5 p-4 transition-colors hover:border-[var(--accent-via)]";
+    ? "relative flex w-56 shrink-0 snap-start flex-col gap-1 rounded-2xl bg-gradient-to-br from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] p-4 shadow-lg shadow-[var(--accent-via)]/30 transition-transform hover:scale-[1.03]"
+    : "relative flex w-44 shrink-0 snap-start flex-col gap-1 rounded-2xl border border-[var(--border)] bg-white/5 p-4 transition-colors hover:border-[var(--accent-via)]";
 
   const content = (
     <>
+      {cert.credential_url && (
+        <svg
+          viewBox="0 0 20 20"
+          className={
+            highlighted
+              ? "absolute right-3 top-3 h-3.5 w-3.5 text-white/80"
+              : "absolute right-3 top-3 h-3.5 w-3.5 text-[var(--muted)]"
+          }
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M7 13 13 7" />
+          <path d="M8.5 7H13v4.5" />
+        </svg>
+      )}
       <p
         className={
           highlighted
-            ? "text-[10px] font-semibold uppercase tracking-wide text-white/80"
-            : "text-[10px] font-semibold uppercase tracking-wide text-[var(--accent-via)]"
+            ? "pr-4 text-[10px] font-semibold uppercase tracking-wide text-white/80"
+            : "pr-4 text-[10px] font-semibold uppercase tracking-wide text-[var(--accent-via)]"
         }
       >
         {cert.issuer}
@@ -42,8 +60,8 @@ function CertCard({
       <p
         className={
           highlighted
-            ? "text-sm font-semibold leading-snug text-white"
-            : "text-sm leading-snug text-[var(--foreground)]"
+            ? "pr-4 text-sm font-semibold leading-snug text-white"
+            : "pr-4 text-sm leading-snug text-[var(--foreground)]"
         }
       >
         {cert.name}

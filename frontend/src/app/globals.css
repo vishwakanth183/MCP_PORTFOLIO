@@ -63,31 +63,17 @@ body {
   animation: fade-slide-in 0.35s ease-out;
 }
 
-/* Thin gradient scrollbar for horizontal scroll strips (Certifications) */
+/* Hidden scrollbar for horizontal scroll strips (Certifications) — the
+   custom prev/next buttons are the visible affordance instead. Chromium's
+   ::-webkit-scrollbar-button stepper arrows don't reliably respect
+   display:none across platforms, so hiding the whole scrollbar is the
+   robust fix rather than fighting that pseudo-element. */
 .thin-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-via) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .thin-scrollbar::-webkit-scrollbar {
-  height: 5px;
-}
-
-.thin-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.thin-scrollbar::-webkit-scrollbar-thumb {
-  background-image: linear-gradient(
-    90deg,
-    var(--accent-from),
-    var(--accent-via),
-    var(--accent-to)
-  );
-  border-radius: 9999px;
-}
-
-.thin-scrollbar::-webkit-scrollbar-button {
   display: none;
   width: 0;
   height: 0;
