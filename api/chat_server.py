@@ -17,6 +17,7 @@ import sys
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -99,7 +100,7 @@ class McpBridge:
         result = await self._session.call_tool(name, arguments)
         return "\n".join(getattr(block, "text", str(block)) for block in result.content)
 
-    async def read_resource(self, uri: str) -> dict:
+    async def read_resource(self, uri: str) -> Any:
         assert self._session is not None
         result = await self._session.read_resource(uri)
         text = "\n".join(getattr(c, "text", "") for c in result.contents)
@@ -280,6 +281,7 @@ async def portfolio() -> dict:
         "skills": await mcp_bridge.read_resource("portfolio://skills"),
         "experience": await mcp_bridge.read_resource("portfolio://experience"),
         "projects": await mcp_bridge.read_resource("portfolio://projects"),
+        "target_roles": await mcp_bridge.read_resource("portfolio://target_roles"),
     }
 
 

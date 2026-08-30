@@ -52,12 +52,12 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-      <div className="border-b border-zinc-200 px-5 py-4 dark:border-zinc-800">
-        <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+    <div className="card flex flex-col rounded-2xl">
+      <div className="border-b border-[var(--border)] px-5 py-4">
+        <h3 className="text-sm font-semibold text-[var(--foreground)]">
           Ask about this candidate
-        </h2>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+        </h3>
+        <p className="mt-1 text-xs text-[var(--muted)]">
           Answers are grounded in the candidate&apos;s portfolio data via MCP
           tools — not invented.
         </p>
@@ -66,14 +66,12 @@ export default function Chat() {
       <div className="flex min-h-[280px] max-h-[420px] flex-col gap-4 overflow-y-auto px-5 py-4">
         {messages.length === 0 && (
           <div className="flex flex-col gap-2">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Try asking:
-            </p>
+            <p className="text-xs text-[var(--muted)]">Try asking:</p>
             {SAMPLE_QUESTIONS.map((q) => (
               <button
                 key={q}
                 onClick={() => send(q)}
-                className="w-fit rounded-full border border-zinc-200 px-3 py-1.5 text-left text-xs text-zinc-700 transition-colors hover:border-zinc-400 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500"
+                className="w-fit rounded-full border border-[var(--border)] px-3 py-1.5 text-left text-xs text-[var(--muted)] transition-colors hover:border-[var(--accent-via)] hover:text-[var(--foreground)]"
               >
                 {q}
               </button>
@@ -86,8 +84,8 @@ export default function Chat() {
             key={i}
             className={
               m.role === "user"
-                ? "ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-zinc-900 px-4 py-2 text-sm text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900"
-                : "mr-auto max-w-[85%] rounded-2xl rounded-bl-sm bg-zinc-100 px-4 py-2 text-sm text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
+                ? "ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-to-r from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] px-4 py-2 text-sm text-white"
+                : "mr-auto max-w-[85%] rounded-2xl rounded-bl-sm border border-[var(--border)] bg-white/5 px-4 py-2 text-sm text-[var(--foreground)]"
             }
           >
             <p className="whitespace-pre-wrap">{m.content}</p>
@@ -111,11 +109,11 @@ export default function Chat() {
         ))}
 
         {loading && (
-          <div className="mr-auto max-w-[85%] rounded-2xl rounded-bl-sm bg-zinc-100 px-4 py-2 text-sm text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+          <div className="mr-auto max-w-[85%] rounded-2xl rounded-bl-sm border border-[var(--border)] bg-white/5 px-4 py-2 text-sm text-[var(--muted)]">
             Thinking…
           </div>
         )}
-        {error && <p className="text-xs text-red-500">{error}</p>}
+        {error && <p className="text-xs text-red-400">{error}</p>}
       </div>
 
       <form
@@ -123,18 +121,18 @@ export default function Chat() {
           e.preventDefault();
           send(input);
         }}
-        className="flex items-center gap-2 border-t border-zinc-200 px-4 py-3 dark:border-zinc-800"
+        className="flex items-center gap-2 border-t border-[var(--border)] px-4 py-3"
       >
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask about skills, projects, experience…"
-          className="flex-1 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-sm outline-none focus:border-zinc-400 dark:border-zinc-700 dark:focus:border-zinc-500"
+          className="flex-1 rounded-full border border-[var(--border)] bg-transparent px-4 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent-via)]"
         />
         <button
           type="submit"
           disabled={loading || !input.trim()}
-          className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 transition-opacity disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900"
+          className="rounded-full bg-gradient-to-r from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] px-4 py-2 text-sm font-medium text-white transition-opacity disabled:opacity-40"
         >
           Send
         </button>

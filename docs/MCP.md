@@ -45,6 +45,7 @@ to explain in an interview and harder for the model to pick correctly among.
 | `portfolio://skills` | full skills-by-category object |
 | `portfolio://experience` | full experience array |
 | `portfolio://projects` | full projects array |
+| `portfolio://target_roles` | list of roles the candidate is targeting (powers the frontend's rotating hero text) |
 
 Resources exist for the same data as some of the tools, but the *use case*
 differs: a resource is something a client reads because it wants the whole,

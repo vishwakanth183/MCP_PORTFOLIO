@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d0818;
+  --background-elevated: #140d24;
+  --foreground: #f5f3f8;
+  --muted: #a89fb8;
+  --border: rgba(245, 243, 248, 0.1);
+  --accent-from: #a855f7;
+  --accent-via: #8b5cf6;
+  --accent-to: #ec4899;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-poppins);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+}
+
+.gradient-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--accent-from),
+    var(--accent-via),
+    var(--accent-to)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.card {
+  background: var(--background-elevated);
+  border: 1px solid var(--border);
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.role-rotator-enter {
+  animation: fade-slide-in 0.35s ease-out;
 }

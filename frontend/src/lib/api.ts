@@ -29,6 +29,7 @@ export type Experience = {
 
 export type Project = {
   name: string;
+  company: string;
   description: string;
   role: string;
   start_date: string;
@@ -45,6 +46,7 @@ export type PortfolioData = {
   skills: Skills;
   experience: Experience[];
   projects: Project[];
+  target_roles: string[];
 };
 
 export async function getPortfolio(): Promise<PortfolioData> {
