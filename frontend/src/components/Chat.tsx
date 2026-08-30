@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { postChat, type ChatTurn, type ToolCallLog } from "@/lib/api";
 
 type DisplayMessage = ChatTurn & { toolCalls?: ToolCallLog[] };
@@ -17,6 +17,15 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const scrollBoxRef = useRef<HTMLDivElement>(null);
+
+  // Keep the latest message in view within the message list itself (not
+  // the page) so a long answer never strands the input/send button below
+  // the fold — the scrollable area is this box alone.
+  useEffect(() => {
+    const el = scrollBoxRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages, loading]);
 
   async function send(text: string) {
     const trimmed = text.trim();
@@ -60,7 +69,10 @@ export default function Chat() {
         </p>
       </div>
 
-      <div className="thin-scrollbar-y flex max-h-[320px] flex-col gap-4 overflow-y-auto overscroll-contain px-5 py-4">
+      <div
+        ref={scrollBoxRef}
+        className="thin-scrollbar flex max-h-[280px] flex-col gap-4 overflow-y-auto overscroll-contain px-5 py-4"
+      >
         {messages.length === 0 && (
           <div className="flex flex-col gap-2">
             <p className="text-xs text-[var(--muted)]">Try asking:</p>

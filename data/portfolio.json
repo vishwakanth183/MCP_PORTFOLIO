@@ -12,16 +12,16 @@
   },
   "skills": {
     "key_skills": ["React", "Next.js", "Node.js", "TypeScript", "React Native", "AWS", "GCP", "Model Context Protocol (MCP)"],
-    "recent_skills": ["AI Fluency", "Claude API", "Model Context Protocol (MCP)", "FastMCP", "Agent Skills"],
+    "recent_skills": ["AI Fluency", "Claude API", "Model Context Protocol (MCP)", "FastMCP", "FastAPI", "Agent Skills"],
     "frontend": ["React", "Next.js", "TypeScript", "Redux", "Higher-Order Components (HOCs)", "Tailwind CSS", "Bootstrap", "Material UI", "Framer Motion", "HTML/CSS"],
-    "backend": ["Node.js", "Nest.js", "Python", "Microservices", "REST APIs"],
+    "backend": ["Node.js", "Nest.js", "FastAPI", "Python", "Microservices", "REST APIs"],
     "mobile": ["React Native"],
     "databases": ["SQL", "NoSQL"],
     "cloud": ["AWS", "GCP (Google Cloud Platform)"],
     "devops": ["Docker", "Jenkins", "GitHub Actions", "CI/CD Pipelines", "Kubernetes"],
     "testing": ["Jest"],
     "tools": ["Git", "GitHub", "Agile/Scrum", "Skillrack"],
-    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "FastMCP", "Claude API", "Agent Skills", "Google Cloud Generative AI"]
+    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "FastMCP", "Claude API", "Google Gemini API", "Agent Skills", "Google Cloud Generative AI"]
   },
   "experience": [
     {
@@ -266,6 +266,23 @@
         "Product, cart, options, customer, discounts, and order management modules."
       ],
       "features": ["Dynamic animations", "Redux-driven state management"],
+      "achievements": [],
+      "links": { "live": "", "github": "" }
+    },
+    {
+      "name": "PortfolioMCP",
+      "company": "Personal Project",
+      "description": "This portfolio itself — an MCP-powered site where an AI chat assistant answers recruiter questions grounded only in real candidate data, built as a Python MCP server/client with a Next.js frontend.",
+      "role": "Personal Project",
+      "start_date": "2026-08",
+      "end_date": "Present",
+      "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "FastAPI", "Python", "Model Context Protocol (MCP)", "FastMCP", "Google Gemini API"],
+      "responsibilities": [],
+      "features": [
+        "MCP server exposing tools, resources and prompts over the candidate's portfolio data",
+        "Gemini-backed chat loop that selects and calls MCP tools, grounded only in retrieved data",
+        "SMTP-backed contact form for direct outreach"
+      ],
       "achievements": [],
       "links": { "live": "", "github": "" }
     },

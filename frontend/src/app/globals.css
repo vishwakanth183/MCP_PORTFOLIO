@@ -79,27 +79,26 @@ body {
   height: 0;
 }
 
-/* Thin, rounded, gradient vertical scrollbar with no stepper arrows —
-   used for the main page and any internal vertical scroll container
-   (chat messages, the sticky sidebar). */
-html,
-.thin-scrollbar-y {
+/* Thin, rounded, gradient vertical scrollbar with no stepper arrows.
+   Only the root html element reliably honors ::-webkit-scrollbar-button
+   { display: none } in testing — nested overflow containers (chat
+   messages, the sticky sidebar) kept showing native arrows regardless,
+   so those use .thin-scrollbar (hidden entirely) instead. Don't reuse
+   this styled variant on a non-root element without re-verifying. */
+html {
   scrollbar-width: thin;
   scrollbar-color: var(--accent-via) transparent;
 }
 
-html::-webkit-scrollbar,
-.thin-scrollbar-y::-webkit-scrollbar {
+html::-webkit-scrollbar {
   width: 6px;
 }
 
-html::-webkit-scrollbar-track,
-.thin-scrollbar-y::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track {
   background: transparent;
 }
 
-html::-webkit-scrollbar-thumb,
-.thin-scrollbar-y::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb {
   background-image: linear-gradient(
     180deg,
     var(--accent-from),
@@ -109,8 +108,7 @@ html::-webkit-scrollbar-thumb,
   border-radius: 9999px;
 }
 
-html::-webkit-scrollbar-button,
-.thin-scrollbar-y::-webkit-scrollbar-button {
+html::-webkit-scrollbar-button {
   display: none;
   width: 0;
   height: 0;
