@@ -11,9 +11,35 @@ import {
   type PortfolioData,
 } from "@/lib/api";
 
+// Data stores dates as ISO (full "YYYY-MM-DD", partial "YYYY-MM", or just
+// "YYYY") plus the literal string "Present". Render each with only as much
+// precision as it actually carries — "March 9, 2026", "February 2024", or
+// "2017" — rather than showing raw ISO strings in the UI.
+function formatDate(value: string): string {
+  const parts = value.split("-").map(Number);
+  if (parts.length === 3 && parts.every((n) => !Number.isNaN(n))) {
+    const [y, m, d] = parts;
+    return new Date(y, m - 1, d).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+  if (parts.length === 2 && parts.every((n) => !Number.isNaN(n))) {
+    const [y, m] = parts;
+    return new Date(y, m - 1, 1).toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
+  }
+  return value;
+}
+
 function formatRange(start: string, end: string) {
   if (!start && !end) return "";
-  return `${start || "?"} – ${end || "Present"}`;
+  const formattedStart = start ? formatDate(start) : "?";
+  const formattedEnd = end ? formatDate(end) : "Present";
+  return `${formattedStart} – ${formattedEnd}`;
 }
 
 function SectionHeading({
