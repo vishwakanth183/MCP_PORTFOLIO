@@ -20,6 +20,8 @@ Full docs — read these for depth, this skill is only the orientation layer:
 
 - **[README.md](../../../README.md)** — project overview, repo layout, full local setup steps for backend + frontend.
 - **[docs/MCP.md](../../../docs/MCP.md)** — the MCP tools/resources/prompts this project exposes, why each exists, and how to add a new one.
+- **[docs/AGENTIC_WORKFLOW.md](../../../docs/AGENTIC_WORKFLOW.md)** — the research/content agent workflow (news RSS tools, PortfolioMCP as a capability layer, `/admin` human review, retention rules). Read this before touching `server/agents/`, `server/tools/`, `server/config/`, or `frontend/src/app/admin/`.
+- **[docs/WORKFLOW_VS_AGENTIC_AI.md](../../../docs/WORKFLOW_VS_AGENTIC_AI.md)** — conceptual explainer with code citations for what makes this a workflow (state machine + enforced transitions in `server/schemas.py`/`api/chat_server.py`) versus what makes the two agents agentic (`server/agents/agent_runtime.py`'s tool-selection loop). Point future confusion here before re-explaining from scratch.
 - **[docs/DEPLOYMENT.md](../../../docs/DEPLOYMENT.md)** — how to deploy the whole stack on free tiers.
 
 ## Where things live
@@ -37,6 +39,16 @@ Full docs — read these for depth, this skill is only the orientation layer:
 | Contact form UI + delivery endpoint | `frontend/src/components/ContactForm.tsx`, `POST /api/contact` in `api/chat_server.py` |
 | Candidate avatar (real supplied image, not generated) | `frontend/public/avatar.png`, rendered by `frontend/src/components/CodingAvatar.tsx` |
 | Favicon (V monogram, matches theme gradient) | `frontend/src/app/icon.svg` / `icon.png` / `favicon.ico` |
+| Shared MCP client bridge (used by both chat API and agents) | `server/mcp_bridge.py` |
+| Research agent (RSS news + PortfolioMCP tools → 3 recommendations/day) | `server/agents/research_agent.py`, `server/tools/news_tools.py` |
+| Content agent (draft generation for a chosen recommendation) | `server/agents/content_agent.py` |
+| Bounded tool-calling loop shared by both agents | `server/agents/agent_runtime.py` |
+| Merges local Python tools + MCP tools into one ToolSpec list | `server/agents/tool_registry.py` |
+| Deterministic draft validation (length, grounding — no extra LLM call) | `server/agents/validators.py` |
+| Platform/style config (LinkedIn vs blog, the 4 content styles) | `server/config/platforms.py`, `server/config/styles.py` |
+| `data/runs/` JSON state store + 7-day retention purge | `server/state.py` |
+| Private human-review UI (approve/reject/revise/mark-posted) | `frontend/src/app/admin/page.tsx` |
+| Daily research cron | scheduled-tasks task `portfoliomcp-daily-research`, 07:00 local |
 
 ## Live deployment
 
@@ -150,6 +162,33 @@ minutes — this happened once already during initial development.
     check `cmdkey /list | findstr github` and `cmdkey /delete` the stale
     entries (don't guess which one — list first) to force a fresh
     interactive login as the right account.
+
+12. **`data/runs/<date>/` is keyed by the machine's local calendar date, and
+    it changes under you.** If a background test/session spans midnight,
+    `state.today_str()` (and every endpoint that defaults its `day`/`date`
+    param to "today") silently starts pointing at a new, empty directory —
+    a draft created "today" a moment ago becomes 404 for endpoints called
+    without an explicit date after rollover. Always thread the `date`/`day`
+    field the backend already returns on a `ResearchRun`/`Draft` through to
+    subsequent calls (as `frontend/src/app/admin/page.tsx` does) rather than
+    letting each call default to "now" independently.
+13. **In the Browser pane, a `read_page`/`find` ref's stored coordinates can
+    go stale after content above it re-renders (e.g. a "Loading…" state
+    disappearing shifts everything up).** A `computer` click on a stale
+    `ref_N` can silently hit nothing — no error, no network request, just
+    no effect. If a click doesn't produce the expected network request/state
+    change, re-screenshot and click by the fresh coordinate (or re-run
+    `find`/`read_page` immediately before clicking) rather than assuming the
+    click itself failed for some other reason.
+14. **The research/content agents' tool-calling loop (`agent_runtime.py`)
+    is intentionally separate from `api/chat_server.py`'s `/api/chat`
+    loop**, even though the pattern is identical — they were kept as two
+    implementations on purpose during the initial build rather than
+    unified, since the chat loop is tuned around the recruiter-chat system
+    prompt/response shape and the agent loop returns raw text for the
+    caller to parse as JSON. If unifying them later, verify both call sites
+    (`/api/chat` and `research_agent.py`/`content_agent.py`) still behave
+    identically for thought_signature replay and tool-result formatting.
 
 ## Editing `data/portfolio.json`
 

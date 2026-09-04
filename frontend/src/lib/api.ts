@@ -124,3 +124,153 @@ export async function postContact(payload: ContactPayload): Promise<void> {
     throw new Error(body?.detail ?? `Contact request failed (${res.status})`);
   }
 }
+
+// ---------------------------------------------------------------------------
+// Admin: research recommendations + content draft review (private /admin page)
+// ---------------------------------------------------------------------------
+
+export type Platform = "linkedin" | "blog";
+export type Style = "educational" | "technical" | "storytelling" | "conversational";
+
+export type Recommendation = {
+  id: string;
+  topic: string;
+  source: string;
+  source_url: string;
+  published_at: string;
+  why_it_matters: string;
+  personal_relevance: string;
+  suggested_angle: string;
+  recommended_platform: Platform;
+  recommended_style: Style;
+  confidence: number;
+  supporting_facts: string[];
+  status: string;
+};
+
+export type ResearchRun = {
+  run_id: string;
+  date: string;
+  created_at: string;
+  recommendations: Recommendation[];
+};
+
+export type ValidationIssue = { field: string; problem: string };
+export type ValidationResult = { passed: boolean; issues: ValidationIssue[] };
+
+export type DraftStatus =
+  | "GENERATED"
+  | "VALIDATED"
+  | "PENDING_REVIEW"
+  | "APPROVED"
+  | "REJECTED"
+  | "REVISION_REQUESTED"
+  | "FINAL";
+
+export type Draft = {
+  id: string;
+  recommendation_id: string;
+  date: string;
+  created_at: string;
+  topic: string;
+  platform: Platform;
+  style: Style;
+  content: string;
+  supporting_facts: string[];
+  validation: ValidationResult | null;
+  status: DraftStatus;
+  revision_feedback: string[];
+};
+
+async function jsonOrThrow<T>(res: Response): Promise<T> {
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.detail ?? `Request failed (${res.status})`);
+  }
+  return res.json();
+}
+
+export async function getRecommendations(day?: string): Promise<ResearchRun | null> {
+  const url = day
+    ? `${API_BASE_URL}/api/research/recommendations?day=${day}`
+    : `${API_BASE_URL}/api/research/recommendations`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (res.status === 404) return null;
+  return jsonOrThrow<ResearchRun>(res);
+}
+
+export async function runResearchNow(topic?: string): Promise<ResearchRun> {
+  const res = await fetch(`${API_BASE_URL}/api/research/run`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ topic: topic || null }),
+  });
+  return jsonOrThrow<ResearchRun>(res);
+}
+
+export async function removeRecommendation(
+  recommendationId: string,
+  day: string
+): Promise<ResearchRun> {
+  const res = await fetch(
+    `${API_BASE_URL}/api/research/recommendations/${recommendationId}?day=${day}`,
+    { method: "DELETE" }
+  );
+  return jsonOrThrow<ResearchRun>(res);
+}
+
+export async function getDrafts(day: string): Promise<Draft[]> {
+  const res = await fetch(`${API_BASE_URL}/api/content/drafts?day=${day}`, {
+    cache: "no-store",
+  });
+  return jsonOrThrow<Draft[]>(res);
+}
+
+export async function generateDraft(
+  recommendationId: string,
+  date: string
+): Promise<Draft> {
+  const res = await fetch(`${API_BASE_URL}/api/content/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ recommendation_id: recommendationId, date }),
+  });
+  return jsonOrThrow<Draft>(res);
+}
+
+export async function approveDraft(draftId: string, day: string): Promise<Draft> {
+  const res = await fetch(
+    `${API_BASE_URL}/api/content/${draftId}/approve?day=${day}`,
+    { method: "POST" }
+  );
+  return jsonOrThrow<Draft>(res);
+}
+
+export async function rejectDraft(draftId: string, day: string): Promise<void> {
+  const res = await fetch(
+    `${API_BASE_URL}/api/content/${draftId}/reject?day=${day}`,
+    { method: "POST" }
+  );
+  await jsonOrThrow(res);
+}
+
+export async function reviseDraft(
+  draftId: string,
+  feedback: string,
+  date: string
+): Promise<Draft> {
+  const res = await fetch(`${API_BASE_URL}/api/content/${draftId}/revise`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ feedback, date }),
+  });
+  return jsonOrThrow<Draft>(res);
+}
+
+export async function markPosted(draftId: string, day: string): Promise<void> {
+  const res = await fetch(
+    `${API_BASE_URL}/api/content/${draftId}/mark-posted?day=${day}`,
+    { method: "POST" }
+  );
+  await jsonOrThrow(res);
+}

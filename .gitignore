@@ -11,3 +11,6 @@ frontend/out/
 
 .DS_Store
 *.log
+
+# Ephemeral research/draft state — auto-purged, never kept long-term
+data/runs/

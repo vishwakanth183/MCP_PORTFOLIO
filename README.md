@@ -12,13 +12,18 @@ This README covers setup and a high-level overview. For depth:
 - **[docs/MCP.md](docs/MCP.md)** — the MCP tools/resources/prompts this
   project exposes, why each exists, the exact request flow from a chat
   question to a grounded answer, and how to extend it.
+- **[docs/AGENTIC_WORKFLOW.md](docs/AGENTIC_WORKFLOW.md)** — the research +
+  content agent workflow: architecture, agent tool-selection, prompts,
+  state/retention, and the human-in-the-loop approval flow (`/admin`).
+- **[docs/WORKFLOW_VS_AGENTIC_AI.md](docs/WORKFLOW_VS_AGENTIC_AI.md)** —
+  conceptual explainer: what actually makes this a "workflow" versus a
+  pile of buttons, what "agentic" means here versus a scripted pipeline,
+  with exact code citations for each.
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** — how to deploy the frontend
   and backend on free hosting tiers, and why they need different kinds of
   hosts.
 
 ## Status
-
-Weekend build, in progress.
 
 - [x] Repository scaffold (server / client / data / api / frontend)
 - [x] Portfolio JSON (`data/portfolio.json`) filled with real candidate data
@@ -27,8 +32,10 @@ Weekend build, in progress.
 - [x] Gemini-backed chat loop over the MCP tools (`api/chat_server.py`), verified against a real key
 - [x] Next.js portfolio + chat UI (`frontend/`)
 - [x] Initial failure-case testing (unknown project, hallucination fix — see [docs/MCP.md](docs/MCP.md))
-- [ ] More failure-case coverage (ambiguous questions, empty search)
+- [x] Research agent: RSS news tools + PortfolioMCP tools, 3 structured recommendations/day, daily cron — see [docs/AGENTIC_WORKFLOW.md](docs/AGENTIC_WORKFLOW.md)
+- [x] Content agent + deterministic validation + `/admin` human-review UI (approve/reject/revise, manual publish + auto-delete)
 - [ ] Public deployment (see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the plan)
+- [ ] Real LinkedIn/Medium auto-publish API integration (deferred — see [docs/AGENTIC_WORKFLOW.md](docs/AGENTIC_WORKFLOW.md#human-review--publishing))
 
 ## Architecture
 
@@ -65,17 +72,37 @@ writing one new adapter class, not touching the chat loop.
 ```
 PortfolioMCP/
 ├── data/
-│   └── portfolio.json       # single source of truth for candidate data
+│   ├── portfolio.json       # single source of truth for candidate data
+│   └── runs/                # ephemeral research/draft state, git-ignored (see docs/AGENTIC_WORKFLOW.md)
 ├── server/
 │   ├── portfolio_data.py    # loads the JSON data
 │   ├── portfolio_server.py  # FastMCP server: tools, resources, prompts
+│   ├── mcp_bridge.py        # shared MCP client bridge (chat API + agents)
 │   ├── model_adapter.py     # provider-agnostic LLM interface
-│   └── gemini_adapter.py    # Gemini function-calling implementation
+│   ├── gemini_adapter.py    # Gemini function-calling implementation
+│   ├── schemas.py           # Recommendation/Draft pydantic models
+│   ├── state.py             # data/runs/ JSON state store + retention
+│   ├── tools/
+│   │   └── news_tools.py    # RSS-based TechCrunch/Verge search + get_article
+│   ├── config/
+│   │   ├── platforms.py     # LinkedIn/blog content requirements
+│   │   └── styles.py        # the 4 content style arcs
+│   └── agents/
+│       ├── agent_runtime.py    # shared bounded tool-calling loop
+│       ├── tool_registry.py    # merges local + MCP tools into one ToolSpec list
+│       ├── research_agent.py   # daily research agent (cron entrypoint)
+│       ├── content_agent.py    # drafts content for a chosen recommendation
+│       └── validators.py       # deterministic draft quality/grounding checks
 ├── client/
 │   └── portfolio_client.py  # standalone MCP client for local testing
 ├── api/
-│   └── chat_server.py       # FastAPI service: /api/portfolio, /api/chat
-└── frontend/                # Next.js portfolio + chat UI
+│   └── chat_server.py       # FastAPI service: chat, contact, portfolio, and the research/content admin API
+├── tests/
+│   └── test_research_agent.py  # offline failure-case tests (no live API calls)
+└── frontend/
+    └── src/app/
+        ├── page.tsx          # public portfolio + chat page
+        └── admin/page.tsx    # private research/content review UI
 ```
 
 ## Local setup
@@ -124,7 +151,22 @@ PortfolioMCP/
    npm run dev
    ```
 3. Open `http://localhost:3000` — the portfolio page and chat widget should
-   both load from the running backend.
+   both load from the running backend. The private research/content review
+   UI is at `http://localhost:3000/admin` (not linked from the public nav).
+
+### Research/content agents (optional, uses live Gemini quota)
+
+```bash
+# Offline tests — no API calls, safe to run anytime
+python tests/test_research_agent.py
+
+# One real research run (also runs daily via the scheduled-tasks cron,
+# or on-demand from the "Run Research Now" button in /admin)
+python server/agents/research_agent.py
+```
+
+See [docs/AGENTIC_WORKFLOW.md](docs/AGENTIC_WORKFLOW.md) for the full
+architecture, prompts, and retention rules.
 
 ## What this project deliberately does not include
 

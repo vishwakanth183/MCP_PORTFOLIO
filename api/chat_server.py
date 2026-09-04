@@ -9,34 +9,36 @@ live MCP session, feed the results back, and repeat until the model gives
 a final grounded answer or the tool-call budget runs out.
 """
 
-import json
 import logging
 import os
 import re
 import sys
+import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any
 
 import httpx
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from google.genai import errors as genai_errors
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
 from pydantic import BaseModel, EmailStr, Field
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "server"))
 
+from agents.content_agent import generate_draft  # noqa: E402
+from agents.research_agent import run_research  # noqa: E402
+from agents.validators import validate_draft  # noqa: E402
 from gemini_adapter import GeminiAdapter  # noqa: E402
-from model_adapter import Message, ToolSpec  # noqa: E402
+from mcp_bridge import McpBridge  # noqa: E402
+from model_adapter import Message  # noqa: E402
+from schemas import Draft, Recommendation, ResearchRun  # noqa: E402
+import state  # noqa: E402
 
 load_dotenv(ROOT / ".env")
 
-SERVER_SCRIPT = ROOT / "server" / "portfolio_server.py"
 MAX_TOOL_ROUNDS = 4
 
 SYSTEM_INSTRUCTION = (
@@ -58,54 +60,6 @@ SYSTEM_INSTRUCTION = (
 
 logger = logging.getLogger("portfoliomcp.chat")
 logging.basicConfig(level=logging.INFO)
-
-
-class McpBridge:
-    """Owns the single long-lived MCP client connection to the portfolio server."""
-
-    def __init__(self) -> None:
-        self._session: ClientSession | None = None
-        self._session_cm = None
-        self._stdio_cm = None
-        self.tools: list[ToolSpec] = []
-
-    async def start(self) -> None:
-        server_params = StdioServerParameters(
-            command=sys.executable, args=[str(SERVER_SCRIPT)]
-        )
-        self._stdio_cm = stdio_client(server_params)
-        read, write = await self._stdio_cm.__aenter__()
-        self._session_cm = ClientSession(read, write)
-        self._session = await self._session_cm.__aenter__()
-        await self._session.initialize()
-
-        tool_list = await self._session.list_tools()
-        self.tools = [
-            ToolSpec(
-                name=t.name,
-                description=t.description or "",
-                input_schema=t.inputSchema or {},
-            )
-            for t in tool_list.tools
-        ]
-        logger.info("MCP session ready, tools=%s", [t.name for t in self.tools])
-
-    async def stop(self) -> None:
-        if self._session_cm is not None:
-            await self._session_cm.__aexit__(None, None, None)
-        if self._stdio_cm is not None:
-            await self._stdio_cm.__aexit__(None, None, None)
-
-    async def call_tool(self, name: str, arguments: dict) -> str:
-        assert self._session is not None
-        result = await self._session.call_tool(name, arguments)
-        return "\n".join(getattr(block, "text", str(block)) for block in result.content)
-
-    async def read_resource(self, uri: str) -> Any:
-        assert self._session is not None
-        result = await self._session.read_resource(uri)
-        text = "\n".join(getattr(c, "text", "") for c in result.contents)
-        return json.loads(text)
 
 
 def _retry_delay_seconds(exc: genai_errors.ClientError) -> float | None:
@@ -358,3 +312,200 @@ async def portfolio() -> dict:
 @app.get("/api/health")
 async def health() -> dict:
     return {"status": "ok", "tools": [t.name for t in mcp_bridge.tools]}
+
+
+# ---------------------------------------------------------------------------
+# Admin: research recommendations + content draft review
+#
+# This is a private workflow surface (the /admin page in the frontend, not
+# linked from the public recruiter-facing nav) for the candidate to review
+# AI-generated content opportunities and drafts before anything is posted.
+# No auth is wired up here — same explicit scope decision as the rest of
+# this project ("complex authentication" is out of scope) — don't publish
+# this API publicly without adding some.
+# ---------------------------------------------------------------------------
+
+
+def _find_recommendation(day: str, recommendation_id: str) -> Recommendation:
+    run = state.load_research_run(day)
+    if run is None:
+        raise HTTPException(status_code=404, detail=f"No research run found for {day}.")
+    for rec in run.recommendations:
+        if rec.id == recommendation_id:
+            return rec
+    raise HTTPException(
+        status_code=404, detail=f"Recommendation {recommendation_id} not found on {day}."
+    )
+
+
+def _load_draft_or_404(day: str, draft_id: str) -> dict:
+    draft = state.load_draft(day, draft_id)
+    if draft is None:
+        raise HTTPException(status_code=404, detail=f"Draft {draft_id} not found on {day}.")
+    return draft
+
+
+class RunResearchRequest(BaseModel):
+    # None = "Profile Based Research" (free-ranging, matched against the
+    # candidate's real background). Set = a human-typed topic search that
+    # still cross-references PortfolioMCP, but focuses the news search.
+    topic: str | None = None
+
+
+@app.post("/api/research/run", response_model=ResearchRun)
+async def trigger_research(req: RunResearchRequest = RunResearchRequest()) -> ResearchRun:
+    """Manual research trigger for the admin page — the same logic the
+    daily cron runs, against this process's already-open MCP session. New
+    recommendations are appended to today's existing run, not a replacement
+    of it, so "Profile Based Research" and one or more topic searches build
+    up one list the human curates with the per-card Remove action."""
+    assert model_adapter is not None
+    deleted = state.purge_stale_runs()
+    if deleted:
+        logger.info("purged stale run directories: %s", deleted)
+    try:
+        return await run_research(mcp_bridge, model_adapter, topic=req.topic)
+    except Exception:
+        logger.exception("manual research run failed")
+        raise HTTPException(status_code=502, detail="Research run failed — see server logs.")
+
+
+@app.get("/api/research/recommendations")
+async def get_recommendations(day: str | None = None) -> ResearchRun:
+    run = state.load_research_run(day or state.today_str())
+    if run is None:
+        raise HTTPException(status_code=404, detail="No research run found for that date.")
+    return run
+
+
+@app.delete("/api/research/recommendations/{recommendation_id}", response_model=ResearchRun)
+async def remove_recommendation(recommendation_id: str, day: str | None = None) -> ResearchRun:
+    """Drops a recommendation the human doesn't want to act on — permanently,
+    not archived, per the no-long-term-storage rule. Also removes any draft
+    already generated for it, since an orphaned draft with no recommendation
+    behind it isn't reviewable."""
+    day = day or state.today_str()
+    run = state.remove_recommendation(day, recommendation_id)
+    if run is None:
+        raise HTTPException(status_code=404, detail=f"No research run found for {day}.")
+    return run
+
+
+class GenerateDraftRequest(BaseModel):
+    recommendation_id: str
+    date: str | None = None
+
+
+@app.post("/api/content/generate", response_model=Draft)
+async def generate_content(req: GenerateDraftRequest) -> Draft:
+    assert model_adapter is not None
+    day = req.date or state.today_str()
+    rec = _find_recommendation(day, req.recommendation_id)
+
+    try:
+        content = await generate_draft(
+            mcp_bridge,
+            model_adapter,
+            topic=rec.topic,
+            platform=rec.recommended_platform,
+            style=rec.recommended_style,
+            suggested_angle=rec.suggested_angle,
+            supporting_facts=rec.supporting_facts,
+        )
+    except Exception:
+        logger.exception("content generation failed")
+        raise HTTPException(status_code=502, detail="Content generation failed — see server logs.")
+
+    validation = validate_draft(content, rec.recommended_platform, rec.supporting_facts)
+    draft = Draft(
+        id=uuid.uuid4().hex[:8],
+        recommendation_id=rec.id,
+        date=day,
+        created_at=datetime.now().isoformat(),
+        topic=rec.topic,
+        platform=rec.recommended_platform,
+        style=rec.recommended_style,
+        content=content,
+        supporting_facts=rec.supporting_facts,
+        validation=validation,
+        status="VALIDATED" if validation.passed else "GENERATED",
+    )
+    state.save_draft(day, draft.id, draft.model_dump())
+    return draft
+
+
+@app.get("/api/content/drafts")
+async def list_content_drafts(day: str | None = None) -> list[dict]:
+    return state.list_drafts(day or state.today_str())
+
+
+@app.post("/api/content/{draft_id}/approve", response_model=Draft)
+async def approve_draft(draft_id: str, day: str | None = None) -> Draft:
+    day = day or state.today_str()
+    draft = Draft.model_validate(_load_draft_or_404(day, draft_id))
+    draft.status = "APPROVED"
+    state.save_draft(day, draft.id, draft.model_dump())
+    return draft
+
+
+@app.post("/api/content/{draft_id}/reject")
+async def reject_draft(draft_id: str, day: str | None = None) -> dict:
+    """Rejected drafts aren't kept — REJECTED -> ARCHIVED means "gone", not
+    "kept in an archive folder", per the no-long-term-storage decision."""
+    day = day or state.today_str()
+    _load_draft_or_404(day, draft_id)
+    state.delete_draft(day, draft_id)
+    return {"status": "rejected_and_deleted"}
+
+
+class ReviseRequest(BaseModel):
+    feedback: str
+    date: str | None = None
+
+
+@app.post("/api/content/{draft_id}/revise", response_model=Draft)
+async def revise_draft(draft_id: str, req: ReviseRequest) -> Draft:
+    assert model_adapter is not None
+    day = req.date or state.today_str()
+    existing = Draft.model_validate(_load_draft_or_404(day, draft_id))
+
+    feedback_history = [*existing.revision_feedback, req.feedback]
+    try:
+        content = await generate_draft(
+            mcp_bridge,
+            model_adapter,
+            topic=existing.topic,
+            platform=existing.platform,
+            style=existing.style,
+            suggested_angle="",
+            supporting_facts=existing.supporting_facts,
+            revision_feedback=feedback_history,
+        )
+    except Exception:
+        logger.exception("content revision failed")
+        raise HTTPException(status_code=502, detail="Content revision failed — see server logs.")
+
+    validation = validate_draft(content, existing.platform, existing.supporting_facts)
+    existing.content = content
+    existing.validation = validation
+    existing.revision_feedback = feedback_history
+    existing.status = "VALIDATED" if validation.passed else "GENERATED"
+    state.save_draft(day, existing.id, existing.model_dump())
+    return existing
+
+
+@app.post("/api/content/{draft_id}/mark-posted")
+async def mark_posted(draft_id: str, day: str | None = None) -> dict:
+    """The user has pasted the approved draft into LinkedIn/Medium
+    themselves and confirms it's live — the record is deleted immediately,
+    matching the "nothing kept forever" retention rule."""
+    day = day or state.today_str()
+    draft = Draft.model_validate(_load_draft_or_404(day, draft_id))
+    if draft.status != "APPROVED":
+        raise HTTPException(
+            status_code=400,
+            detail=f"Draft {draft_id} is not APPROVED (status={draft.status}); "
+            "approve it before marking it posted.",
+        )
+    state.delete_draft(day, draft_id)
+    return {"status": "posted_and_deleted"}
