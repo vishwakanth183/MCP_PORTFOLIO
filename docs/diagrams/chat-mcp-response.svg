@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 600" font-family="'IBM Plex Sans', -apple-system, sans-serif" role="img"
+     aria-label="Chat to MCP to response flow, in three phases. CONNECT: FastAPI starts, spawns portfolio_server.py over stdio, and opens one McpBridge session for the process lifetime. EXECUTE, per request: Chat.tsx first replays every prior message in its own React state as a history array of role and content only, then the browser posts that plus the new message to /api/chat. GeminiAdapter.generate() is called with the MCP tool list, and if Gemini returns tool_calls, mcp_bridge.call_tool() runs them against the live server, reading data/portfolio.json fresh, then loops back to Gemini, bounded by MAX_TOOL_ROUNDS, until final text comes back. CLEANUP: the response returns to the browser, and the frontend appends the assistant's reply to its own messages state so the next send resends the whole conversation again — the FastAPI server itself keeps none of this; the per-request Python history object is discarded with no caching. The MCP session itself is not closed — it stays open and is reused by the next request, and the subprocess is only terminated when FastAPI shuts down.">
+  <style>
+    :root{
+      --ink:#17212b; --ink-soft:#4b5a68; --surface:#ffffff;
+      --phase-connect:#35618c; --phase-execute:#a8641f; --phase-cleanup:#7d4568;
+      --band-connect-bg:#e7eef6; --band-execute-bg:#f7ecdd; --band-cleanup-bg:#f3e8ef;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --ink:#e7ecec; --ink-soft:#a9b7bb; --surface:#182226;
+        --phase-connect:#6fa3d8; --phase-execute:#e0a35c; --phase-cleanup:#c988b0;
+        --band-connect-bg:#1b2733; --band-execute-bg:#2b2418; --band-cleanup-bg:#2a1f27;
+      }
+    }
+    text{ fill:var(--ink); }
+    .node-title{ font-weight:600; font-size:13px; }
+    .node-sub{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10.5px; fill:var(--ink-soft); }
+    .band-label{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:12px; font-weight:600; letter-spacing:0.12em; }
+    .edge-label{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10.5px; fill:var(--ink-soft); }
+    .edge-label-bg{ fill:var(--surface); opacity:0.94; }
+    .edge{ stroke:var(--ink-soft); stroke-width:1.5; fill:none; }
+  </style>
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-soft)"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="260" height="600" fill="var(--band-connect-bg)"/>
+  <rect x="260" y="0" width="560" height="600" fill="var(--band-execute-bg)"/>
+  <rect x="820" y="0" width="360" height="600" fill="var(--band-cleanup-bg)"/>
+
+  <text x="130" y="26" text-anchor="middle" class="band-label" fill="var(--phase-connect)">CONNECT</text>
+  <text x="540" y="26" text-anchor="middle" class="band-label" fill="var(--phase-execute)">EXECUTE — per request</text>
+  <text x="1000" y="26" text-anchor="middle" class="band-label" fill="var(--phase-cleanup)">CLEANUP</text>
+
+  <!-- CONNECT nodes -->
+  <g>
+    <rect x="30" y="156" width="200" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-connect)" stroke-width="1.5"/>
+    <text x="130" y="180" text-anchor="middle" class="node-title">FastAPI startup</text>
+    <text x="130" y="196" text-anchor="middle" class="node-sub">lifespan · api/chat_server.py</text>
+  </g>
+  <g>
+    <rect x="30" y="254" width="200" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-connect)" stroke-width="1.5"/>
+    <text x="130" y="278" text-anchor="middle" class="node-title">Spawn MCP server</text>
+    <text x="130" y="294" text-anchor="middle" class="node-sub">portfolio_server.py · stdio</text>
+  </g>
+  <g>
+    <rect x="30" y="352" width="200" height="72" rx="10" fill="var(--surface)" stroke="var(--phase-connect)" stroke-width="1.5"/>
+    <text x="130" y="376" text-anchor="middle" class="node-title">McpBridge session opens</text>
+    <text x="130" y="392" text-anchor="middle" class="node-sub"><tspan x="130" dy="0">persists for</tspan><tspan x="130" dy="12">process lifetime</tspan></text>
+  </g>
+
+  <path d="M130,216 L130,254" class="edge" marker-end="url(#arrow1)"/>
+  <path d="M130,314 L130,352" class="edge" marker-end="url(#arrow1)"/>
+  <path d="M230,388 C266,388 266,184 300,184" class="edge" marker-end="url(#arrow1)"/>
+  <rect x="266" y="281" width="118" height="15" class="edge-label-bg"/>
+  <text x="270" y="292" class="edge-label">reused per request</text>
+
+  <!-- EXECUTE nodes -->
+  <g>
+    <rect x="310" y="54" width="220" height="56" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="420" y="76" text-anchor="middle" class="node-title">Chat.tsx replays messages[]</text>
+    <text x="420" y="93" text-anchor="middle" class="node-sub">→ history[] · role+content only</text>
+  </g>
+  <g>
+    <rect x="310" y="156" width="220" height="56" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="420" y="179" text-anchor="middle" class="node-title">Browser → POST /api/chat</text>
+    <text x="420" y="195" text-anchor="middle" class="node-sub">{ message, history }</text>
+  </g>
+  <g>
+    <rect x="310" y="248" width="220" height="64" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="420" y="272" text-anchor="middle" class="node-title">GeminiAdapter.generate()</text>
+    <text x="420" y="288" text-anchor="middle" class="node-sub">tools + system prompt</text>
+  </g>
+  <g>
+    <rect x="310" y="348" width="220" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-dasharray="4 3" stroke-width="1.5"/>
+    <text x="420" y="374" text-anchor="middle" class="node-title">tool_calls returned?</text>
+    <text x="420" y="390" text-anchor="middle" class="node-sub">Gemini's decision</text>
+  </g>
+  <g>
+    <rect x="310" y="448" width="220" height="72" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="420" y="472" text-anchor="middle" class="node-title">mcp_bridge.call_tool()</text>
+    <text x="420" y="488" text-anchor="middle" class="node-sub"><tspan x="420" dy="0">reads data/portfolio.json</tspan><tspan x="420" dy="12">fresh, every call</tspan></text>
+  </g>
+  <g>
+    <rect x="580" y="348" width="200" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="680" y="374" text-anchor="middle" class="node-title">Final text ready</text>
+    <text x="680" y="390" text-anchor="middle" class="node-sub">+ tool_calls log</text>
+  </g>
+
+  <path d="M420,110 L420,156" class="edge" marker-end="url(#arrow1)"/>
+  <path d="M420,212 L420,248" class="edge" marker-end="url(#arrow1)"/>
+  <path d="M420,312 L420,348" class="edge" marker-end="url(#arrow1)"/>
+  <path d="M420,408 L420,448" class="edge" marker-end="url(#arrow1)"/>
+  <rect x="428" y="422" width="30" height="14" class="edge-label-bg"/>
+  <text x="432" y="432" class="edge-label">yes</text>
+  <path d="M530,378 L580,378" class="edge" marker-end="url(#arrow1)"/>
+  <rect x="536" y="359" width="24" height="14" class="edge-label-bg"/>
+  <text x="539" y="369" class="edge-label">no</text>
+  <path d="M310,484 C285,484 285,280 310,280" class="edge" marker-end="url(#arrow1)"/>
+  <rect x="140" y="375" width="290" height="14" class="edge-label-bg" transform="rotate(-90 285 382)"/>
+  <text x="285" y="386" text-anchor="middle" class="edge-label" transform="rotate(-90 285 382)">append result · round++ (≤ MAX_TOOL_ROUNDS)</text>
+
+  <path d="M780,378 C806,378 806,184 830,184" class="edge" marker-end="url(#arrow1)"/>
+
+  <!-- CLEANUP nodes -->
+  <g>
+    <rect x="840" y="156" width="220" height="56" rx="10" fill="var(--surface)" stroke="var(--phase-cleanup)" stroke-width="1.5"/>
+    <text x="950" y="179" text-anchor="middle" class="node-title">Response → browser</text>
+    <text x="950" y="195" text-anchor="middle" class="node-sub">reply + tool_calls</text>
+  </g>
+  <g>
+    <rect x="840" y="248" width="220" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-cleanup)" stroke-width="1.5"/>
+    <text x="950" y="272" text-anchor="middle" class="node-title">Per-request history</text>
+    <text x="950" y="288" text-anchor="middle" class="node-sub">discarded server-side only</text>
+  </g>
+  <g>
+    <rect x="840" y="344" width="220" height="72" rx="10" fill="var(--surface)" stroke="var(--phase-cleanup)" stroke-width="1.5"/>
+    <text x="950" y="368" text-anchor="middle" class="node-title">MCP session stays open</text>
+    <text x="950" y="384" text-anchor="middle" class="node-sub"><tspan x="950" dy="0">NOT torn down —</tspan><tspan x="950" dy="12">reused by next request</tspan></text>
+  </g>
+  <g>
+    <rect x="840" y="452" width="220" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-cleanup)" stroke-width="1.5"/>
+    <text x="950" y="476" text-anchor="middle" class="node-title">Subprocess terminated</text>
+    <text x="950" y="492" text-anchor="middle" class="node-sub">only at FastAPI shutdown</text>
+  </g>
+
+  <path d="M950,212 L950,248" class="edge" marker-end="url(#arrow1)"/>
+  <path d="M950,308 L950,344" class="edge" marker-end="url(#arrow1)"/>
+  <path d="M950,416 L950,452" class="edge" marker-end="url(#arrow1)"/>
+
+  <!-- frontend replay loop: the browser, not the server, keeps the conversation -->
+  <path d="M1060,184 L1120,184 L1120,556 L290,556 L290,82 L300,82" class="edge" marker-end="url(#arrow1)"/>
+  <rect x="560" y="37" width="290" height="15" class="edge-label-bg"/>
+  <text x="566" y="48" class="edge-label">assistant reply appended to messages[] → resent whole, next turn</text>
+</svg>

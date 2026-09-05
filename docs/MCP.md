@@ -5,6 +5,8 @@ Protocol (MCP): what the server exposes, why each primitive exists, how the
 pieces connect at runtime, and how to extend it. See [README.md](../README.md)
 for setup and [DEPLOYMENT.md](DEPLOYMENT.md) for hosting.
 
+![Chat to MCP to response flow, showing connect, execute, and cleanup phases](diagrams/chat-mcp-response.svg)
+
 ## Why MCP here at all
 
 The point of this project is to demonstrate MCP, not just to build a chatbot.

@@ -9,6 +9,8 @@ approve, reject, or request a revision before anything is posted.
 
 Nothing here publishes automatically. See [Human review](#human-review--publishing) below.
 
+![Research workflow and agents, showing connect, execute, and cleanup phases](diagrams/workflow-agents.svg)
+
 For the conceptual "what actually makes this a workflow, and what makes
 the agent parts agentic" question — with exact code citations — see
 **[docs/WORKFLOW_VS_AGENTIC_AI.md](WORKFLOW_VS_AGENTIC_AI.md)**. This doc

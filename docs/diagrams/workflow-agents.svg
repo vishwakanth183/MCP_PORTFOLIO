@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 880" font-family="'IBM Plex Sans', -apple-system, sans-serif" role="img"
+     aria-label="Research workflow and agents, in three phases. CONNECT: either a daily cron at 07:00, or a human clicking Run Research Now in the admin page, triggers purge_stale_runs first — the same cleanup function shown in the CLEANUP band — before an MCP session is ready, either as its own research_agent.py process for the cron path or the FastAPI process's already-open session for the manual path. EXECUTE: the research agent's tool-calling loop, bounded at 5 rounds, picks RSS and PortfolioMCP tools and saves a ResearchRun as a plain JSON file under data/runs on local disk, with each recommendation starting in GENERATED status — there is no database and no in-memory cache. A human in the admin UI either dismisses a recommendation, which is cleaned up immediately, or selects one, moving it to SELECTED, which runs the content agent to produce a draft, auto-validates it, and saves it to the drafts folder, also on local disk. A second human review then approves, rejects, or requests revision, and a revision request loops back into the content agent with accumulated feedback. CLEANUP has three separate mechanisms: remove_recommendation deletes a dismissed recommendation and any orphaned draft immediately, mark_posted deletes the entire run and draft the instant an approved draft is marked posted, and purge_stale_runs deletes a whole day's directory after 7 days unless it still holds an approved draft — and purge_stale_runs itself only ever runs at the moment a new research run is triggered, from either CONNECT entry point, never on an independent schedule.">
+  <style>
+    :root{
+      --ink:#17212b; --ink-soft:#4b5a68; --surface:#ffffff;
+      --phase-connect:#35618c; --phase-execute:#a8641f; --phase-cleanup:#7d4568;
+      --band-connect-bg:#e7eef6; --band-execute-bg:#f7ecdd; --band-cleanup-bg:#f3e8ef;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --ink:#e7ecec; --ink-soft:#a9b7bb; --surface:#182226;
+        --phase-connect:#6fa3d8; --phase-execute:#e0a35c; --phase-cleanup:#c988b0;
+        --band-connect-bg:#1b2733; --band-execute-bg:#2b2418; --band-cleanup-bg:#2a1f27;
+      }
+    }
+    text{ fill:var(--ink); }
+    .node-title{ font-weight:600; font-size:13px; }
+    .node-sub{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10.5px; fill:var(--ink-soft); }
+    .band-label{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:12px; font-weight:600; letter-spacing:0.12em; }
+    .edge-label{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:10.5px; fill:var(--ink-soft); }
+    .edge-label-bg{ fill:var(--surface); opacity:0.94; }
+    .edge{ stroke:var(--ink-soft); stroke-width:1.5; fill:none; }
+  </style>
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-soft)"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="260" height="880" fill="var(--band-connect-bg)"/>
+  <rect x="260" y="0" width="760" height="880" fill="var(--band-execute-bg)"/>
+  <rect x="1020" y="0" width="280" height="880" fill="var(--band-cleanup-bg)"/>
+
+  <text x="130" y="26" text-anchor="middle" class="band-label" fill="var(--phase-connect)">CONNECT</text>
+  <text x="640" y="26" text-anchor="middle" class="band-label" fill="var(--phase-execute)">EXECUTE — the pipeline</text>
+  <text x="1160" y="26" text-anchor="middle" class="band-label" fill="var(--phase-cleanup)">CLEANUP</text>
+
+  <!-- CONNECT: two entry points converge on the same purge step -->
+  <g>
+    <rect x="10" y="50" width="115" height="74" rx="10" fill="var(--surface)" stroke="var(--phase-connect)" stroke-width="1.5"/>
+    <text x="67" y="76" text-anchor="middle" class="node-title"><tspan x="67" dy="0">Cron</tspan><tspan x="67" dy="14">07:00 daily</tspan></text>
+    <text x="67" y="110" text-anchor="middle" class="node-sub">scheduled-tasks job</text>
+  </g>
+  <g>
+    <rect x="135" y="50" width="115" height="74" rx="10" fill="var(--surface)" stroke="var(--phase-connect)" stroke-width="1.5"/>
+    <text x="192" y="76" text-anchor="middle" class="node-title">Manual trigger</text>
+    <text x="192" y="94" text-anchor="middle" class="node-sub">/admin "Run</text>
+    <text x="192" y="107" text-anchor="middle" class="node-sub">Research Now"</text>
+  </g>
+  <path d="M67,124 L67,150" class="edge" marker-end="url(#arrow2)"/>
+  <path d="M192,124 L192,150" class="edge" marker-end="url(#arrow2)"/>
+  <g>
+    <rect x="10" y="150" width="240" height="58" rx="10" fill="var(--surface)" stroke="var(--phase-connect)" stroke-width="1.5"/>
+    <text x="130" y="172" text-anchor="middle" class="node-title">purge_stale_runs() first</text>
+    <text x="130" y="188" text-anchor="middle" class="node-sub">same fn detailed under CLEANUP →</text>
+  </g>
+  <path d="M130,208 L130,230" class="edge" marker-end="url(#arrow2)"/>
+  <g>
+    <rect x="10" y="230" width="240" height="68" rx="10" fill="var(--surface)" stroke="var(--phase-connect)" stroke-width="1.5"/>
+    <text x="130" y="252" text-anchor="middle" class="node-title">MCP session ready</text>
+    <text x="130" y="268" text-anchor="middle" class="node-sub"><tspan x="130" dy="0">own process (cron) or</tspan><tspan x="130" dy="13">reused session (manual)</tspan></text>
+  </g>
+  <path d="M250,264 C275,264 275,98 300,98" class="edge" marker-end="url(#arrow2)"/>
+
+  <!-- EXECUTE pipeline -->
+  <g>
+    <rect x="300" y="60" width="230" height="76" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="415" y="84" text-anchor="middle" class="node-title">agent_runtime loop</text>
+    <text x="415" y="100" text-anchor="middle" class="node-sub"><tspan x="415" dy="0">≤ 5 rounds · picks RSS/news</tspan><tspan x="415" dy="12">+ PortfolioMCP tools</tspan></text>
+  </g>
+  <g>
+    <rect x="300" y="170" width="230" height="70" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="415" y="192" text-anchor="middle" class="node-title">ResearchRun saved</text>
+    <text x="415" y="208" text-anchor="middle" class="node-sub"><tspan x="415" dy="0">data/runs/&lt;date&gt;/recommendations.json</tspan><tspan x="415" dy="12">status = GENERATED</tspan></text>
+  </g>
+  <g>
+    <rect x="616" y="164" width="344" height="86" rx="8" fill="var(--surface)" stroke="var(--ink-soft)" stroke-dasharray="3 3" stroke-width="1.2"/>
+    <text x="788" y="184" text-anchor="middle" class="node-sub" font-style="italic"><tspan x="788" dy="0">Where does this actually live?</tspan><tspan x="788" dy="15">Plain JSON files on local disk —</tspan><tspan x="788" dy="13">the machine running FastAPI (or the</tspan><tspan x="788" dy="13">cron script). No database, no cache.</tspan></text>
+  </g>
+  <path d="M530,205 L616,205" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
+  <g>
+    <rect x="300" y="274" width="230" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="415" y="298" text-anchor="middle" class="node-title">Human in /admin selects</text>
+    <text x="415" y="314" text-anchor="middle" class="node-sub">status → SELECTED</text>
+  </g>
+  <g>
+    <rect x="300" y="368" width="230" height="60" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="415" y="392" text-anchor="middle" class="node-title">content_agent.py runs</text>
+    <text x="415" y="408" text-anchor="middle" class="node-sub">agent_runtime · PortfolioMCP only</text>
+  </g>
+  <g>
+    <rect x="300" y="462" width="230" height="70" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="415" y="484" text-anchor="middle" class="node-title">Draft generated + validated</text>
+    <text x="415" y="500" text-anchor="middle" class="node-sub"><tspan x="415" dy="0">validate_draft() auto-runs</tspan><tspan x="415" dy="12">GENERATED → VALIDATED</tspan></text>
+  </g>
+  <g>
+    <rect x="300" y="566" width="230" height="56" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="415" y="589" text-anchor="middle" class="node-title">Saved to drafts/&lt;id&gt;.json</text>
+    <text x="415" y="605" text-anchor="middle" class="node-sub">one file per draft</text>
+  </g>
+  <g>
+    <rect x="300" y="656" width="230" height="56" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-dasharray="4 3" stroke-width="1.5"/>
+    <text x="415" y="679" text-anchor="middle" class="node-title">Human review in /admin</text>
+    <text x="415" y="695" text-anchor="middle" class="node-sub">approve · reject · revise</text>
+  </g>
+  <g>
+    <rect x="300" y="756" width="230" height="56" rx="10" fill="var(--surface)" stroke="var(--phase-execute)" stroke-width="1.5"/>
+    <text x="415" y="779" text-anchor="middle" class="node-title">status → APPROVED</text>
+    <text x="415" y="795" text-anchor="middle" class="node-sub">ready to mark posted</text>
+  </g>
+
+  <path d="M415,136 L415,170" class="edge" marker-end="url(#arrow2)"/>
+  <path d="M415,240 L415,274" class="edge" marker-end="url(#arrow2)"/>
+  <path d="M415,334 L415,368" class="edge" marker-end="url(#arrow2)"/>
+  <path d="M415,428 L415,462" class="edge" marker-end="url(#arrow2)"/>
+  <path d="M415,532 L415,566" class="edge" marker-end="url(#arrow2)"/>
+  <path d="M415,622 L415,656" class="edge" marker-end="url(#arrow2)"/>
+  <path d="M415,712 L415,756" class="edge" marker-end="url(#arrow2)"/>
+  <rect x="428" y="732" width="66" height="14" class="edge-label-bg"/>
+  <text x="432" y="742" class="edge-label">APPROVE</text>
+
+  <!-- revision loop -->
+  <path d="M300,684 C272,684 272,398 300,398" class="edge" marker-end="url(#arrow2)"/>
+  <rect x="123" y="533" width="298" height="14" class="edge-label-bg" transform="rotate(-90 272 540)"/>
+  <text x="272" y="544" text-anchor="middle" class="edge-label" transform="rotate(-90 272 540)">REQUEST REVISION · feedback accumulates</text>
+
+  <!-- dismiss branch -->
+  <path d="M530,304 C760,304 900,340 1020,346" class="edge" marker-end="url(#arrow2)"/>
+  <rect x="636" y="286" width="58" height="14" class="edge-label-bg"/>
+  <text x="640" y="296" class="edge-label">dismiss</text>
+
+  <!-- reject branch -->
+  <path d="M530,690 C760,690 900,640 1020,624" class="edge" marker-end="url(#arrow2)"/>
+  <rect x="636" y="702" width="58" height="14" class="edge-label-bg"/>
+  <text x="640" y="712" class="edge-label">REJECT</text>
+
+  <!-- aging / no-action dashed branch -->
+  <path d="M530,600 C760,600 900,610 1020,614" stroke="var(--ink-soft)" stroke-width="1.3" stroke-dasharray="3 4" fill="none" marker-end="url(#arrow2)"/>
+  <rect x="696" y="582" width="112" height="14" class="edge-label-bg"/>
+  <text x="700" y="592" class="edge-label">no action · 7 days</text>
+
+  <!-- approved -> mark_posted -->
+  <path d="M530,782 C760,782 900,800 1020,798" class="edge" marker-end="url(#arrow2)"/>
+  <rect x="636" y="764" width="50" height="14" class="edge-label-bg"/>
+  <text x="640" y="774" class="edge-label">posted</text>
+
+  <!-- CLEANUP -->
+  <g>
+    <rect x="1030" y="266" width="250" height="86" rx="10" fill="var(--surface)" stroke="var(--phase-cleanup)" stroke-width="1.5"/>
+    <text x="1155" y="290" text-anchor="middle" class="node-title">remove_recommendation()</text>
+    <text x="1155" y="306" text-anchor="middle" class="node-sub"><tspan x="1155" dy="0">deletes it now, cascades</tspan><tspan x="1155" dy="12">to any orphaned draft</tspan></text>
+  </g>
+  <g>
+    <rect x="1030" y="556" width="250" height="108" rx="10" fill="var(--surface)" stroke="var(--phase-cleanup)" stroke-width="1.5"/>
+    <text x="1155" y="580" text-anchor="middle" class="node-title">purge_stale_runs()</text>
+    <text x="1155" y="596" text-anchor="middle" class="node-sub"><tspan x="1155" dy="0">triggered from CONNECT only —</tspan><tspan x="1155" dy="13">cron or "Run Research Now",</tspan><tspan x="1155" dy="13">never its own timer. Deletes a</tspan><tspan x="1155" dy="13">day dir &gt;7d old, no APPROVED</tspan></text>
+  </g>
+  <g>
+    <rect x="1030" y="758" width="250" height="80" rx="10" fill="var(--surface)" stroke="var(--phase-cleanup)" stroke-width="1.5"/>
+    <text x="1155" y="782" text-anchor="middle" class="node-title">mark_posted()</text>
+    <text x="1155" y="798" text-anchor="middle" class="node-sub"><tspan x="1155" dy="0">run + draft deleted</tspan><tspan x="1155" dy="12">the instant it's posted</tspan></text>
+  </g>
+</svg>
