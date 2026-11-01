@@ -27,6 +27,16 @@ def get_skills(category: Optional[str] = None) -> dict:
 
 
 @mcp.tool()
+def get_system_design() -> dict:
+    """Return the candidate's cloud and system design expertise: GCP toolset,
+    high-level and low-level design focus areas, and design case studies.
+    This is design-level expertise, not a record of production deployments;
+    `applied_in` notes where a pattern is used in a personal project.
+    """
+    return load_data().get("system_design", {})
+
+
+@mcp.tool()
 def get_projects(name: Optional[str] = None) -> list:
     """Return the candidate's projects.
 
@@ -71,6 +81,7 @@ def search_profile(query: str) -> dict:
     for section in (
         "profile",
         "skills",
+        "system_design",
         "experience",
         "projects",
         "education",
@@ -98,6 +109,12 @@ def profile_resource() -> str:
 def skills_resource() -> str:
     """The candidate's full skills breakdown by category."""
     return json.dumps(load_data().get("skills", {}), indent=2)
+
+
+@mcp.resource("portfolio://system_design")
+def system_design_resource() -> str:
+    """The candidate's cloud and system design expertise (GCP, HLD, LLD)."""
+    return json.dumps(load_data().get("system_design", {}), indent=2)
 
 
 @mcp.resource("portfolio://experience")

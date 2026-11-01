@@ -4,6 +4,7 @@ import CodingAvatar from "@/components/CodingAvatar";
 import ContactForm from "@/components/ContactForm";
 import Nav from "@/components/Nav";
 import RoleRotator from "@/components/RoleRotator";
+import SkillsSection from "@/components/SkillsSection";
 import {
   getPortfolio,
   type Experience,
@@ -67,13 +68,6 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
-function GradientPill({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="rounded-full bg-gradient-to-r from-[var(--accent-from)] via-[var(--accent-via)] to-[var(--accent-to)] px-3 py-1 text-xs font-medium text-white shadow shadow-[var(--accent-via)]/30">
-      {children}
-    </span>
-  );
-}
 
 
 function ExperienceCard({ exp }: { exp: Experience }) {
@@ -250,14 +244,15 @@ function ProjectCard({
 }
 
 function PortfolioContent({ data }: { data: PortfolioData }) {
-  const { profile, skills, experience, projects, target_roles, certifications } =
-    data;
-  const keySkills = skills.key_skills ?? [];
-  const recentSkills = skills.recent_skills ?? [];
-  const skillCategories = Object.entries(skills).filter(
-    ([key, values]) =>
-      values.length > 0 && key !== "key_skills" && key !== "recent_skills"
-  );
+  const {
+    profile,
+    skills,
+    system_design,
+    experience,
+    projects,
+    target_roles,
+    certifications,
+  } = data;
   const professionalProjects = projects.filter(
     (p) => p.company !== "Personal Project"
   );
@@ -360,72 +355,6 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
         </section>
       )}
 
-      {/* Skills */}
-      {skillCategories.length > 0 && (
-        <section id="skills" className="flex flex-col gap-8 py-16">
-          <SectionHeading eyebrow="Toolbox" title="Skills" />
-
-          {(keySkills.length > 0 || recentSkills.length > 0) && (
-            <div className="card flex flex-col gap-4 rounded-2xl p-6">
-              {keySkills.length > 0 && (
-                <div className="grid grid-cols-[5rem_1fr] gap-3 sm:grid-cols-[6rem_1fr]">
-                  <span className="pt-1 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
-                    Key
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {keySkills.map((v) => (
-                      <Pill key={v}>{v}</Pill>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {recentSkills.length > 0 && (
-                <div className="grid grid-cols-[5rem_1fr] gap-3 sm:grid-cols-[6rem_1fr]">
-                  <span className="pt-1 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]">
-                    Recent
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {recentSkills.map((v) => (
-                      <GradientPill key={v}>{v}</GradientPill>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          <div className="card flex flex-col gap-4 rounded-2xl p-6">
-            {skillCategories.map(([category, values]) => (
-              <div
-                key={category}
-                className="grid grid-cols-[5rem_1fr] gap-3 sm:grid-cols-[6rem_1fr]"
-              >
-                <span className="pt-1 text-xs font-semibold uppercase tracking-wide text-[var(--accent-via)]">
-                  {category}
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {values.map((v) => (
-                    <Pill key={v}>{v}</Pill>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Certifications */}
-      {certifications.length > 0 && (
-        <section id="certifications" className="flex flex-col gap-8 py-16">
-          <SectionHeading eyebrow="Credentials" title="Certifications" />
-          <p className="-mt-4 text-xs text-[var(--muted)]">
-            Anthropic, Google Cloud and Microsoft credentials highlighted —
-            tap any card to open its verification link.
-          </p>
-          <CertificationsScroller certifications={certifications} />
-        </section>
-      )}
-
       {/* Projects */}
       {professionalProjects.length > 0 && (
         <section id="projects" className="flex flex-col gap-8 py-16">
@@ -454,6 +383,30 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           </div>
         </section>
       )}
+      {/* Skills */}
+      <section id="skills" className="flex flex-col gap-8 py-16">
+        <SectionHeading eyebrow="Toolbox" title="Skills" />
+        <SkillsSection
+          skills={skills}
+          systemDesign={system_design}
+          experience={experience}
+          projects={projects}
+          certifications={certifications}
+        />
+      </section>
+
+      {/* Certifications */}
+      {certifications.length > 0 && (
+        <section id="certifications" className="flex flex-col gap-8 py-16">
+          <SectionHeading eyebrow="Credentials" title="Certifications" />
+          <p className="-mt-4 text-xs text-[var(--muted)]">
+            Anthropic, Google Cloud and Microsoft credentials highlighted —
+            tap any card to open its verification link.
+          </p>
+          <CertificationsScroller certifications={certifications} />
+        </section>
+      )}
+
       </div>
 
       {/* Chat — sticky alongside the content on large screens. Capped to

@@ -32,8 +32,26 @@ export type Position = {
   achievements: string[];
 };
 
+export type FocusArea = {
+  title: string;
+  points: string[];
+  tools: string[];
+  // Where a personal project already uses the pattern; empty if nowhere.
+  applied_in: string;
+  link: string;
+};
+
+export type SystemDesign = {
+  summary: string;
+  focus_areas: FocusArea[];
+  case_studies: string[];
+  gcp_toolset: { group: string; items: string[] }[];
+};
+
 export type Experience = {
   company: string;
+  // Compact label for "used at" evidence in Skills, e.g. "TCS".
+  short_name?: string;
   // Previous legal name after a rename; shown small under the company.
   formerly?: string;
   role: string;
@@ -73,6 +91,7 @@ export type Project = {
 export type PortfolioData = {
   profile: Profile;
   skills: Skills;
+  system_design?: SystemDesign;
   experience: Experience[];
   projects: Project[];
   target_roles: string[];

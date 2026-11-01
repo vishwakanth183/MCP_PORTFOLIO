@@ -13,21 +13,71 @@
     "github": "https://github.com/vishwakanth183"
   },
   "skills": {
-    "key_skills": ["React", "Next.js", "Node.js", "TypeScript", "React Native", "AWS", "GCP", "Model Context Protocol (MCP)"],
-    "recent_skills": ["AI Fluency", "Claude API", "Model Context Protocol (MCP)", "FastMCP", "FastAPI", "Agent Skills"],
-    "frontend": ["React", "Next.js", "TypeScript", "Redux", "Higher-Order Components (HOCs)", "Tailwind CSS", "Bootstrap", "Material UI", "Framer Motion", "HTML/CSS"],
-    "backend": ["Node.js", "Nest.js", "FastAPI", "Python", "Microservices", "REST APIs"],
-    "mobile": ["React Native"],
-    "databases": ["SQL", "NoSQL"],
-    "cloud": ["AWS", "GCP (Google Cloud Platform)"],
-    "devops": ["Docker", "Jenkins", "GitHub Actions", "CI/CD Pipelines", "Kubernetes"],
-    "testing": ["Jest"],
-    "tools": ["Git", "GitHub", "Agile/Scrum", "Skillrack"],
-    "ai": ["AI Fluency", "Model Context Protocol (MCP)", "FastMCP", "Claude API", "Google Gemini API", "Agent Skills", "Google Cloud Generative AI"]
+    "key_skills": ["React", "Next.js", "TypeScript", "Node.js", "Nest.js", "React Native", "AWS", "GCP"],
+    "frontend": ["React", "Next.js", "TypeScript", "JavaScript", "Redux", "Tailwind CSS", "Material UI", "Framer Motion", "Bootstrap", "HTML/CSS"],
+    "backend": ["Node.js", "Nest.js", "FastAPI", "Python", "REST APIs", "Microservices"],
+    "mobile": ["React Native", "Play Store & App Store releases", "Push notifications"],
+    "data": ["PostgreSQL", "SQL", "NoSQL", "Firestore", "Redis"],
+    "cloud_devops": ["AWS", "GCP", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD pipelines", "Jest", "Git"],
+    "ai": ["Claude API", "Model Context Protocol (MCP)", "FastMCP", "Google Gemini API", "Agent workflows", "Agent Skills"],
+    "system_design": ["High-level design (HLD)", "Low-level design (LLD)", "Load balancing & CDN", "API gateways & rate limiting", "Caching", "Database scaling & sharding", "Event-driven architecture", "CAP trade-offs", "Observability"]
+  },
+  "system_design": {
+    "summary": "Design-level expertise in scalable systems on Google Cloud: choosing compute, edge, data and messaging building blocks for a workload, and reasoning about their trade-offs.",
+    "focus_areas": [
+      {
+        "title": "Edge, load balancing & API management",
+        "points": [
+          "One load balancer entry point with health checks and URL-map routing; Cloud CDN enabled per backend, with versioned assets and long TTLs.",
+          "API Gateway for auth, API keys, rate limits and versioning; autoscaling across LB health checks, HPA and Cluster Autoscaler, with rate limiting and pre-scaling for known spikes."
+        ],
+        "tools": ["Cloud Load Balancing", "Cloud CDN", "API Gateway", "GKE"],
+        "applied_in": "",
+        "link": ""
+      },
+      {
+        "title": "Database scaling & sharding",
+        "points": [
+          "Scaling ladder: indexes, cache, read replicas, vertical scaling, then sharding.",
+          "Bucket-based sharding (user UUID mod 1024) with a shard_map, so adding a shard moves whole buckets and never rehashes a user; per-bucket freeze, catch-up and flip cutover rolled out in waves."
+        ],
+        "tools": ["Cloud SQL", "Read replicas", "Cloud Run jobs"],
+        "applied_in": "VJourney trips carry a bucket key (hash(id) % 1024) for future sharding.",
+        "link": ""
+      },
+      {
+        "title": "Event-driven design, caching & data choices",
+        "points": [
+          "Publish/subscribe fan-out with retries, idempotent consumers and dead-letter queues, so a slow consumer never blocks the main flow.",
+          "Cache-aside with TTLs and invalidation; choosing Cloud SQL, Spanner, Firestore, Bigtable, BigQuery or Memorystore by access pattern."
+        ],
+        "tools": ["Pub/Sub", "Cloud Functions", "Memorystore", "Firestore", "BigQuery"],
+        "applied_in": "VJourney uses cache-aside reads on Redis and a Redis Streams consumer group for join notifications.",
+        "link": ""
+      },
+      {
+        "title": "Low-level design (Python)",
+        "points": [
+          "OOP, SOLID and design patterns (Strategy, Factory, Observer, Singleton, State).",
+          "Parking Lot, Vending Machine, BookMyShow seat locking, LRU Cache, Rate Limiter and Splitwise designed from requirements to classes and code."
+        ],
+        "tools": ["Python", "abc interfaces", "Design patterns"],
+        "applied_in": "VJourney's seat booking uses Postgres row locks so concurrent joins cannot oversell.",
+        "link": ""
+      }
+    ],
+    "case_studies": ["URL Shortener", "WhatsApp", "Uber", "YouTube", "Flipkart", "Spotify", "Swiggy"],
+    "gcp_toolset": [
+      { "group": "Compute & delivery", "items": ["Cloud Run", "GKE", "Artifact Registry"] },
+      { "group": "Edge & networking", "items": ["Cloud Load Balancing", "Cloud CDN", "API Gateway", "Cloud Storage"] },
+      { "group": "Data", "items": ["Cloud SQL", "Spanner", "Firestore", "Bigtable", "BigQuery", "Memorystore"] },
+      { "group": "Events & operations", "items": ["Pub/Sub", "Cloud Functions", "Cloud Logging", "Cloud Monitoring"] }
+    ]
   },
   "experience": [
     {
       "company": "NerdyLabs Pvt Ltd",
+      "short_name": "NerdyLabs",
       "formerly": "Maghilhub Pvt Ltd",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
@@ -82,6 +132,7 @@
     },
     {
       "company": "Tata Consultancy Services (Client: Toyota)",
+      "short_name": "TCS",
       "role": "Systems Engineer (Frontend Developer)",
       "start_date": "2024-08-14",
       "end_date": "2026-03-06",
@@ -110,6 +161,7 @@
     },
     {
       "company": "Centizen Inc",
+      "short_name": "Centizen",
       "role": "Software Developer / Lead",
       "start_date": "2021-01-18",
       "end_date": "2024-08-08",

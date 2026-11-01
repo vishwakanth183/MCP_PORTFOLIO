@@ -4,9 +4,9 @@ import { useState } from "react";
 
 const LINKS = [
   { href: "#experience", label: "Experience" },
+  { href: "#projects", label: "Projects" },
   { href: "#skills", label: "Skills" },
   { href: "#certifications", label: "Certifications" },
-  { href: "#projects", label: "Projects" },
   { href: "#chat", label: "Ask AI" },
   { href: "#contact", label: "Contact" },
 ];
