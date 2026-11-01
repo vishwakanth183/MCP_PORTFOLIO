@@ -176,11 +176,14 @@ function ExperienceCard({ exp }: { exp: Experience }) {
 function ProjectCard({
   project,
   variant = "professional",
+  showCode = true,
 }: {
   project: Project;
   variant?: "professional" | "personal";
+  showCode?: boolean;
 }) {
   const isPersonal = variant === "personal";
+  const codeUrl = showCode ? project.links.github : "";
 
   return (
     <div
@@ -218,7 +221,7 @@ function ProjectCard({
           )}
         </div>
       )}
-      {(project.links.live || project.links.github) && (
+      {(project.links.live || codeUrl) && (
         <div className="mt-auto flex gap-4 pt-3 text-sm">
           {project.links.live && (
             <a
@@ -230,9 +233,9 @@ function ProjectCard({
               Live ↗
             </a>
           )}
-          {project.links.github && (
+          {codeUrl && (
             <a
-              href={project.links.github}
+              href={codeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-[var(--foreground)] underline underline-offset-4 hover:text-[var(--accent-via)]"
@@ -261,6 +264,9 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
   const personalProjects = projects.filter(
     (p) => p.company === "Personal Project"
   );
+  // Side-by-side cards look uneven when only some have a Code link (private
+  // repos), so show Code only when every personal project has one.
+  const showPersonalCode = personalProjects.every((p) => p.links.github);
   const latestRole = experience[0];
   const year = new Date().getFullYear();
 
@@ -441,7 +447,12 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           <SectionHeading eyebrow="Side builds" title="Personal Projects" />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {personalProjects.map((p, i) => (
-              <ProjectCard key={i} project={p} variant="personal" />
+              <ProjectCard
+                key={i}
+                project={p}
+                variant="personal"
+                showCode={showPersonalCode}
+              />
             ))}
           </div>
         </section>
