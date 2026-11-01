@@ -20,59 +20,36 @@
     "data": ["PostgreSQL", "SQL", "NoSQL", "Firestore", "Redis"],
     "cloud_devops": ["AWS", "GCP", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD pipelines", "Jest", "Git"],
     "ai": ["Claude API", "Model Context Protocol (MCP)", "FastMCP", "Google Gemini API", "Agent workflows", "Agent Skills"],
-    "system_design": ["High-level design (HLD)", "Low-level design (LLD)", "Load balancing & CDN", "API gateways & rate limiting", "Caching", "Database scaling & sharding", "Event-driven architecture", "CAP trade-offs", "Observability"]
+    "system_design": ["High-level design", "Low-level design", "Load balancing & CDN", "Caching", "Database scaling & sharding", "Event-driven architecture"]
   },
   "system_design": {
-    "summary": "Design-level expertise in scalable systems on Google Cloud: choosing compute, edge, data and messaging building blocks for a workload, and reasoning about their trade-offs.",
+    "summary": "Designing scalable systems on Google Cloud and reasoning about their trade-offs.",
     "focus_areas": [
       {
-        "title": "Edge, load balancing & API management",
-        "points": [
-          "One load balancer entry point with health checks and URL-map routing; Cloud CDN enabled per backend, with versioned assets and long TTLs.",
-          "API Gateway for auth, API keys, rate limits and versioning; autoscaling across LB health checks, HPA and Cluster Autoscaler, with rate limiting and pre-scaling for known spikes."
-        ],
-        "tools": ["Cloud Load Balancing", "Cloud CDN", "API Gateway", "GKE"],
+        "title": "Edge, load balancing & APIs",
+        "summary": "Load balancer with health checks and URL maps, Cloud CDN per backend, API Gateway for auth and rate limits.",
+        "tools": ["Cloud Load Balancing", "Cloud CDN", "API Gateway"],
         "applied_in": "",
         "link": ""
       },
       {
         "title": "Database scaling & sharding",
-        "points": [
-          "Scaling ladder: indexes, cache, read replicas, vertical scaling, then sharding.",
-          "Bucket-based sharding (user UUID mod 1024) with a shard_map, so adding a shard moves whole buckets and never rehashes a user; per-bucket freeze, catch-up and flip cutover rolled out in waves."
-        ],
+        "summary": "Indexes, cache and replicas first; then bucket-based sharding where adding a shard never rehashes a user.",
         "tools": ["Cloud SQL", "Read replicas", "Cloud Run jobs"],
         "applied_in": "VJourney trips carry a bucket key (hash(id) % 1024) for future sharding.",
         "link": ""
       },
       {
-        "title": "Event-driven design, caching & data choices",
-        "points": [
-          "Publish/subscribe fan-out with retries, idempotent consumers and dead-letter queues, so a slow consumer never blocks the main flow.",
-          "Cache-aside with TTLs and invalidation; choosing Cloud SQL, Spanner, Firestore, Bigtable, BigQuery or Memorystore by access pattern."
-        ],
-        "tools": ["Pub/Sub", "Cloud Functions", "Memorystore", "Firestore", "BigQuery"],
-        "applied_in": "VJourney uses cache-aside reads on Redis and a Redis Streams consumer group for join notifications.",
-        "link": ""
-      },
-      {
-        "title": "Low-level design (Python)",
-        "points": [
-          "OOP, SOLID and design patterns (Strategy, Factory, Observer, Singleton, State).",
-          "Parking Lot, Vending Machine, BookMyShow seat locking, LRU Cache, Rate Limiter and Splitwise designed from requirements to classes and code."
-        ],
-        "tools": ["Python", "abc interfaces", "Design patterns"],
-        "applied_in": "VJourney's seat booking uses Postgres row locks so concurrent joins cannot oversell.",
+        "title": "Event-driven & caching",
+        "summary": "Pub/Sub fan-out with idempotent consumers and dead-letter queues; cache-aside with TTLs and invalidation.",
+        "tools": ["Pub/Sub", "Memorystore", "Firestore", "BigQuery"],
+        "applied_in": "VJourney uses cache-aside reads on Redis and a Redis Streams consumer group.",
         "link": ""
       }
     ],
-    "case_studies": ["URL Shortener", "WhatsApp", "Uber", "YouTube", "Flipkart", "Spotify", "Swiggy"],
-    "gcp_toolset": [
-      { "group": "Compute & delivery", "items": ["Cloud Run", "GKE", "Artifact Registry"] },
-      { "group": "Edge & networking", "items": ["Cloud Load Balancing", "Cloud CDN", "API Gateway", "Cloud Storage"] },
-      { "group": "Data", "items": ["Cloud SQL", "Spanner", "Firestore", "Bigtable", "BigQuery", "Memorystore"] },
-      { "group": "Events & operations", "items": ["Pub/Sub", "Cloud Functions", "Cloud Logging", "Cloud Monitoring"] }
-    ]
+    "lld": ["OOP & SOLID", "Design patterns", "Seat booking & locking", "LRU cache", "Rate limiter"],
+    "case_studies": ["URL Shortener", "WhatsApp", "Uber", "YouTube", "Flipkart", "Swiggy"],
+    "gcp_toolset": ["Cloud Run", "GKE", "Cloud SQL", "Spanner", "Firestore", "BigQuery", "Memorystore", "Pub/Sub", "Cloud CDN", "API Gateway"]
   },
   "experience": [
     {

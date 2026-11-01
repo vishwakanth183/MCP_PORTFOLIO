@@ -34,7 +34,7 @@ export type Position = {
 
 export type FocusArea = {
   title: string;
-  points: string[];
+  summary: string;
   tools: string[];
   // Where a personal project already uses the pattern; empty if nowhere.
   applied_in: string;
@@ -44,8 +44,9 @@ export type FocusArea = {
 export type SystemDesign = {
   summary: string;
   focus_areas: FocusArea[];
+  lld: string[];
   case_studies: string[];
-  gcp_toolset: { group: string; items: string[] }[];
+  gcp_toolset: string[];
 };
 
 export type Experience = {

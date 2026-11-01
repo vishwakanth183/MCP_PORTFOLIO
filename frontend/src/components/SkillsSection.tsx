@@ -133,18 +133,14 @@ export default function SkillsSection({
             <p className="text-sm text-[var(--muted)]">{systemDesign.summary}</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
             {systemDesign.focus_areas.map((area) => (
               <div
                 key={area.title}
                 className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-white/[0.03] p-4"
               >
                 <p className="text-sm font-semibold text-[var(--foreground)]">{area.title}</p>
-                <ul className="flex list-disc flex-col gap-1 pl-4 text-xs leading-5 text-[var(--muted)]">
-                  {area.points.map((pt) => (
-                    <li key={pt}>{pt}</li>
-                  ))}
-                </ul>
+                <p className="text-xs leading-5 text-[var(--muted)]">{area.summary}</p>
                 <div className="mt-auto flex flex-wrap gap-1.5 pt-1">
                   {area.tools.map((t) => (
                     <Chip key={t}>{t}</Chip>
@@ -171,30 +167,24 @@ export default function SkillsSection({
           </div>
 
           <div className="flex flex-col gap-2.5 border-t border-[var(--border)] pt-4">
-            {systemDesign.gcp_toolset.map((g) => (
-              <div key={g.group} className="grid grid-cols-1 gap-1.5 sm:grid-cols-[11.5rem_1fr] sm:gap-3">
-                <span className="pt-0.5 text-xs font-semibold text-[var(--foreground)]">
-                  GCP · {g.group}
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {g.items.map((i) => (
-                    <Chip key={i}>{i}</Chip>
-                  ))}
+            {(
+              [
+                ["GCP", systemDesign.gcp_toolset],
+                ["Low-level design", systemDesign.lld],
+                ["Case studies", systemDesign.case_studies],
+              ] as const
+            )
+              .filter(([, items]) => items.length > 0)
+              .map(([name, items]) => (
+                <div key={name} className="grid grid-cols-1 gap-1.5 sm:grid-cols-[8rem_1fr] sm:gap-3">
+                  <span className="pt-0.5 text-xs font-semibold text-[var(--foreground)]">{name}</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {items.map((i) => (
+                      <Chip key={i}>{i}</Chip>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-            {systemDesign.case_studies.length > 0 && (
-              <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-[11.5rem_1fr] sm:gap-3">
-                <span className="pt-0.5 text-xs font-semibold text-[var(--foreground)]">
-                  Design case studies
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {systemDesign.case_studies.map((c) => (
-                    <Chip key={c}>{c}</Chip>
-                  ))}
-                </div>
-              </div>
-            )}
+              ))}
           </div>
         </div>
       )}
