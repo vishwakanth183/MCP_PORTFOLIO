@@ -27,7 +27,8 @@
   },
   "experience": [
     {
-      "company": "NerdyLabs Pvt Ltd (formerly Maghilhub Pvt Ltd)",
+      "company": "NerdyLabs Pvt Ltd",
+      "formerly": "Maghilhub Pvt Ltd",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -291,21 +292,20 @@
     {
       "name": "VJourney",
       "company": "Personal Project",
-      "description": "A travel-companion web app for India: travellers host or join trips to a destination and split rent, fuel and toll. Built solo end to end on a zero-cost stack where every component maps to a GCP service.",
+      "description": "Travel-companion platform for India: host or join trips and split rent, fuel and toll. Built solo, end to end.",
       "role": "Personal Project (solo, full stack)",
       "start_date": "2026-10",
       "end_date": "Present",
-      "technologies": ["Next.js", "TypeScript", "FastAPI", "Python", "PostgreSQL (Neon)", "Firestore", "Firebase Auth", "Redis (Upstash)", "Redis Streams", "Docker", "GitHub Actions", "Vercel", "Render"],
+      "technologies": ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "Redis", "Firestore", "Docker", "GitHub Actions"],
       "responsibilities": [
         "Designed the data model, API, UI and deployment pipeline alone.",
-        "Split storage by consistency need: Postgres for trips, members, seats and cost split; Firestore for chat, gallery and notifications; Redis as a cache-aside layer."
+        "Split storage by consistency need: Postgres for trips, seats and cost split; Firestore for chat and notifications; Redis as a cache-aside layer.",
+        "Designed around free-tier limits, with a one-to-one migration path to GCP (Cloud Run, Cloud SQL, Pub/Sub, Memorystore)."
       ],
       "features": [
-        "Seat booking that never oversells: in a load test, 50 simultaneous joins on a 3-seat trip produced exactly 3 successes",
-        "Trip matching scored 0-100 on destination, date overlap and budget",
-        "Host join notifications delivered asynchronously through a Redis Stream consumer group",
-        "Per-trip group chat and direct messages, live via Firestore",
-        "Per-traveller cost split for rent, fuel and toll; Google sign-in via Firebase Auth"
+        "Concurrency-safe seat booking: 50 simultaneous joins on 3 seats gave exactly 3 confirmed",
+        "Match scoring (0-100) on destination, date overlap and budget",
+        "Event-driven join notifications through Redis Streams; live chat on Firestore"
       ],
       "achievements": [],
       "links": { "live": "https://v-journey.vercel.app", "github": "" }

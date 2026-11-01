@@ -34,6 +34,8 @@ export type Position = {
 
 export type Experience = {
   company: string;
+  // Previous legal name after a rename; shown small under the company.
+  formerly?: string;
   role: string;
   start_date: string;
   end_date: string;

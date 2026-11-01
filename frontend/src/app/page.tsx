@@ -87,9 +87,14 @@ function ExperienceCard({ exp }: { exp: Experience }) {
   return (
     <div className="card flex flex-col gap-3 rounded-2xl p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="font-semibold text-[var(--foreground)]">
-          {positions.length > 0 ? exp.company : `${exp.role} · ${exp.company}`}
-        </p>
+        <div>
+          <p className="font-semibold text-[var(--foreground)]">
+            {positions.length > 0 ? exp.company : `${exp.role} · ${exp.company}`}
+          </p>
+          {exp.formerly && (
+            <p className="text-xs text-[var(--muted)]">formerly {exp.formerly}</p>
+          )}
+        </div>
         <p className="text-xs text-[var(--muted)]">
           {formatRange(exp.start_date, exp.end_date)}
         </p>
@@ -190,6 +195,13 @@ function ProjectCard({
         <p className="text-xs text-[var(--accent-via)]">{project.company}</p>
       )}
       <p className="text-sm text-[var(--muted)]">{project.description}</p>
+      {isPersonal && project.features.length > 0 && (
+        <ul className="list-disc pl-5 text-sm text-[var(--muted)]">
+          {project.features.slice(0, 3).map((f) => (
+            <li key={f}>{f}</li>
+          ))}
+        </ul>
+      )}
       {project.technologies.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1.5">
           {project.technologies.map((t) =>
@@ -203,6 +215,30 @@ function ProjectCard({
             ) : (
               <Pill key={t}>{t}</Pill>
             )
+          )}
+        </div>
+      )}
+      {(project.links.live || project.links.github) && (
+        <div className="mt-auto flex gap-4 pt-3 text-sm">
+          {project.links.live && (
+            <a
+              href={project.links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[var(--foreground)] underline underline-offset-4 hover:text-[var(--accent-via)]"
+            >
+              Live ↗
+            </a>
+          )}
+          {project.links.github && (
+            <a
+              href={project.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[var(--foreground)] underline underline-offset-4 hover:text-[var(--accent-via)]"
+            >
+              Code ↗
+            </a>
           )}
         </div>
       )}
@@ -447,16 +483,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
             </p>
           )}
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
-            {profile.website && (
-              <a
-                href={profile.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[var(--foreground)] underline underline-offset-4 hover:text-[var(--accent-via)]"
-              >
-                Website
-              </a>
-            )}
+            {/* profile.website is this site itself, so it's left to the chat. */}
             {profile.linkedin && (
               <a
                 href={profile.linkedin}
