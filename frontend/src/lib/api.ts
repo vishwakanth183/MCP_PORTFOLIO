@@ -36,8 +36,6 @@ export type FocusArea = {
   title: string;
   summary: string;
   tools: string[];
-  // Where a personal project already uses the pattern; empty if nowhere.
-  applied_in: string;
   link: string;
 };
 

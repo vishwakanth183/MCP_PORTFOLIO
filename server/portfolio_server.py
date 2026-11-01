@@ -30,8 +30,7 @@ def get_skills(category: Optional[str] = None) -> dict:
 def get_system_design() -> dict:
     """Return the candidate's cloud and system design expertise: GCP toolset,
     high-level and low-level design focus areas, and design case studies.
-    This is design-level expertise, not a record of production deployments;
-    `applied_in` notes where a pattern is used in a personal project.
+    This is design-level expertise, not a record of production deployments.
     """
     return load_data().get("system_design", {})
 

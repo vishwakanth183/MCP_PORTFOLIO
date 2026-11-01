@@ -29,21 +29,18 @@
         "title": "Edge, load balancing & APIs",
         "summary": "Load balancer with health checks and URL maps, Cloud CDN per backend, API Gateway for auth and rate limits.",
         "tools": ["Cloud Load Balancing", "Cloud CDN", "API Gateway"],
-        "applied_in": "",
         "link": ""
       },
       {
         "title": "Database scaling & sharding",
         "summary": "Indexes, cache and replicas first; then bucket-based sharding where adding a shard never rehashes a user.",
         "tools": ["Cloud SQL", "Read replicas", "Cloud Run jobs"],
-        "applied_in": "VJourney trips carry a bucket key (hash(id) % 1024) for future sharding.",
         "link": ""
       },
       {
         "title": "Event-driven & caching",
         "summary": "Pub/Sub fan-out with idempotent consumers and dead-letter queues; cache-aside with TTLs and invalidation.",
         "tools": ["Pub/Sub", "Memorystore", "Firestore", "BigQuery"],
-        "applied_in": "VJourney uses cache-aside reads on Redis and a Redis Streams consumer group.",
         "link": ""
       }
     ],

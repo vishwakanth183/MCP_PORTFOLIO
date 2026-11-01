@@ -146,12 +146,6 @@ export default function SkillsSection({
                     <Chip key={t}>{t}</Chip>
                   ))}
                 </div>
-                {area.applied_in && (
-                  <p className="text-[11px] leading-4 text-cyan-300/90">
-                    <span className="font-semibold">Applied · </span>
-                    {area.applied_in}
-                  </p>
-                )}
                 {area.link && (
                   <a
                     href={area.link}
