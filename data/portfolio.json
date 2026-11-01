@@ -2,7 +2,7 @@
   "profile": {
     "name": "Vishwakanth S",
     "headline": "Full-Stack Developer | React, Next.js, Node.js & AI-Powered Systems",
-    "summary": "Full-stack developer with {years}+ years of full-time experience (after a 6-month internship) building web and mobile products across React, React Native, Next.js, Nest.js and Node.js, with strong SQL/NoSQL data modeling, cloud deployment on GCP and AWS, and applied AI fluency including Model Context Protocol (MCP) systems.",
+    "summary": "Full-stack developer with {years}+ years of experience building web and mobile products across React, React Native, Next.js, Nest.js and Node.js, with strong SQL/NoSQL data modeling, cloud deployment on GCP and AWS, and applied AI fluency including Model Context Protocol (MCP) systems.",
     "location": "Chennai, India",
     "career_start_date": "2021-07-18",
     "internship": { "company": "Centizen Inc", "start_date": "2021-01-18", "end_date": "2021-07-17", "months": 6 },

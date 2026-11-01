@@ -340,10 +340,7 @@ function PortfolioContent({ data }: { data: PortfolioData }) {
           {profile.total_experience_years > 0 && (
             <>
               <span className="opacity-40">•</span>
-              <span>
-                {profile.total_experience_years}+ years full-time experience
-                {profile.internship && ` (plus ${profile.internship.months}-month internship)`}
-              </span>
+              <span>{profile.total_experience_years}+ years experience</span>
             </>
           )}
         </div>
