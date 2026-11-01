@@ -55,7 +55,11 @@ SYSTEM_INSTRUCTION = (
     "question at all, say plainly that it isn't "
     "in the candidate's portfolio data rather than guessing. For role-fit "
     "questions (e.g. 'why is this candidate good for a React role?'), call "
-    "the relevant tools first and base your answer only on what they return."
+    "the relevant tools first and base your answer only on what they return. "
+    "For total years of experience, call search_profile('total_experience_years') "
+    "and quote the profile's total_experience_years (full-time, computed from "
+    "career_start_date) and mention the internship separately — never add up "
+    "dates yourself."
 )
 
 logger = logging.getLogger("portfoliomcp.chat")

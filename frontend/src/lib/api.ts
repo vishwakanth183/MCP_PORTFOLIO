@@ -10,7 +10,9 @@ export type Profile = {
   headline: string;
   summary: string;
   location: string;
+  // Computed by the API from career_start_date (full-time only).
   total_experience_years: number;
+  internship?: { company: string; start_date: string; end_date: string; months: number };
   availability: string;
   website: string;
   linkedin: string;

@@ -2,11 +2,13 @@
   "profile": {
     "name": "Vishwakanth S",
     "headline": "Full-Stack Developer | React, Next.js, Node.js & AI-Powered Systems",
-    "summary": "Full-stack developer with 5.6+ years of experience building web and mobile products across React, React Native, Next.js, Nest.js and Node.js, with strong SQL/NoSQL data modeling, cloud deployment on GCP and AWS, and applied AI fluency including Model Context Protocol (MCP) systems.",
+    "summary": "Full-stack developer with {years}+ years of full-time experience (after a 6-month internship) building web and mobile products across React, React Native, Next.js, Nest.js and Node.js, with strong SQL/NoSQL data modeling, cloud deployment on GCP and AWS, and applied AI fluency including Model Context Protocol (MCP) systems.",
     "location": "Chennai, India",
-    "total_experience_years": 5.6,
+    "career_start_date": "2021-07-18",
+    "internship": { "company": "Centizen Inc", "start_date": "2021-01-18", "end_date": "2021-07-17", "months": 6 },
+    "total_experience_years": 0,
     "availability": "",
-    "website": "https://vkportfolio-nine.vercel.app",
+    "website": "https://mcp-portfolio-ten.vercel.app",
     "linkedin": "https://linkedin.com/in/vishwakanth-s-7a17342b0",
     "github": "https://github.com/vishwakanth183"
   },
@@ -25,7 +27,7 @@
   },
   "experience": [
     {
-      "company": "Maghilhub Pvt Ltd",
+      "company": "NerdyLabs Pvt Ltd (formerly Maghilhub Pvt Ltd)",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -111,7 +113,7 @@
       "start_date": "2021-01-18",
       "end_date": "2024-08-08",
       "location": "Tirunelveli, India",
-      "summary": "3.5+ years across three products, progressing from intern to senior developer contributions.",
+      "summary": "Joined as a Software Developer Intern (Jan–Jul 2021), then 3+ years full-time across three products, growing to lead-level contributions.",
       "responsibilities": [],
       "technologies": ["React", "React Native", "Redux", "TypeScript", "Node.js"],
       "achievements": [
@@ -155,7 +157,7 @@
           "role": "Software Developer / Lead",
           "start_date": "2021-01-18",
           "end_date": "2023-09",
-          "summary": "Progressed from Intern to Senior Developer on Zenbasket, an e-commerce platform, over 2.5 years.",
+          "summary": "Started on Zenbasket, an e-commerce platform, as a 6-month intern (Jan–Jul 2021) and continued full-time, growing to senior developer contributions.",
           "responsibilities": [
             "Delivered core modules: product, cart, options, customer, discounts, and order management.",
             "Enhanced platform functionality with Redux state management and dynamic animations.",
@@ -171,8 +173,8 @@
   "projects": [
     {
       "name": "Merchant Portal",
-      "company": "Maghilhub Pvt Ltd",
-      "description": "Web-based portal for merchants at Maghilhub, part of a merchant/customer commerce platform.",
+      "company": "NerdyLabs Pvt Ltd",
+      "description": "Web-based portal for merchants at NerdyLabs, part of a merchant/customer commerce platform.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -184,8 +186,8 @@
     },
     {
       "name": "Merchant App",
-      "company": "Maghilhub Pvt Ltd",
-      "description": "Mobile application for merchants at Maghilhub.",
+      "company": "NerdyLabs Pvt Ltd",
+      "description": "Mobile application for merchants at NerdyLabs.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -197,8 +199,8 @@
     },
     {
       "name": "Customer App",
-      "company": "Maghilhub Pvt Ltd",
-      "description": "Mobile application for end customers at Maghilhub.",
+      "company": "NerdyLabs Pvt Ltd",
+      "description": "Mobile application for end customers at NerdyLabs.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
@@ -257,7 +259,7 @@
     {
       "name": "Zenbasket",
       "company": "Centizen Inc",
-      "description": "E-commerce platform built and scaled over 2.5 years, progressing from intern to senior developer contributions.",
+      "description": "E-commerce platform; started as a 6-month intern (Jan–Jul 2021), then built and scaled it full-time until Sep 2023.",
       "role": "Software Developer / Lead",
       "start_date": "2021-01-18",
       "end_date": "2023-09",
@@ -284,20 +286,29 @@
         "SMTP-backed contact form for direct outreach"
       ],
       "achievements": [],
-      "links": { "live": "", "github": "" }
+      "links": { "live": "https://mcp-portfolio-ten.vercel.app", "github": "https://github.com/vishwakanth183/MCP_PORTFOLIO" }
     },
     {
-      "name": "Lootify",
+      "name": "VJourney",
       "company": "Personal Project",
-      "description": "A full-stack e-commerce app built solo end to end — Figma wireframes through a Next.js/Redux storefront, a Node.js API, MongoDB for catalog and cart data, and MySQL for structured order records.",
-      "role": "Personal Project",
-      "start_date": "",
-      "end_date": "",
-      "technologies": ["Next.js", "Redux", "Tailwind CSS", "Node.js", "MongoDB", "MySQL", "Figma"],
-      "responsibilities": [],
-      "features": [],
+      "description": "A travel-companion web app for India: travellers host or join trips to a destination and split rent, fuel and toll. Built solo end to end on a zero-cost stack where every component maps to a GCP service.",
+      "role": "Personal Project (solo, full stack)",
+      "start_date": "2026-10",
+      "end_date": "Present",
+      "technologies": ["Next.js", "TypeScript", "FastAPI", "Python", "PostgreSQL (Neon)", "Firestore", "Firebase Auth", "Redis (Upstash)", "Redis Streams", "Docker", "GitHub Actions", "Vercel", "Render"],
+      "responsibilities": [
+        "Designed the data model, API, UI and deployment pipeline alone.",
+        "Split storage by consistency need: Postgres for trips, members, seats and cost split; Firestore for chat, gallery and notifications; Redis as a cache-aside layer."
+      ],
+      "features": [
+        "Seat booking that never oversells: in a load test, 50 simultaneous joins on a 3-seat trip produced exactly 3 successes",
+        "Trip matching scored 0-100 on destination, date overlap and budget",
+        "Host join notifications delivered asynchronously through a Redis Stream consumer group",
+        "Per-trip group chat and direct messages, live via Firestore",
+        "Per-traveller cost split for rent, fuel and toll; Google sign-in via Firebase Auth"
+      ],
       "achievements": [],
-      "links": { "live": "", "github": "" }
+      "links": { "live": "https://v-journey.vercel.app", "github": "" }
     }
   ],
   "education": [
