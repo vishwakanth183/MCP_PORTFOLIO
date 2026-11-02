@@ -68,8 +68,8 @@ def get_experience(company: Optional[str] = None) -> list:
 @mcp.tool()
 def search_profile(query: str) -> dict:
     """Search across the whole portfolio (profile, skills, experience,
-    projects, education, certifications) for a keyword or phrase and return
-    the matching sections.
+    projects, education, certifications, target roles, work preferences)
+    for a keyword or phrase and return the matching sections.
 
     Args:
         query: Free-text search term.
@@ -85,6 +85,8 @@ def search_profile(query: str) -> dict:
         "projects",
         "education",
         "certifications",
+        "target_roles",
+        "professional_preferences",
     ):
         value = data.get(section)
         if value and needle in json.dumps(value).lower():

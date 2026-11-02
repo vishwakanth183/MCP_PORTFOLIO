@@ -1,13 +1,13 @@
 {
   "profile": {
     "name": "Vishwakanth S",
-    "headline": "Full-Stack Developer | React, Next.js, Node.js & AI-Powered Systems",
+    "headline": "Software Engineer (Full Stack) | React, Next.js, React Native, Node.js, Nest.js | AWS & GCP | Claude API & MCP",
     "summary": "Full-stack developer with {years}+ years of experience building web and mobile products across React, React Native, Next.js, Nest.js and Node.js, with strong SQL/NoSQL data modeling, cloud deployment on GCP and AWS, and applied AI fluency including Model Context Protocol (MCP) systems.",
     "location": "Chennai, India",
     "career_start_date": "2021-07-18",
     "internship": { "company": "Centizen Inc", "start_date": "2021-01-18", "end_date": "2021-07-17", "months": 6 },
     "total_experience_years": 0,
-    "availability": "",
+    "availability": "30-day notice period",
     "website": "https://mcp-portfolio-ten.vercel.app",
     "linkedin": "https://linkedin.com/in/vishwakanth-s-7a17342b0",
     "github": "https://github.com/vishwakanth183"
@@ -411,9 +411,9 @@
     { "name": "JavaScript", "issuer": "SoloLearn", "date": "", "credential_url": "https://www.sololearn.com/en/certificates/CT-RCWLDYQN" },
     { "name": "C++ Programming", "issuer": "SoloLearn", "date": "", "credential_url": "https://www.sololearn.com/en/certificates/CC-ZFGSLMLJ" }
   ],
-  "target_roles": ["Full Stack Developer", "Frontend Developer (React/Next.js)", "Software Engineer – AI/MCP Systems"],
+  "target_roles": ["Software Development Engineer (SDE)", "Full Stack Developer", "Frontend Developer (React/Next.js)", "Software Engineer – AI/MCP Systems"],
   "professional_preferences": {
-    "preferred_work_mode": "",
+    "preferred_work_mode": "Hybrid, Chennai. Open to roles abroad.",
     "preferred_shift": "",
     "other": ""
   }
