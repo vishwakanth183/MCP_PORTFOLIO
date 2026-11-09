@@ -124,7 +124,7 @@
           "responsibilities": [
             "Built dealer features in React and Next.js: dealer inventory screen, protection products, and dealer-side document verification and conversation screen.",
             "Built the consumer purchase flow: product review, cash or loan, document upload, credit score visibility after verification, and the purchase lifecycle with payment handling and reminders.",
-            "Reduced blank-screen time on several pages with lazy loading, and cut re-renders with useMemo and useCallback (judged by eye; not profiled, so no percentage).",
+            "Improved load and interaction speed on the dealer inventory and purchase-flow pages by code-splitting heavy components with lazy loading and memoising expensive renders (judged by eye; not profiled, so no percentage).",
             "Worked with the DevOps team (who owned the Jenkins and GitHub Actions pipelines to AWS) on deployment issues; production releases every 2 to 3 months.",
             "Collaborated with design, backend and product teams in Agile sprints; took part in code reviews."
           ],
