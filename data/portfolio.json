@@ -18,7 +18,7 @@
     "backend": ["Node.js", "Nest.js", "FastAPI", "Python", "REST APIs", "Microservices"],
     "mobile": ["React Native", "Play Store & App Store releases", "Push notifications"],
     "data": ["PostgreSQL", "SQL", "NoSQL", "Firestore", "Redis"],
-    "cloud_devops": ["AWS", "GCP", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD pipelines", "Jest", "Git"],
+    "cloud_devops": ["AWS", "GCP", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD", "Jest", "Git"],
     "ai": ["Claude API", "Model Context Protocol (MCP)", "FastMCP", "Google Gemini API", "Agent workflows", "Agent Skills"],
     "system_design": ["High-level design", "Low-level design", "Load balancing & CDN", "Caching", "Database scaling & sharding", "Event-driven architecture"]
   },
@@ -57,49 +57,48 @@
       "start_date": "2026-03-09",
       "end_date": "Present",
       "location": "Chennai, India",
-      "summary": "Full-stack development across a merchant-facing web portal and companion mobile apps for merchants and customers.",
+      "summary": "Full-stack development on a production loyalty and ordering platform for food and retail outlets: live across 40+ outlets with 305,762 registered customers (database count, 2026-11-09). Next.js merchant portal plus customer and merchant apps on the web and as in-outlet kiosk apps (APK), on a Nest.js backend.",
       "responsibilities": [],
-      "technologies": ["React", "Next.js", "React Native", "Node.js", "Nest.js"],
-      "achievements": [],
+      "technologies": ["React", "Next.js", "Node.js", "Nest.js"],
+      "achievements": [
+        "Platform live in production across 40+ outlets (estimate, floor) with 305,762 registered customers (database count, 2026-11-09)"
+      ],
       "positions": [
         {
-          "project": "Merchant Portal",
+          "project": "Loyalty",
           "role": "Full Stack Developer",
           "start_date": "2026-03-09",
           "end_date": "Present",
-          "summary": "Web portal used by merchants to manage their storefront on the platform.",
+          "summary": "Loyalty module for the outlets' customers, built end to end from scratch.",
           "responsibilities": [
-            "Building the merchant-facing web portal end to end using React and Next.js, covering onboarding, catalog, and order management flows.",
-            "Designing REST APIs and data models in Node.js/Nest.js to support merchant operations.",
-            "Collaborating with product and design to translate merchant workflows into a responsive web UI."
+            "Led a 2-person team; built the Next.js merchant portal and the whole Nest.js backend. Teammates built the customer website and the merchant and customer mobile parts.",
+            "Coordinated system design with infra and planned the phased production release with an action plan."
           ],
-          "technologies": ["React", "Next.js", "Node.js", "Nest.js"],
+          "technologies": ["Next.js", "Nest.js", "Node.js"],
           "achievements": []
         },
         {
-          "project": "Merchant App",
+          "project": "Event Orders",
           "role": "Full Stack Developer",
           "start_date": "2026-03-09",
           "end_date": "Present",
-          "summary": "Mobile app giving merchants on-the-go access to orders and store management.",
+          "summary": "Event ordering module.",
           "responsibilities": [
-            "Developing the merchant mobile app in React Native, sharing business logic with the web portal where possible.",
-            "Implementing merchant-side order management and notifications on mobile."
+            "Solely owned the module from design to release."
           ],
-          "technologies": ["React Native", "Node.js"],
+          "technologies": ["Next.js", "Nest.js"],
           "achievements": []
         },
         {
-          "project": "Customer App",
+          "project": "UrbanPiper integration",
           "role": "Full Stack Developer",
           "start_date": "2026-03-09",
           "end_date": "Present",
-          "summary": "Customer-facing mobile app for browsing and ordering from merchants on the platform.",
+          "summary": "Integration with UrbanPiper for store, menu and order handling.",
           "responsibilities": [
-            "Building customer-facing mobile app features in React Native backed by the shared Node.js/Nest.js APIs.",
-            "Working across the stack to keep the customer and merchant apps consistent with the same backend services."
+            "Co-owned the integration with one other developer across store, menu and order handling."
           ],
-          "technologies": ["React Native", "Node.js"],
+          "technologies": ["Nest.js", "Node.js"],
           "achievements": []
         }
       ]
@@ -111,7 +110,7 @@
       "start_date": "2024-08-14",
       "end_date": "2026-03-06",
       "location": "Chennai, India",
-      "summary": "Frontend developer on the Toyota Smart Path project, building dealer-specific enterprise applications for Toyota Financial Services.",
+      "summary": "Frontend developer on Toyota SmartPath, a multi-tenant US digital retail platform covering Toyota and Lexus, building dealer and consumer features for Toyota Financial Services.",
       "responsibilities": [],
       "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
       "achievements": [],
@@ -121,12 +120,13 @@
           "role": "Systems Engineer (Frontend Developer)",
           "start_date": "2024-08-14",
           "end_date": "2026-03-06",
-          "summary": "Dealer-specific enterprise applications for Toyota Financial Services.",
+          "summary": "Dealer and consumer features for Toyota SmartPath (Toyota Financial Services).",
           "responsibilities": [
-            "Developed dealer-specific enterprise applications for Toyota Financial Services using React and Next.js, delivering responsive, pixel-perfect UIs.",
-            "Collaborated with design, backend, and product teams to align business logic and improve overall user experience.",
-            "Implemented and maintained CI/CD pipelines (Jenkins, Docker, GitHub Actions) for automated integration and deployment to AWS environments.",
-            "Optimized front-end performance, conducted code reviews, and contributed in Agile ceremonies for efficient feature delivery."
+            "Built dealer features in React and Next.js: dealer inventory screen, protection products, and dealer-side document verification and conversation screen.",
+            "Built the consumer purchase flow: product review, cash or loan, document upload, credit score visibility after verification, and the purchase lifecycle with payment handling and reminders.",
+            "Reduced blank-screen time on several pages with lazy loading, and cut re-renders with useMemo and useCallback (judged by eye; not profiled, so no percentage).",
+            "Worked with the DevOps team (who owned the Jenkins and GitHub Actions pipelines to AWS) on deployment issues; production releases every 2 to 3 months.",
+            "Collaborated with design, backend and product teams in Agile sprints; took part in code reviews."
           ],
           "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
           "achievements": []
@@ -144,9 +144,11 @@
       "responsibilities": [],
       "technologies": ["React", "React Native", "Redux", "TypeScript", "Node.js"],
       "achievements": [
-        "Mr. Beyond Expectation – Centizen Inc, 2023",
-        "Outstanding Contributor of the Year – Centizen Inc, 2022",
-        "Out of Box Thinker – Centizen Inc, 2021"
+        "Mr. Beyond Expectation – Centizen Inc, Dec 2023",
+        "Outstanding Contributor – Centizen Inc, Dec 2022 (top sprint contributor in 2 of 4 quarters, about 600 story points; estimate)",
+        "Shining Star in the Development field (Honour of Excellence) – Centizen Inc, Dec 2021",
+        "Led a pod of 5 developers on ZenyoPayroll (one of two pods; estimate)",
+        "Proposed and led a phased TypeScript migration (services, then Redux, then components) over about 3 months alongside regular releases (estimate)"
       ],
       "positions": [
         {
@@ -199,55 +201,34 @@
   ],
   "projects": [
     {
-      "name": "Merchant Portal",
+      "name": "Loyalty, Event Orders and UrbanPiper integration",
       "company": "NerdyLabs Pvt Ltd",
-      "description": "Web-based portal for merchants at NerdyLabs, part of a merchant/customer commerce platform.",
+      "description": "Loyalty and ordering features on a platform live across 40+ outlets with 305,762 registered customers (2026-11-09): Loyalty built end to end, Event Orders owned solo, UrbanPiper integration co-owned.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
-      "technologies": ["React", "Next.js", "Node.js", "Nest.js"],
-      "responsibilities": [],
-      "features": [],
-      "achievements": [],
-      "links": { "live": "", "github": "" }
-    },
-    {
-      "name": "Merchant App",
-      "company": "NerdyLabs Pvt Ltd",
-      "description": "Mobile application for merchants at NerdyLabs.",
-      "role": "Full Stack Developer",
-      "start_date": "2026-03-09",
-      "end_date": "Present",
-      "technologies": ["React Native", "Node.js"],
-      "responsibilities": [],
-      "features": [],
-      "achievements": [],
-      "links": { "live": "", "github": "" }
-    },
-    {
-      "name": "Customer App",
-      "company": "NerdyLabs Pvt Ltd",
-      "description": "Mobile application for end customers at NerdyLabs.",
-      "role": "Full Stack Developer",
-      "start_date": "2026-03-09",
-      "end_date": "Present",
-      "technologies": ["React Native", "Node.js"],
-      "responsibilities": [],
-      "features": [],
+      "technologies": ["Next.js", "Nest.js", "Node.js"],
+      "responsibilities": [
+        "Loyalty: led a 2-person team; built the merchant portal and the whole backend.",
+        "Event Orders: solely owned from design to release.",
+        "UrbanPiper: co-owned store, menu and order handling with one other developer."
+      ],
+      "features": ["Loyalty", "Event Orders", "UrbanPiper integration", "Web and in-outlet kiosk (APK) apps"],
       "achievements": [],
       "links": { "live": "", "github": "" }
     },
     {
       "name": "Toyota Smart Path (Dealer Portal)",
       "company": "Tata Consultancy Services (Client: Toyota)",
-      "description": "Dealer-specific enterprise applications for Toyota Financial Services, built while at TCS on the Toyota Smart Path project.",
+      "description": "Dealer and consumer features for Toyota SmartPath (Toyota Financial Services), a US digital retail platform for Toyota and Lexus, built while at TCS.",
       "role": "Systems Engineer (Frontend Developer)",
       "start_date": "2024-08-14",
       "end_date": "2026-03-06",
       "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
       "responsibilities": [
-        "Built responsive, pixel-perfect dealer-facing UIs.",
-        "Implemented CI/CD pipelines for automated integration and deployment to AWS."
+        "Dealer inventory, protection products, document verification and chat.",
+        "Consumer purchase flow: cash or loan, document upload, credit score visibility, payment reminders.",
+        "Worked with DevOps on Jenkins and GitHub Actions deployments to AWS."
       ],
       "features": [],
       "achievements": [],
@@ -301,15 +282,15 @@
     {
       "name": "PortfolioMCP",
       "company": "Personal Project",
-      "description": "This portfolio itself — an MCP-powered site where an AI chat assistant answers recruiter questions grounded only in real candidate data, built as a Python MCP server/client with a Next.js frontend.",
+      "description": "This portfolio itself — an MCP-powered site where an AI chat assistant answers recruiter questions from data retrieved through MCP tools and says when a detail is not specified, built as a Python MCP server/client with a Next.js frontend.",
       "role": "Personal Project",
       "start_date": "2026-08",
       "end_date": "Present",
       "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "FastAPI", "Python", "Model Context Protocol (MCP)", "FastMCP", "Google Gemini API"],
       "responsibilities": [],
       "features": [
-        "MCP server exposing tools, resources and prompts over the candidate's portfolio data",
-        "Gemini-backed chat loop that selects and calls MCP tools, grounded only in retrieved data",
+        "MCP server (FastMCP) exposing 5 tools, 7 resources and 3 prompts over the candidate's portfolio data",
+        "Gemini-backed chat loop that gets facts only through MCP tools and says when a detail is not specified (checked manually; no automated test set)",
         "SMTP-backed contact form for direct outreach"
       ],
       "achievements": [],
@@ -329,9 +310,9 @@
         "Designed around free-tier limits, with a one-to-one migration path to GCP (Cloud Run, Cloud SQL, Pub/Sub, Memorystore)."
       ],
       "features": [
-        "Concurrency-safe seat booking: 50 simultaneous joins on 3 seats gave exactly 3 confirmed",
+        "Concurrency-safe seat booking (row lock plus CHECK constraint): in a load test, 50 simultaneous joins on 3 seats gave exactly 3 confirmed and 47 rejected, verified in the API and the database",
         "Match scoring (0-100) on destination, date overlap and budget",
-        "Event-driven join notifications through Redis Streams; live chat on Firestore"
+        "Event-driven join notifications through Redis Streams; live chat on Firestore. Runs on seeded test data, no real users"
       ],
       "achievements": [],
       "links": { "live": "https://v-journey.vercel.app", "github": "" }

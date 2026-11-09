@@ -11,7 +11,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Vishwakanth S — Full-Stack Developer",
   description:
-    "Portfolio with an MCP-powered chat: ask about skills, projects and experience, grounded only in real candidate data.",
+    "Portfolio with an MCP-powered chat: ask about skills, projects and experience, answered from real candidate data.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
