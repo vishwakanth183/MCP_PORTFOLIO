@@ -1,7 +1,7 @@
 {
   "profile": {
     "name": "Vishwakanth S",
-    "headline": "Software Engineer (Full Stack) | React, Next.js, React Native, Node.js, Nest.js | AWS & GCP | Claude API & MCP",
+    "headline": "Software Engineer (Full Stack) | React, Next.js, React Native, Node.js, Nest.js | AWS & GCP | MCP & LLM tool calling",
     "summary": "Full-stack developer with {years}+ years of experience building web and mobile products across React, React Native, Next.js, Nest.js and Node.js, with strong SQL/NoSQL data modeling, cloud deployment on GCP and AWS, and applied AI fluency including Model Context Protocol (MCP) systems.",
     "location": "Chennai, India",
     "career_start_date": "2021-07-18",
@@ -19,7 +19,7 @@
     "mobile": ["React Native", "Play Store & App Store releases", "Push notifications"],
     "data": ["PostgreSQL", "SQL", "NoSQL", "Firestore", "Redis"],
     "cloud_devops": ["AWS", "GCP", "Docker", "Kubernetes", "Jenkins", "GitHub Actions", "CI/CD", "Jest", "Git"],
-    "ai": ["Claude API", "Model Context Protocol (MCP)", "FastMCP", "Google Gemini API", "Agent workflows", "Agent Skills"],
+    "ai": ["Claude API (certified)", "Model Context Protocol (MCP)", "FastMCP", "Google Gemini API", "Agent workflows", "Agent Skills"],
     "system_design": ["High-level design", "Low-level design", "Load balancing & CDN", "Caching", "Database scaling & sharding", "Event-driven architecture"]
   },
   "system_design": {
@@ -282,7 +282,7 @@
     {
       "name": "PortfolioMCP",
       "company": "Personal Project",
-      "description": "This portfolio itself — an MCP-powered site where an AI chat assistant answers recruiter questions from data retrieved through MCP tools and says when a detail is not specified, built as a Python MCP server/client with a Next.js frontend.",
+      "description": "This portfolio itself — an MCP-powered site where an AI chat assistant answers recruiter questions from data retrieved through MCP tools and flags missing details instead of guessing, built as a Python MCP server/client with a Next.js frontend.",
       "role": "Personal Project",
       "start_date": "2026-08",
       "end_date": "Present",
@@ -290,7 +290,7 @@
       "responsibilities": [],
       "features": [
         "MCP server (FastMCP) exposing 5 tools, 7 resources and 3 prompts over the candidate's portfolio data",
-        "Gemini-backed chat loop that gets facts only through MCP tools and says when a detail is not specified (checked manually; no automated test set)",
+        "Gemini-backed chat loop that gets facts only through MCP tools and flags missing details instead of guessing (checked manually; no automated test set)",
         "SMTP-backed contact form for direct outreach"
       ],
       "achievements": [],
