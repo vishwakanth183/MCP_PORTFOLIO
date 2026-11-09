@@ -84,7 +84,7 @@
           "end_date": "Present",
           "summary": "Event ordering module.",
           "responsibilities": [
-            "Solely owned the module from design to release."
+            "Designed and shipped the module as the sole developer."
           ],
           "technologies": ["Next.js", "Nest.js"],
           "achievements": []
@@ -203,14 +203,14 @@
     {
       "name": "Loyalty, Event Orders and UrbanPiper integration",
       "company": "NerdyLabs Pvt Ltd",
-      "description": "Loyalty and ordering features on a platform live across 40+ outlets with 305,762 registered customers (2026-11-09): Loyalty built end to end, Event Orders owned solo, UrbanPiper integration co-owned.",
+      "description": "Loyalty and ordering features on a platform live across 40+ outlets with 305,762 registered customers (2026-11-09): Loyalty built end to end, Event Orders shipped as sole developer, UrbanPiper integration co-owned.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
       "technologies": ["Next.js", "Nest.js", "Node.js"],
       "responsibilities": [
         "Loyalty: led a 2-person team; built the merchant portal and the whole backend.",
-        "Event Orders: solely owned from design to release.",
+        "Event Orders: designed and shipped as the sole developer.",
         "UrbanPiper: co-owned store, menu and order handling with one other developer."
       ],
       "features": ["Loyalty", "Event Orders", "UrbanPiper integration", "Web and in-outlet kiosk (APK) apps"],
@@ -282,7 +282,7 @@
     {
       "name": "PortfolioMCP",
       "company": "Personal Project",
-      "description": "This portfolio itself — an MCP-powered site where an AI chat assistant answers recruiter questions from data retrieved through MCP tools and flags missing details instead of guessing, built as a Python MCP server/client with a Next.js frontend.",
+      "description": "This portfolio itself — an MCP-powered site where an AI chat assistant answers visitor questions about skills and projects from data retrieved through MCP tools and flags missing details instead of guessing, built as a Python MCP server/client with a Next.js frontend.",
       "role": "Personal Project",
       "start_date": "2026-08",
       "end_date": "Present",
@@ -299,8 +299,8 @@
     {
       "name": "VJourney",
       "company": "Personal Project",
-      "description": "Travel-companion platform for India: host or join trips and split rent, fuel and toll. Built solo, end to end.",
-      "role": "Personal Project (solo, full stack)",
+      "description": "Trip-sharing platform for India: host or join trips and split rent, fuel and toll. Built independently, end to end.",
+      "role": "Personal Project (independent, full stack)",
       "start_date": "2026-10",
       "end_date": "Present",
       "technologies": ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "Redis", "Firestore", "Docker", "GitHub Actions"],
@@ -310,9 +310,9 @@
         "Designed around free-tier limits, with a one-to-one migration path to GCP (Cloud Run, Cloud SQL, Pub/Sub, Memorystore)."
       ],
       "features": [
-        "Concurrency-safe seat booking (row lock plus CHECK constraint): in a load test, 50 simultaneous joins on 3 seats gave exactly 3 confirmed and 47 rejected, verified in the API and the database",
-        "Match scoring (0-100) on destination, date overlap and budget",
-        "Event-driven join notifications through Redis Streams; live chat on Firestore. Runs on seeded test data, no real users"
+        "Seat booking uses a PostgreSQL row lock plus a CHECK constraint to prevent overbooking: in a load test, 50 simultaneous joins on 3 seats gave exactly 3 confirmed and 47 rejected, verified in the API and the database",
+        "Trip ranking 0–100 by how well each trip matches a search: destination 50, date overlap 30, budget 20, with partial credit",
+        "In-app (not push) join notifications through a Redis Streams queue into Firestore; live chat on Firestore. Runs on seeded test data, no real users"
       ],
       "achievements": [],
       "links": { "live": "https://v-journey.vercel.app", "github": "" }
