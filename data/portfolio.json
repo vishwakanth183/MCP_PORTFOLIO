@@ -106,7 +106,7 @@
     {
       "company": "Tata Consultancy Services (Client: Toyota)",
       "short_name": "TCS",
-      "role": "Systems Engineer (Frontend Developer)",
+      "role": "Systems Engineer",
       "start_date": "2024-08-14",
       "end_date": "2026-03-06",
       "location": "Chennai, India",
@@ -117,7 +117,7 @@
       "positions": [
         {
           "project": "Toyota Smart Path (Dealer Portal)",
-          "role": "Systems Engineer (Frontend Developer)",
+          "role": "Systems Engineer",
           "start_date": "2024-08-14",
           "end_date": "2026-03-06",
           "summary": "Dealer and consumer features for Toyota SmartPath (Toyota Financial Services).",
@@ -221,7 +221,7 @@
       "name": "Toyota Smart Path (Dealer Portal)",
       "company": "Tata Consultancy Services (Client: Toyota)",
       "description": "Dealer and consumer features for Toyota SmartPath (Toyota Financial Services), a US digital retail platform for Toyota and Lexus, built while at TCS.",
-      "role": "Systems Engineer (Frontend Developer)",
+      "role": "Systems Engineer",
       "start_date": "2024-08-14",
       "end_date": "2026-03-06",
       "technologies": ["React", "Next.js", "Jenkins", "Docker", "GitHub Actions", "AWS"],
