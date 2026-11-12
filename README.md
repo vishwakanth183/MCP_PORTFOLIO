@@ -35,6 +35,7 @@ This README covers setup and a high-level overview. For depth:
 - [x] Research agent: RSS news tools + PortfolioMCP tools, 3 structured recommendations/day, daily cron — see [docs/AGENTIC_WORKFLOW.md](docs/AGENTIC_WORKFLOW.md)
 - [x] Content agent + deterministic validation + `/admin` human-review UI (approve/reject/revise, manual publish + auto-delete)
 - [ ] Public deployment (see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the plan)
+- [x] Claude Code remote-control workflow smoke test (`claudecheck` branch, reversible)
 - [ ] Real LinkedIn/Medium auto-publish API integration (deferred — see [docs/AGENTIC_WORKFLOW.md](docs/AGENTIC_WORKFLOW.md#human-review--publishing))
 
 ## Architecture

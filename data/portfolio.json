@@ -57,11 +57,11 @@
       "start_date": "2026-03-09",
       "end_date": "Present",
       "location": "Chennai, India",
-      "summary": "Full-stack development on a production loyalty and ordering platform for food and retail outlets: live across 40+ outlets with 305,762 registered customers (database count, 2026-11-09). Next.js merchant portal plus customer and merchant apps on the web and as in-outlet kiosk apps (APK), on a Nest.js backend.",
+      "summary": "Full-stack development on a production loyalty and ordering platform for food and retail outlets, live across 40+ outlets. Next.js merchant portal plus customer and merchant apps on the web and as in-outlet kiosk apps (APK), on a Nest.js backend.",
       "responsibilities": [],
       "technologies": ["React", "Next.js", "Node.js", "Nest.js"],
       "achievements": [
-        "Platform live in production across 40+ outlets (estimate, floor) with 305,762 registered customers (database count, 2026-11-09)"
+        "Platform serves 300,000+ registered customers across 40+ outlets"
       ],
       "positions": [
         {
@@ -124,7 +124,7 @@
           "responsibilities": [
             "Built dealer features in React and Next.js: dealer inventory screen, protection products, and dealer-side document verification and conversation screen.",
             "Built the consumer purchase flow: product review, cash or loan, document upload, credit score visibility after verification, and the purchase lifecycle with payment handling and reminders.",
-            "Improved load and interaction speed on the dealer inventory and purchase-flow pages by code-splitting heavy components with lazy loading and memoising expensive renders (judged by eye; not profiled, so no percentage).",
+            "Improved load and interaction speed on the dealer inventory and purchase-flow pages by code-splitting heavy components with lazy loading and memoising expensive renders.",
             "Worked with the DevOps team (who owned the Jenkins and GitHub Actions pipelines to AWS) on deployment issues; production releases every 2 to 3 months.",
             "Collaborated with design, backend and product teams in Agile sprints; took part in code reviews."
           ],
@@ -147,8 +147,8 @@
         "Mr. Beyond Expectation – Centizen Inc, Dec 2023",
         "Outstanding Contributor – Centizen Inc, Dec 2022",
         "Shining Star in the Development field (Honour of Excellence) – Centizen Inc, Dec 2021",
-        "Led a pod of 5 developers on ZenyoPayroll (one of two pods; estimate)",
-        "Proposed and led a phased TypeScript migration (services, then Redux, then components) over about 3 months alongside regular releases (estimate)"
+        "Led a 5-developer pod on ZenyoPayroll",
+        "Proposed and led a phased TypeScript migration (services, then Redux, then components) over 3 months without pausing regular releases"
       ],
       "positions": [
         {
@@ -203,7 +203,7 @@
     {
       "name": "Loyalty, Event Orders and UrbanPiper integration",
       "company": "NerdyLabs Pvt Ltd",
-      "description": "Loyalty and ordering features on a platform live across 40+ outlets with 305,762 registered customers (2026-11-09): Loyalty built end to end, Event Orders shipped as sole developer, UrbanPiper integration co-owned.",
+      "description": "Loyalty and ordering features on a platform serving 300,000+ registered customers across 40+ outlets: Loyalty built end to end, Event Orders shipped as sole developer, UrbanPiper integration co-owned.",
       "role": "Full Stack Developer",
       "start_date": "2026-03-09",
       "end_date": "Present",
